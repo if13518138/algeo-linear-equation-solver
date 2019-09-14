@@ -8,7 +8,7 @@ public class Matrix {
 	private int M; // row size
 	private int N; // columns size
 
-	/*Konstruktor*/
+	/*** Konstruktor ***/
 	public Matrix (int m, int n) {
 		this.M = m;
 		this.N = n;
@@ -30,7 +30,7 @@ public class Matrix {
 		this.N = n;
 	}
 
-	/*Getter*/
+	/*** Getter ***/
 	public int getRow(){
 		return this.M;
 	}
@@ -43,7 +43,7 @@ public class Matrix {
 		return this.matrix;
 	}
 
-	/*Setter*/
+	/*** Setter ***/
 	public void setRow(int m){
 		this.M = m;
 	}
@@ -82,6 +82,30 @@ public class Matrix {
                 System.out.printf("%9.4f ", matrix[i][j]);
             System.out.println();
         }
+    }
+
+	/*** Fungsi untuk menghitung determinan ***/
+	public static double cofactorDet (double M[][], int n) {
+    /* I.S. : Matrix terdefinisi, n = ukuran matriks */
+    /* F.S. : determinan matriks (angka belakang koma belum ditentukan) 
+              perhitungan menggunakan metode kofaktor */
+		/* KAMUS LOKAL */
+        int i;
+        double result;
+        double[][] sub;
+		/* ALGORITMA */
+        if (n == 1) { // basis jika matriks 1x1
+            result = M[0][0];
+        } else if (n == 2) { // basis jika matriks 2x2
+            result = M[0][0] * M[1][1] - M[0][1] * M[1][0];
+        } else { // matriks nxn
+            result = 0;
+            for (i = 0; i < n; i++) {
+                sub = subMatrix(M, n, i);
+                result += Math.pow((-1.0), i) * M[0][i] * cofactorDet(sub, (n-1));
+            }
+        }
+        return result;
     }
 
 
