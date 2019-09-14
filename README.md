@@ -1,2 +1,2 @@
-# algeo1asik
+# algeoSantuy
 buat tugas algeo
