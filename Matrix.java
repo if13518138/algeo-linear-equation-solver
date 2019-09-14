@@ -1,3 +1,4 @@
+
 import java.util.Scanner;
 import java.io.FileReader;
 import java.util.*;
@@ -84,27 +85,29 @@ public class Matrix {
         }
     }
 
-	/*** Fungsi untuk menghitung determinan ***/
-	public static double cofactorDet (double M[][], int n) {
-    /* I.S. : Matrix terdefinisi, n = ukuran matriks */
-    /* F.S. : determinan matriks (angka belakang koma belum ditentukan) 
-              perhitungan menggunakan metode kofaktor */
-		/* KAMUS LOKAL */
-        int i;
-        double result;
-        double[][] sub;
-		/* ALGORITMA */
-        if (n == 1) { // basis jika matriks 1x1
-            result = M[0][0];
-        } else if (n == 2) { // basis jika matriks 2x2
-            result = M[0][0] * M[1][1] - M[0][1] * M[1][0];
-        } else { // matriks nxn
-            result = 0;
-            for (i = 0; i < n; i++) {
-                sub = subMatrix(M, n, i);
-                result += Math.pow((-1.0), i) * M[0][i] * cofactorDet(sub, (n-1));
+	public static Matrix subMatriks (Matrix M, int ukuran, int idx_kol, int idx_brs) {
+    // untuk membuat sub matriks yang menghilangkan baris ke 1 dan kolom ke idx 
+        int i, j;
+        int new_b, new_k;
+        double[][] matriks = new double[ukuran-1][ukuran-1];
+		Matrix result = new Matrix(matriks);
+
+        new_b = 0;
+        for (i=0 ; i< ukuran ; i++){
+            new_k = 0;
+            if (i != idx_brs){
+                for (j = 0 ; j < ukuran ; j++){
+                    if (j != idx_kol){
+                        matriks[new_b][new_k] = M.getMatrix()[i][j];
+                        new_k++;
+                    }
+                }
+                new_b++;
             }
         }
+		result.setColumn(ukuran - 1);
+		result.setMatrix(matriks);
+		result.setRow(ukuran - 1);
         return result;
     }
 
