@@ -11,8 +11,10 @@ public class Matrix {
 
 	/*** Konstruktor ***/
 	public Matrix (int m, int n) {
+		double[][] p = new double[m][n];
 		this.M = m;
 		this.N = n;
+		this.matrix = p;
 	}
 
 	public Matrix (double[][] data) {
@@ -85,18 +87,21 @@ public class Matrix {
         }
     }
 
-	public static Matrix subMatriks (Matrix M, int ukuran, int idx_kol, int idx_brs) {
-    // untuk membuat sub matriks yang menghilangkan baris ke 1 dan kolom ke idx 
+	public static Matrix minor (Matrix M, int idx_brs, int idx_kol) {
+	/* Matrix M terdefinisi dan harus nxn, idx_brs <= baris M, idx_kol <= kolom M */
+	/* untuk membuat sub matriks/ minor matriks yang menghilangkan baris ke 1 dan kolom ke idx */
+		/* KAMUS LOKAL */
         int i, j;
         int new_b, new_k;
-        double[][] matriks = new double[ukuran-1][ukuran-1];
+		double[][] matriks = new double[M.getRow()-1][M.getColumn()-1];
+		int size = M.getRow();
 		Matrix result = new Matrix(matriks);
-
+		/* ALGORITMA */
         new_b = 0;
-        for (i=0 ; i< ukuran ; i++){
+        for (i=0 ; i< size ; i++){
             new_k = 0;
             if (i != idx_brs){
-                for (j = 0 ; j < ukuran ; j++){
+                for (j = 0 ; j < size ; j++){
                     if (j != idx_kol){
                         matriks[new_b][new_k] = M.getMatrix()[i][j];
                         new_k++;
@@ -105,11 +110,30 @@ public class Matrix {
                 new_b++;
             }
         }
-		result.setColumn(ukuran - 1);
+		result.setColumn(M.getColumn() - 1);
 		result.setMatrix(matriks);
-		result.setRow(ukuran - 1);
+		result.setRow(M.getRow() - 1);
         return result;
-    }
+	}
+	
+	public static Matrix transpose (Matrix M) {
+	/* Matrix M terdefinisi, tidak harus nxn */
+	/* mengeluarkan matriks transpose baris dan kolomnya */
+	/* apabila M adalah matrix 2x3, maka keluarannya adalah matrix 3x2 */
+		/* KAMUS LOKAL */
+		Matrix matrix = new Matrix(M.getColumn(), M.getRow());
+		int i, j;
+		/* ALGRITMA */
+		for (i = 0 ; i < M.getRow() ; i++){
+            for (j = 0 ; j < M.getColumn() ; j++){
+				matrix.getMatrix()[j][i] = M.getMatrix()[i][j];
+				// baris dan kolom dipertukarkan
+            }
+		}
+		matrix.setColumn(M.getRow());
+		matrix.setRow(M.getColumn());
+		return matrix;
+	}
 
 
 }

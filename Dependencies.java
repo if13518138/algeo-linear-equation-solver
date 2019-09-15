@@ -1,0 +1,101 @@
+
+public class Dependencies {
+
+    static Matrix matrix;
+
+    /*** Fungsi untuk menghitung determinan ***/
+	public static double kofaktorDet (Matrix M) {
+    /* Matrix M terdefinisi berukuran nxn */
+    /* menghitung determinan matriks (angka belakang koma belum ditentukan) menggunakan metode kofaktor */
+		/* KAMUS LOKAL */
+        int i;
+        double result;
+        Matrix sub;
+        double[][] m = M.getMatrix();
+        int n = M.getColumn();
+		/* ALGORITMA */
+        if (n == 1) { // basis jika matriks 1x1
+            result = m[0][0];
+        } else if (n == 2) { // basis jika matriks 2x2
+            result = m[0][0] * m[1][1] - m[0][1] * m[1][0];
+        } else { // rekursif untuk matriks nxn
+            result = 0;
+            for (i = 0; i < n; i++) {
+                sub = matrix.minor(M, 0, i);
+                result += Math.pow((-1.0), i) * m[0][i] * kofaktorDet(sub);
+            }
+        }
+        return result;
+    }
+
+    public static double sarrusDet (Matrix M){
+    /* M harus berukuran 3x3 */
+    /* untuk menghitung determinan matriks M menggunakan metode sarrus */
+
+        /* KAMUS */
+        double[][] m = M.getMatrix();
+        double res,a1, a2, a3, a4, a5, a6; 
+
+        /* ALGORITMA */
+        a1 = m[0][0] * m[1][1] * m[2][2];
+        a2 = m[0][1] * m[1][2] * m[2][0];
+        a3 = m[0][2] * m[1][0] * m[2][1];
+        a4 = m[0][2] * m[1][1] * m[2][0];
+        a5 = m[0][0] * m[1][2] * m[2][1];
+        a6 = m[0][1] * m[1][0] * m[2][2];
+        res = a1 + a2 + a3 - a4 - a5 - a6;
+        return res;
+    }
+
+    public static Matrix hitungKofaktor(Matrix M){
+    /* Matrix M terdefinisi dan harus nxn */
+    /* mengembalikan matriks kofaktor dari M */
+        /* KAMUS LOKAL */
+        int i, j;
+        int panjang = M.getRow();
+        double[][] m = new double[panjang][panjang];
+        Matrix result = new Matrix(m);
+        /* ALGORITMA */
+        for (i = 0 ; i < panjang ; i++){
+            for (j = 0 ; j < panjang ; j++){
+                m[i][j] = Math.pow((-1.0),(i+j))*kofaktorDet(matrix.minor(M, i, j));
+            }
+        }
+		result.setRow(panjang);
+		result.setColumn(panjang);
+		result.setMatrix(m);
+        return result;
+    }
+
+    public static Matrix hitungAdjoin (Matrix M){
+    /* Matriks M terdefinisi dan harus nxn */
+    /* menghitung adjoin dari matriks M */
+        /* KAMUS LOKAL */
+        Matrix kof, adj = new Matrix(M.getRow(), M.getColumn());
+        int i,j;
+        /* ALGORITMA */
+        kof = hitungKofaktor(M);
+        adj = matrix.transpose(kof);
+        return adj;
+    }
+    
+    public static Matrix inversAdj (Matrix M){
+    /* Matrix M terdefinisi dan merupakan matrix nxn */
+    /* Mengeluarkan matriks balikan dari matrix M dengan metode adjoin */
+        /* KAMUS LOKAL */
+        Matrix result = new Matrix(M.getRow(), M.getColumn());
+        double[][] m = M.getMatrix();
+        int i, j ;
+        double determinan = kofaktorDet(M);
+        m = hitungAdjoin(M).getMatrix();
+        /* ALGORITMA */
+        //hitung invers dengan cara 1/determinan kali adjoint
+        for (i = 0 ; i < M.getRow(); i++){
+            for (j = 0 ; j < M.getColumn(); j++){
+                m[i][j] = (1.0/determinan)*m[i][j];
+            }
+        }
+        result.setMatrix(m);
+        return result;
+    }
+}
