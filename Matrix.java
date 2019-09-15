@@ -1,7 +1,7 @@
 
-import java.util.Scanner;
-import java.io.FileReader;
-import java.util.*;
+// import java.util.Scanner;
+// import java.io.FileReader;
+// import java.util.*;
 
 public class Matrix {
 
@@ -60,14 +60,13 @@ public class Matrix {
 	}
 	
 	// Fungsi swapping pada matrix
-	public static void swap_row (Matrix m, int i, int j){
+	public void swap_row (Matrix m, int i, int j){
 		/*Kamus Lokal*/
-		int row,column;
+		int row;
 		double arr[][];
 
 		/*Inisialisasi*/
 		row = m.getRow();
-		column = m.getColumn();
 		arr = m.getMatrix();
 
 		/*Algoritma*/
@@ -123,7 +122,7 @@ public class Matrix {
 		/* KAMUS LOKAL */
 		Matrix matrix = new Matrix(M.getColumn(), M.getRow());
 		int i, j;
-		/* ALGRITMA */
+		/* ALGORITMA */
 		for (i = 0 ; i < M.getRow() ; i++){
             for (j = 0 ; j < M.getColumn() ; j++){
 				matrix.getMatrix()[j][i] = M.getMatrix()[i][j];

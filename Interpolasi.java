@@ -1,7 +1,7 @@
 
 import java.util.Scanner;
 import java.lang.Math;
-import java.io.FileReader;
+// import java.io.FileReader;
 
 public class Interpolasi {
 
@@ -104,7 +104,7 @@ public class Interpolasi {
             j = j - 1; 
         } 
   		return b;
-        }  
+    }  
 
     /*Output result dalam bentuk string*/
 	private void polinomInterpolasi() {
@@ -131,6 +131,18 @@ public class Interpolasi {
 
 	}
 
+	/*Fungsi baca titik */
+	public static double bacaTitikBaru() {
+		double x;
+		Scanner scanner = new Scanner(System.in);
+
+		System.out.printf("%s: ", "Masukkan suatu titik");
+		x = scanner.nextDouble();
+
+		scanner.close();
+		return x;
+	}
+
 	/*Gabungan semua fungsi menjadi 1 prosedur*/
 	public void prosedurInterpolasi() {
 		inputTitik();
@@ -140,12 +152,13 @@ public class Interpolasi {
 
 		// define scanner
 		// baca input
-		System.out.printf("%s: ", "Masukkan suatu titik");
-		double x = scanner.nextDouble();
+		double x = bacaTitikBaru();
 		double y = getInterpolasi(allDefined,x, N,polinom);
 
+		// output keluaran
 		System.out.println("Hasil keluaran interpolasi: "+String.format("%.2f",y));
 		
+		// agar scanner tidak bocor, ditutup
 		scanner.close();
 	}
 }

@@ -16,11 +16,11 @@ public class DriverInterpolasi {
     // System.out.println("Test Interpolasi:");
      // Interpolasi tester = new Interpolasi();
      public static void main(String[] args) {
-      Interpolasi interpolasi = new Interpolasi();
-      {
-        interpolasi.prosedurInterpolasi();
-      }
-     }
-     
-     
-      }
+       double arr [][] = {{5,7,9},{4,3,8},{7,5,6}};
+      Matrix matrix = new Matrix (arr);
+
+      matrix = Dependencies.inversGauss(matrix);
+      matrix.show();
+    }}
+      
+  

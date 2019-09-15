@@ -1,4 +1,3 @@
-import java.util.*;
 
 /******************************************************************************
  *  Compilation:  javac GaussianElimination.java
