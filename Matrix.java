@@ -91,11 +91,59 @@ public class Matrix {
                 System.out.printf("%9.4f ", matrix[i][j]);
             System.out.println();
         }
-    }
+	}
+
+	public static Matrix delBrsMatrix (Matrix M, int idx_brs) {
+	/* Matrix M terdefinisi, idx_brs <= baris M*/
+	/* untuk membuat matriks yang menghilangkan baris ke idx_brs */
+		/* KAMUS LOKAL */
+		int i, j;
+		int new_b;
+		double[][] matriks = new double[M.getRow()-1][M.getColumn()];
+		Matrix result = new Matrix(matriks);
+		/* ALGORITMA */
+		new_b = 0;
+		for (i=0 ; i < M.getRow() ; i++){
+			if (i != idx_brs){
+				for (j = 0 ; j <= M.getColumn() ; j++){
+					matriks[new_b][j] = M.getMatrix()[i][j];
+				}
+				new_b++;
+			}
+		}
+		result.setColumn(M.getColumn());
+		result.setMatrix(matriks);
+		result.setRow(M.getRow() - 1);
+		return result;
+	}
+	
+	public static Matrix delKolMatrix (Matrix M, int idx_kol) {
+	/* Matrix M terdefinisi, idx_kol <= kolom M*/
+	/* untuk membuat matriks yang menghilangkan kolom ke idx_kol */
+		/* KAMUS LOKAL */
+		int i, j;
+		int new_k;
+		double[][] matriks = new double[M.getRow()][M.getColumn()-1];
+		Matrix result = new Matrix(matriks);
+		/* ALGORITMA */
+		for (i=0 ; i <= M.getRow() ; i++){
+			new_k = 0;
+			for (j = 0 ; j < M.getColumn() ; j++){
+				if (j != idx_kol){
+					matriks[i][new_k] = M.getMatrix()[i][j];
+					new_k++;
+				}
+			}
+		}
+		result.setColumn(M.getColumn()-1);
+		result.setMatrix(matriks);
+		result.setRow(M.getRow());
+		return result;
+	}
 
 	public static Matrix minor (Matrix M, int idx_brs, int idx_kol) {
 	/* Matrix M terdefinisi dan harus nxn, idx_brs <= baris M, idx_kol <= kolom M */
-	/* untuk membuat sub matriks/ minor matriks yang menghilangkan baris ke 1 dan kolom ke idx */
+	/* untuk membuat sub matriks/ minor matriks yang menghilangkan baris ke idx_brs dan kolom ke idx_kol */
 		/* KAMUS LOKAL */
         int i, j;
         int new_b, new_k;

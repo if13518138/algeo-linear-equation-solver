@@ -49,7 +49,7 @@ public static void showResult(Matrix matrix){
 
 }
 
-\\buat test
+//buat test
 public static void main(String[] args){
     double arr [][] = {{1,5,6,9, 7},{1,5,6,9, 7},{5,6,8,9, 15},{0,0,8,3,10}}; 
     Matrix matrix = new Matrix (arr);
