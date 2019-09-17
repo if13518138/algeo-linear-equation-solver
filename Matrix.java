@@ -58,16 +58,22 @@ public class Matrix {
 	public void setMatrix(double[][] arr){
 		this.matrix = arr;
 	}
+
+	public void setElmtMatrix(double x, int i, int j){
+		Matrix newMatrix = new Matrix(matrix);
+		newMatrix.getMatrix()[i][j] = x;
+		this.matrix = newMatrix.getMatrix(); 
+	}
 	
 	// Fungsi swapping pada matrix
-	public void swap_row (Matrix m, int i, int j){
+	public void swap_row (int i, int j){
 		/*Kamus Lokal*/
 		int row;
 		double arr[][];
 
 		/*Inisialisasi*/
-		row = m.getRow();
-		arr = m.getMatrix();
+		row = M;
+		arr = matrix;
 
 		/*Algoritma*/
 		for (int k = 0;k<=row; k++){
@@ -75,6 +81,7 @@ public class Matrix {
 			arr[i][k] = arr[j][k];
 			arr[j][k] = temp;
 		}
+		matrix = arr;
 	}
 
 	// print matrix to standard output
@@ -134,5 +141,5 @@ public class Matrix {
 		return matrix;
 	}
 
-
+	// tambahin baca matriks
 }
