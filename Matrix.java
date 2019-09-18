@@ -1,3 +1,4 @@
+import java.util.Scanner;
 
 // import java.util.Scanner;
 // import java.io.FileReader;
@@ -10,6 +11,12 @@ public class Matrix {
 	private int N; // columns size
 
 	/*** Konstruktor ***/
+	public Matrix () {
+		double[][] p = new double[1][1];
+		this.M = 1;
+		this.N = 1;
+		this.matrix = p;
+	}
 	public Matrix (int m, int n) {
 		double[][] p = new double[m][n];
 		this.M = m;
@@ -65,6 +72,10 @@ public class Matrix {
 		this.matrix = newMatrix.getMatrix(); 
 	}
 	
+	public Boolean isSquare() {
+		return (this.M == this.M);
+	}
+
 	// Fungsi swapping pada matrix
 	public void swap_row (int i, int j){
 		/*Kamus Lokal*/
@@ -91,6 +102,27 @@ public class Matrix {
                 System.out.printf("%9.4f ", matrix[i][j]);
             System.out.println();
         }
+	}
+
+	// input matrix dari stdin
+	public static void input(Matrix M) {
+	/* I.S. Matrix M sembarang */
+	/* F.S. terbentuk matriks M terdefinisi */
+		int row, col;
+		Scanner scan = new Scanner(System.in);
+		System.out.println("Masukkan jumlah baris:");
+		row = scan.nextInt();
+		System.out.println("Masukkan jumlah kolom:");
+		col = scan.nextInt();
+		double[][] matriks = new double[row][col];
+		System.out.println("Masukkan elemen matriks:");
+		for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) 
+                matriks[i][j] = scan.nextDouble();
+		}
+		M.setMatrix(matriks);
+		M.setRow(row);
+		M.setColumn(col);
 	}
 
 	public static Matrix delBrsMatrix (Matrix M, int idx_brs) {
