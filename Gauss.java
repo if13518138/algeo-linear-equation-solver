@@ -1,9 +1,11 @@
 import java.util.*;
 
+/*TODO : Buat suatu fungsi buat masukin sistem persamaan menjadi augmented matrix*/
+
 public class Gauss {
 	// class variable
 
-	private Matrix coeficientMatrix; // augmented matrix
+	private Matrix coeficientMatrix; 
 	private double[] yVector;
 	private double[] constants;
 	private double[] solution;
@@ -12,6 +14,7 @@ public class Gauss {
 	Scanner scanner = new Scanner(System.in);
 
 	public Gauss (Matrix matrix){
+		/*Input : Augmented Matrix*/
 		double[][] arrX = new double[matrix.getRow()][matrix.getColumn() - 1];
 		double[] arrY = new double[matrix.getRow()];
 
@@ -49,7 +52,7 @@ public class Gauss {
 			}
 			/*swapping the row based on the pivot column*/
 			coeficientMatrix.swap_row(k,max);
-
+			/*swapping answer*/
 			double t = yVector[k];
 			yVector[k] = yVector[max];
 			yVector[max] = t;
