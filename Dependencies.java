@@ -99,6 +99,10 @@ public class Dependencies {
     }
 
     private static Matrix createAugmented (Matrix M) {
+        /* Fungsi untuk membentuk augmented matrix yang digunakan dalam proses invers Matriks*/
+        /* Membentuk matriks dengan ukuran dari nxn menjadi nx2n*/
+        /* Matriks yang baru dibentuk berupa matriks ones*/
+
         Matrix newM = new Matrix(M.getRow(), M.getColumn() * 2);
         double [][] arr = new double[M.getRow()][M.getColumn()*2];
         // membuat augmented matrix

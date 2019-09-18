@@ -36,17 +36,6 @@ class SPLGauss {
 			int idxBrsMax = i;
 			int a = i;  // a = row
 			while (a < nBrs){
-				// pengeckean untuk tiap barus
-				// while (b < nBrs) {
-				// 	if (arr[b][i] > max){
-				// 		max = arr[b][i];
-				// 		System.out.println(max);
-				// 		idxBrsMax = b;
-				// 		System.out.println(idxBrsMax);
-				// 	}
-				// 	b++;
-				// }
-				// swapping baris max dengan
 				if (arr[a][i] > max){
 						max = arr[a][i];
 						idxBrsMax = a;
@@ -56,8 +45,8 @@ class SPLGauss {
 			}
 							double[] temp = arr[i];
 		
-				arr[i] = arr[idxBrsMax];
-				arr[idxBrsMax] = temp;
+			arr[i] = arr[idxBrsMax];
+			arr[idxBrsMax] = temp;
 			printMatrix(arr);
 			// pengulangan 2 agar koefisien pembagi dapat diterapkan ke seluruh baris lainnya
 			for (j = i; j < nBrs; j++){
@@ -83,7 +72,11 @@ class SPLGauss {
 				arr[y][z] = arr[y][z] / arr[y][y];
 			}
 		}
-				printMatrix(arr);
+				printMatrix(arr); // print Matrix
+
+		/*Dilakukan backsubstitution*/
+		
+
 	}
 
 		// driver

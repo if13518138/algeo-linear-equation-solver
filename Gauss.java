@@ -58,7 +58,8 @@ public class Gauss {
 			yVector[max] = t;
 
 			/*pivot between Coefficient matrix and y*/
-			for (int i = k + 1; i < coeficientMatrix.getRow(); i++){
+			
+			}for (int i = k + 1; i < coeficientMatrix.getRow(); i++){
 				double factor = coeficientMatrix.getMatrix()[i][k] / coeficientMatrix.getMatrix()[k][k];
 				yVector[i] -= factor * yVector[k];
 				for(int j = k; j < coeficientMatrix.getRow(); j++){
