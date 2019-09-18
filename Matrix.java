@@ -72,6 +72,10 @@ public class Matrix {
 		this.matrix = newMatrix.getMatrix(); 
 	}
 	
+	public Boolean isSquare() {
+		return (this.M == this.M);
+	}
+
 	// Fungsi swapping pada matrix
 	public void swap_row (int i, int j){
 		/*Kamus Lokal*/
