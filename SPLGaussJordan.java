@@ -130,7 +130,20 @@ public static void generateMultiSolution(Matrix M){
         }
     }
     System.out.println("Maka didapatkan : ");
-    
+    int k = 0;
+    for (int i = 0 ; i < M.getRow() ; i++){
+        if (koef[i] == 0){
+            System.out.print("X" + (i+1) + " = ");
+            for (int j = i ; j < M.getRow() ; j++){
+                if (M.getMatrix()[k][j] != 0){
+                    System.out.print("(" + M.getMatrix()[k][j] + ")A" + koef[j] +"+");
+                }
+            }
+            System.out.print("(" + M.getMatrix()[k][M.getColumn()-1] +")\n");
+            k++;
+        }
+    }
+
 
     /* untuk debugg
     for (int i = 0 ; i < M.getRow() ; i++){
