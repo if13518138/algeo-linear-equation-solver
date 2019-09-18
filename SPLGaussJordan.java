@@ -1,5 +1,32 @@
 public class SPLGaussJordan {
 
+public static void makeSegitigaBawah(Matrix M){
+    boolean found = true;
+    while(found) {
+    for (int j = 0 ; j<M.getRow() ; j++){
+        int i =0;
+        while(i <M.getColumn()){
+        
+            boolean foundswap = true;
+            int counter = i+1 ;
+            found = false;
+            while (foundswap && counter<M.getColumn()){
+                if (M.getMatrix()[i][j] == 0 && M.getMatrix()[counter][j]!=0){
+                    M.swap_row(i, counter);
+                    found = true;
+                    foundswap = false;
+                } else {
+                    counter ++;
+                }
+            }
+            if (M.getMatrix()[i][j] != 0 ){
+                i++;
+            }
+        }
+    }
+    }
+}
+
 public static Matrix solveGaussJordan(Matrix M){
     int i, j, k;
     double x;
@@ -10,7 +37,7 @@ public static Matrix solveGaussJordan(Matrix M){
     Matrix result = new Matrix(z);
 
     //make reduction echelon tapi belom 1 1
-    for(j = 0 ; j < n_brs ; j++){
+    for(j = 0 ; j < n_kol ; j++){
         for (i = 0 ; i < n_brs ; i++){
             if (i != j){
                 if (M_in[j][j] != 0){
@@ -51,11 +78,11 @@ public static void showResult(Matrix matrix){
 
 //buat test
 public static void main(String[] args){
-    double arr [][] = {{1,5,6,9, 7},{1,5,6,9, 7},{5,6,8,9, 15},{0,0,8,3,10}}; 
+    double arr [][] = {{2,1,8,3,10},{1,5,6,9, 7},{1,5,6,9, 7},{5,6,8,9, 15}}; 
     Matrix matrix = new Matrix (arr);
     matrix.show();
     System.out.print("==========================\n");
-    matrix = solveGaussJordan(matrix);
+    makeSegitigaBawah(matrix);
     matrix.show();
 }
 
