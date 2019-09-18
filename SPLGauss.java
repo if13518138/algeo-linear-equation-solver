@@ -88,7 +88,7 @@ class SPLGauss {
 
 		// driver
 		public static void main(String[] args) {
-			double arr[][] = {{1, -1, 0, 0, 1, 3}, {1, 1, 0, -3, 0, 6},{2, -1, 0, 1, -1, 5},{-1, 2, 0, -2, -1, -1}};
+			double arr[][] = {{0,1,2,3,4}, {0,0,5,6,10}, {0,6,3,2,1},{0,0,0,9,8}};
 			Matrix matrix = new Matrix(arr);
 			matrix.show();
 			System.out.println("\n===========================================");
