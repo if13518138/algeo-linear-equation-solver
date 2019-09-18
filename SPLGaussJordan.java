@@ -11,6 +11,8 @@ public static Matrix solveGaussJordan(Matrix M){
 
     //make reduction echelon tapi belom 1 1
     for(j = 0 ; j < n_brs ; j++){
+
+        //yang nggak 0 dinaikinn tapi belom berhasil di fungsii inii
         for (int p = 0 ; p < n_brs ; p++){
             boolean foundswap = true;
             int counter = p+1 ;
@@ -31,6 +33,8 @@ public static Matrix solveGaussJordan(Matrix M){
                 }
             }
         }
+
+        //untuk ngereduksi
         for (i = 0 ; i < n_brs ; i++){
             if (i != j){
                 if (M_in[j][j] != 0){
@@ -71,7 +75,7 @@ public static void showResult(Matrix matrix){
 
 //buat test
 public static void main(String[] args){
-    double arr [][] = {{0,1,8,3,10},{1,5,6,9, 7},{4,8,6,9, 7},{5,6,8,9, 15}}; 
+    double arr [][] = {{3,1,8,10},{1,5,6,9},{0,0,6,9}}; 
     Matrix matrix = new Matrix (arr);
     matrix.show();
     System.out.print("==========================\n");
