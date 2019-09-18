@@ -81,9 +81,11 @@ class SPLGauss {
 
 		// driver
 		public static void main(String[] args) {
-			double arr[][] = {{10,0,0,0},{5,-1,3,100,4},{1,6,8,9}};
+			double arr[][] = {{0,1,2,3,4}, {0,0,5,6,10}, {0,6,3,2,1},{0,0,0,9,8}};
 			Matrix matrix = new Matrix(arr);
-
+			matrix.show();
+			System.out.println("\n===========================================");
 			solveGaussUnique(matrix);
+			matrix.show();
 		}
 	}
