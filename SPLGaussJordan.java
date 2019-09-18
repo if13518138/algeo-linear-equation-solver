@@ -1,12 +1,14 @@
 public class SPLGaussJordan {
 
 public static void makeSegitigaBawah(double[][] M_in, int n_brs, int n_kol){
+    /*Membuat matriks menjadi matriks segitiga bawah (kumpulan 0 di kiri bawah) */
+    /*KAMUS */
     int i, j, k;
     double x;
 
+    /*Algoritma */
     int t = 0;
     for(j = 0 ; j < n_brs ; j++){
-        //yang nggak 0 dinaikinn tapi belom berhasil di fungsii inii
         for (int p = t ; p < n_brs ; p++){
             for(int counter = p+1 ; counter < n_brs ; counter++){
                 if (M_in[p][j] == 0 && M_in[counter][j]!=0){
@@ -26,20 +28,21 @@ public static void makeSegitigaBawah(double[][] M_in, int n_brs, int n_kol){
 }
 
 public static Matrix solveGaussJordan(Matrix M){
+    /*Mengembalikan matriks berupa bentuk eselon baris tereduksi */
+    /*Kamus */
     int i, j, k;
     double x;
+
+    /*Algoritma */
     double[][] M_in = M.getMatrix();
     int n_brs = M.getRow();
     int n_kol = M.getColumn();
     double[][] z = new double[n_brs][n_kol];
     Matrix result = new Matrix(z);
 
-    //make reduction echelon tapi belom 1 1
-    
-
+    //Membentuk matriks tereduksi
     for(j = 0 ; j < n_brs ; j++){
         makeSegitigaBawah(M_in, n_brs, n_kol);
-        //untuk ngereduksi
         for (i = 0 ; i < n_brs ; i++){
             if (i != j){
                 if (M_in[j][j] != 0){
@@ -52,7 +55,7 @@ public static Matrix solveGaussJordan(Matrix M){
         }
     }
 
-    //bikin jadi 1 1
+    //bikin jadi jadi satu pertama
     for (int p = 0 ; p < n_brs ; p++){
         int q = 0;
         while (M_in[p][q]== 0 && q<n_kol-1){
@@ -81,7 +84,7 @@ public static void showResult(Matrix matrix){
 
 //buat test
 public static void main(String[] args){
-    double arr [][] = {{0, 1, 0, 0, 1, 0, 2}, {0, 0, 0, 1, 1, 0, -1},{0, 1, 0, 0, 0, 1, 1}, {0, 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0}}; 
+    double arr [][] = {{1, -1, 0, 0, 1, 3}, {1, 1, 0, -3, 0, 6},{2, -1, 0, 1, -1, 5},{-1, 2, 0, -2, -1, -1}}; 
     Matrix matrix = new Matrix (arr);
     matrix.show();
     System.out.print("==========================\n");
