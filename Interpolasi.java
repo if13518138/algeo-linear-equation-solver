@@ -96,7 +96,7 @@ public class Interpolasi {
 	}
 
 	/*Method untuk membalikkan isi array*/
-	private static double[] reverse(double a[], int n){
+	public static double[] reverse(double a[], int n){
         double[] b = new double[n]; 
         int j = n; 
         for (int i = 0; i < n; i++) { 

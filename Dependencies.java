@@ -98,7 +98,7 @@ public class Dependencies {
         return result;
     }
 
-    private static Matrix createAugmented (Matrix M) {
+    private static Matrix createInversMatrix (Matrix M) {
         /* Fungsi untuk membentuk augmented matrix yang digunakan dalam proses invers Matriks*/
         /* Membentuk matriks dengan ukuran dari nxn menjadi nx2n*/
         /* Matriks yang baru dibentuk berupa matriks ones*/
@@ -131,7 +131,7 @@ public class Dependencies {
     public static Matrix inversGauss (Matrix M) {
     /* Matrix M terdefinisi dan merupakan matrix nxn */
     /* Mengeluarkan matriks balikan dari matrix M dengan metode gauss - jordan */
-        Matrix newAugmented = createAugmented(M);
+        Matrix newAugmented = createInversMatrix(M);
 
         // lakukan interchange sampai menjadi 1 semua
         // interchange dilakukan dari belakang
@@ -178,6 +178,7 @@ public class Dependencies {
                 arrN[i][j - M.getColumn()] = newAugmented.getMatrix()[i][j];
             }
         }
+        
         newM.setMatrix(arrN);
         return newM;
     }
