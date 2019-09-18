@@ -74,12 +74,17 @@ class SPLGauss {
 					}
 				}
 			printMatrix(arr);
-			}
-			printMatrix(arr);
-			for (int c = 0;c < arr.length ; c++) {
-				System.out.printf("%.2f\n", arr[c][arr[c].length - 1]);
+		}
+
+
+		// ubah ke echelon form
+		for (int y = 0; y < nBrs; y++){
+			for (int z = 0;z < nKol;z++){
+				arr[y][z] = arr[y][z] / arr[y][y];
 			}
 		}
+				printMatrix(arr);
+	}
 
 		// driver
 		public static void main(String[] args) {
