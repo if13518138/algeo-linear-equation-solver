@@ -20,23 +20,13 @@ public class BacaFile {
 		this.filename = filename;
 	}
 
-	/*Fungsi - fungsi*/
-	// private static boolean isFileValid(String filename) {
-	// 	try {
-	// 		FileReader fileReaderValidate = new FileReader(filename);
-	// 		BufferedReader bufferedReaderValidate = new BufferedReader(fileReaderValidate);
-	// 		return true;
-	// 	} catch (FileNotFoundException ex) {
-	// 		System.out.println("File tidak ditemukan");
-	// 		return false;
-	// 	}
-
-	// }
-
 	public static int[] jumlahData(String filename) {
-		/*Mengembalikan panjang data dengan dimensi*/
+
+		/*Mengembalikan panjang data dengan dimensi(bentuk data)*/
 		/*Nilai pertama mengembalikan nilai panjang file*/
 		/*Nilai kedia mengembalikan nilai lebar file*/
+
+
 
 		try {
 			File file = new File (filename + ".txt");
@@ -56,6 +46,7 @@ public class BacaFile {
 				return val;
 			}
 			int[] val ={0,0};
+			scanFileChecker.close();
 			return val;
 
 		} catch (FileNotFoundException ex) {
@@ -87,14 +78,14 @@ public class BacaFile {
 				System.out.println(s);
 				sSplit = s.split(" ");
 				for (int i = 0; i < jumlahData[1]; i++) {
-					arrTemp[i] = Double.parseDouble(sSplit[i]);
+					arr[count][i] = Double.parseDouble(sSplit[i]);
 
 				}
 				// gunakan metode kopi array yang efektif
-				arr[count] = Arrays.copyOf(arrTemp, jumlahData);
 				count++;
 			}
 			Matrix matrix = new Matrix(arr);
+			scanner.close();
 			return matrix;
 
 		} catch (FileNotFoundException e) {
@@ -134,6 +125,7 @@ public class BacaFile {
 			}
 
 			arr[0] = arrX; arr[1] = arrY;
+			scanner.close();
 			return arr;
 
 		} catch (FileNotFoundException e) {
@@ -144,6 +136,7 @@ public class BacaFile {
 	}
 
 
+	// driver
 	public static void main(String[] args) {
 		BacaFile file1 = new BacaFile("test1",1);
 		BacaFile file2 = new BacaFile("test2",2);

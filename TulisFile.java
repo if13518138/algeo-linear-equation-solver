@@ -14,8 +14,9 @@ public class TulisFile {
 	*/
 
 	/*Konstruktor*/
-	public TulisFile (String filename) {
+	public TulisFile (String filename, int opsiTulis) {
 		this.filename = filename;
+		this.opsiTulis = opsiTulis;
 	}
 
 	/*Fungsi - fungsi*/
@@ -39,8 +40,17 @@ public class TulisFile {
 		} catch ( IOException e) {
 			System.out.println("Error");
 		}
+	}
 
 		/*Dilakukan  sesuai opsi*/
+	public void tulisHasilInterpolasi(){
+		try {
+
+		} catch (FileNotFoundException e){
+			System.out.println("File tidak ditemukan");
+		}
 
 	}
+
+	
 }
