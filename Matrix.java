@@ -76,8 +76,14 @@ public class Matrix {
 		return (this.M == this.M);
 	}
 
-	// Fungsi swapping pada matrix
+
+	/*Fungsi swapping pada matrix*/
 	public void swap_row (int i, int j){
+		/*
+		I.S. :  Matriks terdefinisi
+		F.S. : Matriks baris i telah bertukar tempat dengan matriks baris j
+
+		*/
 		/*Kamus Lokal*/
 		int row;
 		double arr[][];
