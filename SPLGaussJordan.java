@@ -135,8 +135,8 @@ public static void generateMultiSolution(Matrix M){
         if (koef[i] == 0){
             System.out.print("X" + (i+1) + " = ");
             for (int j = i ; j < M.getRow() ; j++){
-                if (M.getMatrix()[k][j] != 0){
-                    System.out.print("(" + M.getMatrix()[k][j] + ")A" + koef[j] +"+");
+                if (M.getMatrix()[k][j] != 0 && koef[j] != 0){
+                    System.out.print("(" + (-1)*M.getMatrix()[k][j] + ")A" + koef[j] +"+");
                 }
             }
             System.out.print("(" + M.getMatrix()[k][M.getColumn()-1] +")\n");
@@ -174,13 +174,15 @@ public static void showResult(Matrix M){
 public static void main(String[] args){
     //double arr [][] = {{1,2,3,6},{4,5,9,1},{0,9,6,3}}; 
     //double arr [][] = {{0, 1, 0, 0, 0, 1, 1}, {0, 0, 0, 1, 1, 0, -1},{0, 0, 0, 0, 1, -1, 1},{0, 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}}; 
-    double arr [][] = {{1, -1, 0, 0, 1, 0,3}, {1, 1, 0, -3, 0,0, 6}, {2, -1, 0, 1, -1,0, 5}, {-1, 2, 0, -2, -1,0, -1},{0,0,0,0,0,0,0},{0,0,0,0,0,0,0}};
+    //double arr [][] = {{1, 0, 0, 0},{0,1,2,0},{0,0,0,1}}; solve //tidak ada solusi
+    double arr [][] = {{1,0,3,-1},{0,1,-4,2},{0,0,0,0}}; //belomsolve
+    //double arr [][] = {{1,-5,1,4},{0,0,0,0},{0,0,0,0}}; belom solve
     Matrix matrix = new Matrix (arr);
     matrix.show();
     System.out.print("==========================\n");
     matrix = solveGaussJordan(matrix);
     matrix.show();
-    System.out.println("ini banyaknya row kosong " + countBarisKosong(matrix));
+    //System.out.println("ini banyaknya row kosong " + countBarisKosong(matrix));
     showResult(matrix);
     
 }
