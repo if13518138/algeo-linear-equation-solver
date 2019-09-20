@@ -1,2 +1,2 @@
 Polinom: 5 x^4 + 4 x^3 + 10 x^2 + 5 x + 9 = 0
-Nilai keluaran untuk X = .2fadalah .2f
+Nilai keluaran untuk X = 5.00 adalah 10.00

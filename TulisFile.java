@@ -44,11 +44,12 @@ public class TulisFile {
 
 			for (int i = 0; i < nRow; i++){
 				for (int j = 0; j < nCol; j++){
-					bufferedWriter.write(String.format(".3f ",arr[i][j]));
+					bufferedWriter.write(String.format("%.3f ",arr[i][j]));
 				}
 				bufferedWriter.newLine();
 			}
 			bufferedWriter.close();
+			System.out.println("Success ..");
 		} catch (FileNotFoundException ex) {
 			System.out.println("File tidak ditemukan");
 		} catch ( IOException e) {
@@ -68,12 +69,12 @@ public class TulisFile {
 			bufferedWriter.newLine();
 
 			bufferedWriter.write("Nilai keluaran untuk X = ");
-			String x = String.format(".2f",X);
-			String y = String.format(".2f",Y);
+			String x = String.format("%.2f",X);
+			String y = String.format("%.2f",Y);
 			bufferedWriter.write(x);
-			bufferedWriter.write("adalah ");
+			bufferedWriter.write(" adalah ");
 			bufferedWriter.write(y);
-
+			System.out.println("Success ..");
 			bufferedWriter.close();
 
 
