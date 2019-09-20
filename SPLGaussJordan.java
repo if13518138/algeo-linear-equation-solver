@@ -8,12 +8,13 @@ public static void makeUrutMatriks(double[][] M_in, int n_brs, int n_kol){
     double x;
 
     /*Algoritma */
-    int t = 0;
-    for(j = 0 ; j < n_brs ; j++){
+    int t = 0; // buat ngebikin counter baris
+    for(j = 0 ; j < n_brs ; j++){ //counter kolom
         for (int p = t ; p < n_brs ; p++){
             for(int counter = p+1 ; counter < n_brs ; counter++){
+                 //counter dari p+1 sampai mam_brs, kalau salah M(p,j) == nol dan M(counter, j) nggak nol, maka dituker 
                 if (M_in[p][j] == 0 && M_in[counter][j]!=0){
-                    //swap
+                    //untuk ngeswap 
                     for (int r = 0; r<n_kol; r++){
 			            double temp = M_in[p][r];
 			            M_in[p][r] = M_in[counter][r];
@@ -30,6 +31,7 @@ public static void makeUrutMatriks(double[][] M_in, int n_brs, int n_kol){
 
 public static int getIdxFirstNonZero(Matrix M, int i){
     //Prekondisi matriks ukuran n*(n+1)
+    //mengembalikan index bukan nol pertama dalam matrix pada baris i
     for (int j = 0 ; j < M.getRow() ; j++){ //cek ke baris tersebut dari kolom 1 sampe maksimal kolom -1
         if (M.getMatrix()[i][j] != 0){
             return j;
@@ -39,6 +41,8 @@ public static int getIdxFirstNonZero(Matrix M, int i){
 }
 
 public static void solveGauss(Matrix M){
+    //prosedur untuk membuat matrix M menjadi bentuk eselon
+    makeUrutMatriks(M.getMatrix(), M.getRow(), M.getColumn());
     for (int i = 0 ; i<M.getRow() ; i++ ){ //untuk pengulangan ke bawah
         int idxNonZero = getIdxFirstNonZero(M, i); //index non zero
         if (idxNonZero != -999){ // validasi index non zero
@@ -54,9 +58,28 @@ public static void solveGauss(Matrix M){
             }
         }
     }
+    //untuk membentuk non nol pertama jadi 1
+    for (int p = 0 ; p < M.getRow() ; p++){
+        int q = 0;
+        while (M.getMatrix()[p][q]== 0 && q<M.getColumn()-1){
+            q++;
+        }
+        if (q != M.getColumn()-1){
+            for (int r = q+1 ; r < M.getColumn() ; r++){
+                //System.out.print(y);
+                //System.out.print("\n");
+                M.getMatrix()[p][r] = M.getMatrix()[p][r] / M.getMatrix()[p][q];
+            }
+            M.getMatrix()[p][q] = 1;
+        }
+    }
+    makeUrutMatriks(M.getMatrix(), M.getRow(), M.getColumn());
 }
 
 public static void solveGaussJordan(Matrix M){
+    //Prosedur untuk membentuk dari matrix eselon ke matrix eselon tereduksi
+    //Prekondisi Matrix M harus bentuk eselon
+
     for (int i = M.getRow()-1 ; i>=0 ; i-- ){ //untuk pengulangan ke bawah
         int idxNonZero = getIdxFirstNonZero(M, i); //index non zero
         if (idxNonZero != -999){ // validasi index non zero
@@ -74,9 +97,8 @@ public static void solveGaussJordan(Matrix M){
     }
 }
 
-
 public static int countBarisKosong(Matrix M){
-    /*Menghitung baris yang kosong pada suatu matriks eselon tereduksi */
+    /*Menghitung baris yang kosong pada suatu matriks eselon  */
     int count = 0;
     for (int i = 0 ; i < M.getRow() ; i++){
         int count_b = 0;
@@ -101,26 +123,49 @@ public static boolean cekNoSolution (Matrix M){
     return found;
 }
 
-public static void generateMultiSolution(Matrix M){
+public static void generateMultiSolutionGaussJordan(Matrix M){
     //membentuk array koefisien untuk menampung variable bebas
     //inisiasi 0 semua elemen array
     int[] koef = new int[M.getRow()];
+    int[] idxNonZero = new int[M.getRow()]; //untuk menyimpan idx non nol pertama
     for (int i = 0 ; i < M.getRow() ; i++){
         koef[i] = 0;
+        idxNonZero[i] = -999;
     }
     
     //masih salah validasinya
+    for (int i = 0 ; i< M.getRow() ; i++){
+        idxNonZero[i] = getIdxFirstNonZero(M, i);
+    }
+
     int count_koef = 1;
-    for (int j = 0 ; j < M.getRow() ; j++){
-        int count_zero = 0;
-        for (int i = 0 ; i < M.getRow() ; i++){
-            if (M.getMatrix()[i][j] == 1) count_zero++;
+    for (int i = 0 ; i < M.getRow() ; i++){
+        boolean found = false;
+        for (int j = 0 ; j < M.getRow() ; j++){
+            if (i == idxNonZero[j]){
+                found = true;
+            }
         }
-        if (count_zero != 1){
-            koef[j] = count_koef;
+        if (!found) {
+            koef[i] = count_koef;
             count_koef++;
         }
     } 
+    /*
+    System.out.println("[[[[debug]]]]");
+    for (int i = 0; i <M.getRow() ; i++){
+        System.out.print(idxNonZero[i]);
+        System.out.print("   ");
+    }
+    System.out.println();
+
+    System.out.println("[[[[debug]]]]");
+    for (int i = 0; i <M.getRow() ; i++){
+        System.out.print(koef[i]);
+        System.out.print("   ");
+    }
+    System.out.println();
+    */
 
     System.out.println("Misalkan : ");
     for (int i = 0 ; i < M.getRow() ; i++){
@@ -142,15 +187,91 @@ public static void generateMultiSolution(Matrix M){
             k++;
         }
     }
-
-
-    /* untuk debugg
-    for (int i = 0 ; i < M.getRow() ; i++){
-        System.out.println(i + "  >>>   " + koef[i]);
-    }*/
 }
-public static void showResult(Matrix M){
+public static void generateMultiSolutionGauss(Matrix M){
+    //untuk menampilkan multi solution dengan metode gauss
+    int[] koef = new int[M.getRow()]; //untuk menympan koefisien bebas
+    int[] idxNonZero = new int[M.getRow()]; //untuk menyimpan idx non nol pertama
+    double[] konstanta = new double[M.getRow()];//untuk menimpan nilai konstanta 
+    for (int i = 0 ; i < M.getRow() ; i++){
+        koef[i] = 0;
+        idxNonZero[i] = -999;
+        konstanta[i] = 0;
+    }
+    
+    for (int i = 0 ; i< M.getRow() ; i++){
+        idxNonZero[i] = getIdxFirstNonZero(M, i);
+    }
+
+    int count_koef = 1;
+    for (int i = 0 ; i < M.getRow() ; i++){
+        boolean found = false;
+        for (int j = 0 ; j < M.getRow() ; j++){
+            if (i == idxNonZero[j]){
+                found = true;
+            }
+        }
+        if (!found) {
+            koef[i] = count_koef;
+            count_koef++;
+        }
+    } 
+
+    System.out.println("[[[[debug idx non zero]]]]");
+    for (int i = 0; i <M.getRow() ; i++){
+        System.out.print(idxNonZero[i]);
+        System.out.print("   ");
+    }
+    System.out.println();
+
+    System.out.println("[[[[debug koef]]]]");
+    for (int i = 0; i <M.getRow() ; i++){
+        System.out.print(koef[i]);
+        System.out.print("   ");
+    }
+    System.out.println();
+
+    System.out.println("[[[[debug konstanta]]]]");
+    for (int i = 0; i <M.getRow() ; i++){
+        System.out.print(konstanta[i]);
+        System.out.print("   ");
+    }
+    System.out.println();
+
+    System.out.println("Misalkan : ");
+    for (int i = 0 ; i < M.getRow() ; i++){
+        if (koef[i] != 0){
+            System.out.println("X" + (i+1) + " = A" + koef[i]);
+        }
+    }
+
+    System.out.println("Maka didapatkan : ");
+    int k = M.getRow()-countBarisKosong(M)-1;
+    for (int i = M.getRow()-1 ; i >= 0 ; i--){
+        if (koef[i] == 0){
+            System.out.print("X" + (i+1) + " = ");
+            for (int j = i ; j < M.getRow() ; j++){
+                if (M.getMatrix()[k][j] != 0 && koef[j] != 0){
+                    System.out.print("(" + (-1)*M.getMatrix()[k][j] + ")A" + koef[j] +"+");
+                }
+            }
+            double kons = M.getMatrix()[k][M.getColumn()-1]; //variable untuk menyimpan jumlah konstanta
+            for (int p = 0 ; p < M.getRow() ; p++){
+                kons -= konstanta[p]*M.getMatrix()[k][p];
+            }
+            System.out.print("(" + kons +")\n");
+            konstanta[i] = kons; 
+            //System.out.println(kons);
+            k--;
+        }
+    }
+
+
+}
+
+public static void showResultGaussJordan(Matrix M){
     //untuk nampilin hasil spl sesuai kondisi
+    solveGauss(M);
     solveGaussJordan(M);
     boolean found = true;
     for (int i = 0 ; i < M.getRow() ; i++){
@@ -164,7 +285,7 @@ public static void showResult(Matrix M){
         System.out.println("Tidak ada solusii");
     } else {
         System.out.println("solusi banyak lurr");
-        generateMultiSolution(M);
+        generateMultiSolutionGaussJordan(M);
     }
 
 }
@@ -175,11 +296,11 @@ public static void main(String[] args){
     //double arr [][] = {{0, 0, 0, 0, 0, 0, 0},{0, 1, 0, 0, 0, 1, 1}, {0, 0, 0, 1, 1, 0, -1},{0, 0, 0, 0, 1, -1, 1},{0, 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}}; 
     //double arr [][] = {{0,0,0,1},{1, 0, 0, 0},{0,1,2,0}}; //solve //tidak ada solusi
     //double arr [][] = {{1,0,3,-1},{0,1,-4,2},{0,0,0,0}}; //belomsolve
-    double arr [][] = {{1,-5,1,4},{0,0,0,0},{0,0,0,0}}; //belom solve
-    //double arr [][] = {{1,-1,0,0,1,3},{1,1,0,-3,0,6},{2,-1,0,1,-1,5},{-1,2,0,-2,-1,-1},{0,0,0,0,0,0}};
-    //double arr [][] = {{0,0,1,3,1},{0,0,0,1,0},{1,0,1,2,3},{2,0,2,4,1}};
+    //double arr [][] = {{1,-5,1,4},{0,0,0,0},{0,0,0,0}}; //belom solve
+    double arr [][] = {{1,-1,0,0,1,3},{1,1,0,-3,0,6},{2,-1,0,1,-1,5},{-1,2,0,-2,-1,-1},{0,0,0,0,0,0}};
+    //double arr [][] = {{0,0,1,3,1},{0,0,0,1,0},{1,0,1,2,3},{2,0,2,4,6}};
     Matrix matrix = new Matrix (arr);
-    matrix.show();
+    /*matrix.show();
     System.out.print("==========================\n");
     makeUrutMatriks(matrix.getMatrix(), matrix.getRow(), matrix.getColumn());
     matrix.show();
@@ -193,8 +314,19 @@ public static void main(String[] args){
     solveGaussJordan(matrix);
     matrix.show();
     //System.out.println("ini banyaknya row kosong " + countBarisKosong(matrix));
+    System.out.print("==========================\n");  */
+    matrix.show();
     System.out.print("==========================\n");
-    showResult(matrix);
+    solveGauss(matrix);
+    matrix.show();
+    System.out.print("==========================\n");
+    generateMultiSolutionGauss(matrix);
+    solveGaussJordan(matrix);
+    matrix.show();
+    System.out.print("==========================\n");
+    generateMultiSolutionGaussJordan(matrix);
+
+
     
 }
 
