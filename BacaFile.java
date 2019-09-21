@@ -45,7 +45,7 @@ public class BacaFile {
 				int[] val = {nLine, sSplit.length};
 				return val;
 			}
-			int[] val ={0,0};
+			int[] val = {0, 0};
 			scanFileChecker.close();
 			return val;
 
@@ -73,7 +73,6 @@ public class BacaFile {
 			int count = 0;
 
 			while (scanner.hasNextLine()) {
-				System.out.println("Debug");
 				s = scanner.nextLine();
 				System.out.println(s);
 				sSplit = s.split(" ");
@@ -95,6 +94,28 @@ public class BacaFile {
 			return matrix;
 		}
 
+	}
+
+	/*Dilakukan pembacaan terhadap sistem persamaan linear*/
+	public Matrix inputPersamaanMatrix() {
+		Matrix matrix = inputMatrix();
+
+		/*Dilakukan penambahan apabila bentuk tidak */
+		while (matrix.getRow() < matrix.getColumn() - 1) {
+			matrix.setRow(matrix.getRow() + 1);
+			double[][] arr = new double[matrix.getRow()][matrix.getColumn()];
+
+			for (int i = 0; i < matrix.getRow(); i++) {
+				if (i != matrix.getRow() - 1) {
+					arr[i] = matrix.getRowElmt(i);
+				} else {
+					for (int j = 0; j < matrix.getColumn(); j++){
+						arr[i][j] = 0;
+					}
+				} 
+			}
+		}
+		return matrix;
 	}
 
 	public double[][] inputTitik() {
@@ -138,8 +159,8 @@ public class BacaFile {
 
 	// driver
 	public static void main(String[] args) {
-		BacaFile file1 = new BacaFile("test1",1);
-		BacaFile file2 = new BacaFile("test2",2);
+		BacaFile file1 = new BacaFile("test1", 1);
+		BacaFile file2 = new BacaFile("test2", 2);
 
 		Matrix matrix = file1.inputMatrix();
 		matrix.show();
@@ -150,10 +171,10 @@ public class BacaFile {
 		double[] arrX = arr[0];
 		double[] arrY = arr[1];
 
-		for (int i = 0; i < arrX.length; i++){
-			System.out.printf("%.2f %.2f\n",arrX[i],arrY[i]);
+		for (int i = 0; i < arrX.length; i++) {
+			System.out.printf("%.2f %.2f\n", arrX[i], arrY[i]);
 		}
-		
+
 
 
 
