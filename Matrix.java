@@ -137,7 +137,7 @@ public class Matrix {
 		/* F.S. terbentuk matriks M terdefinisi */
 			int row, col;
 			Scanner scan = new Scanner(System.in);
-			System.out.println("Masukkan jumlah baris dan kolom:");
+			System.out.println("Masukkan n:");
 			row = scan.nextInt();
 			col = row;
 			double[][] matriks = new double[row][col];

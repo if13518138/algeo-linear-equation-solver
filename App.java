@@ -29,7 +29,7 @@ public class App {
     public static void subDet() {
         System.out.println("Pilih Metode");
         System.out.println("1. Metode kofaktor");
-        System.out.println("2. Metode sarrus (hanya bisa untuk matriks 3x3");
+        System.out.println("2. Metode sarrus (hanya bisa untuk matriks 3x3)");
         System.out.println("3. Metode operasi baris elementer");
     }
 
@@ -47,9 +47,9 @@ public class App {
             return Dependencies.kofaktorDet(M);
         } else if (x == 2) {
             return Dependencies.sarrusDet(M);
-        } else {
-            return 0;
-        }
+        } else if ( x == 3) {
+            return Dependencies.detOBE(M);
+        } else return 0;
     }
 
     public static Matrix getInvers (Matrix M, int x) {
@@ -83,8 +83,8 @@ public class App {
                 subDet();
                 sub = scan.nextInt();
                 clrScr();
-                System.out.println("Masukkan matrix:");
-                Matrix.input(M);
+                System.out.println("Masukkan matrix nxn:");
+                Matrix.inputNxN(M);
                 det = getDet(M, sub);
                 System.out.println("Determinannya adalah :" + det);
             } else if (mn == 3) { // invers
@@ -93,7 +93,7 @@ public class App {
                 sub = scan.nextInt();
                 clrScr();
                 System.out.println("Masukkan matriks nxn:");
-                Matrix.input(M);
+                Matrix.inputNxN(M);
                 if (Dependencies.kofaktorDet(M) == 0) {
                     System.out.println("Tidak ada invers");
                 } else {
@@ -103,15 +103,14 @@ public class App {
                 }
                 
             } else if (mn == 4) { // kofaktor
-                // hanya ada jika determinannya tidak = 0
                 System.out.println("Masukkan matriks nxn:");
-                Matrix.input(M);
+                Matrix.inputNxN(M);
                 kof = Dependencies.hitungKofaktor(M);
                 System.out.println("Matriks kofaktornya adalah:");
                 kof.show();
             } else if (mn == 5) { // adjoin
                 System.out.println("Masukkan matriks nxn:");
-                Matrix.input(M);
+                Matrix.inputNxN(M);
                 adj = Dependencies.hitungAdjoin(M);
                 System.out.println("Matriks adjoinnya adalah:");
                 adj.show();

@@ -1,5 +1,5 @@
 
-public class SPLGaussJordan {
+public class SPL {
 
     public static double[] solveSPLCrammer(Matrix M) {
         /* Mengeluarkan array solusi SPL dari Matriks M berukuran nxn+1 */
@@ -51,6 +51,38 @@ public class SPLGaussJordan {
         }
     }
 
+    public static double makeUrutMatriksDet(Matrix M) {
+        /*I.S. M terdefinisi, n adalah baris dan kolom M, count = 1;
+        /*Membuat matriks menjadi matriks segitiga bawah (kumpulan 0 di kiri bawah) */
+        /*Count untuk menyimpan perkalian -1 tiap di swap */
+        /*KAMUS */
+        int i, j, k;
+        double count = 1;
+
+        /*Algoritma */
+        int t = 0; // buat ngebikin counter baris
+        for (j = 0 ; j < M.getRow() - 1 ; j++) { //counter kolom
+            for (int p = t ; p < M.getRow() ; p++) {
+                for (int counter = p + 1 ; counter < M.getRow() ; counter++) {
+                    //counter dari p+1 sampai mam_brs, kalau salah M(p,j) == nol dan M(counter, j) nggak nol, maka dituker
+                    if (M.getMatrix()[p][j] == 0 && M.getMatrix()[counter][j] != 0) {
+                        //untuk ngeswap
+                        for (int r = 0; r < M.getRow(); r++) {
+                            double temp = M.getMatrix()[p][r];
+                            M.getMatrix()[p][r] = M.getMatrix()[counter][r];
+                            M.getMatrix()[counter][r] = temp;
+                        }
+                        count *= -1;
+                    }
+                }
+                if (M.getMatrix()[p][j] != 0) {
+                    t = t + 1;
+                }
+            }
+        }
+        return count;
+    }
+
     public static int getIdxFirstNonZero(Matrix M, int i) {
         //Prekondisi matriks ukuran n*(n+1)
         //mengembalikan index bukan nol pertama dalam matrix pada baris i
@@ -60,6 +92,25 @@ public class SPLGaussJordan {
             }
         }
         return -999;
+    }
+    public static void solveGaussDet(Matrix M){
+        //prosedur untuk membuat matrix M menjadi bentuk eselon
+        makeUrutMatriks(M.getMatrix(), M.getRow(), M.getColumn());
+        for (int i = 0 ; i < M.getRow() ; i++ ) { //untuk pengulangan ke bawah
+            int idxNonZero = getIdxFirstNonZero(M, i); //index non zero
+            if (idxNonZero != -999) { // validasi index non zero
+                for (int p = i + 1 ; p < M.getRow() ; p++) {
+                    //pengulangan untuk index dibawah p, jika tidak sama dengan nol maka indeks yang di bawah i dikurangin
+                    //dengan kelipatan nya supaya hasilnya 0
+                    if (M.getMatrix()[p][idxNonZero] != 0) {
+                        double x = M.getMatrix()[p][idxNonZero] / M.getMatrix()[i][idxNonZero];
+                        for (int k = 0 ; k < M.getColumn() ; k++) {
+                            M.getMatrix()[p][k] = M.getMatrix()[p][k] - x * M.getMatrix()[i][k];
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public static void solveGauss(Matrix M) {
@@ -345,7 +396,8 @@ public class SPLGaussJordan {
 
 //buat test
     public static void main(String[] args) {
-        double arr [][] = {{1,2,3,6},{4,5,9,1},{0,9,6,3}};
+        double arr [][] = {{1,2,3},{0,0,1},{0,1,7}};
+        //double arr [][] = {{1,2,3,6},{4,5,9,1},{0,9,6,3}};
         //double arr [][] = {{0, 0, 0, 0, 0, 0, 0},{0, 1, 0, 0, 0, 1, 1}, {0, 0, 0, 1, 1, 0, -1},{0, 0, 0, 0, 1, -1, 1},{0, 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
         //double arr [][] = {{0,0,0,1},{1, 0, 0, 0},{0,1,2,0}}; //solve //tidak ada solusi
         //double arr [][] = {{1,0,3,-1},{0,1,-4,2},{0,0,0,0}}; //belomsolve
@@ -370,9 +422,9 @@ public class SPLGaussJordan {
         System.out.print("==========================\n");  */
         matrix.show();
         System.out.print("==========================\n");
+        System.out.println(makeUrutMatriksDet(matrix));
+        matrix.show();
         
-        showResultGauss(matrix);
-
 
 
     }

@@ -46,6 +46,28 @@ public class Dependencies {
         return res;
     }
 
+    public static double detOBE(Matrix M) {
+    /* untuk menghitung determinan matriks M menggunakan metode operasi baris elementer */
+
+        /* KAMUS */
+        double[][] m = M.getMatrix();
+        double res = 1;
+        double count = 1;
+
+        /* ALGORITMA */
+        //SPL.makeUrutMatriksDet(M.getMatrix(), M.getColumn(), count);
+        count *= SPL.makeUrutMatriksDet(M);
+        SPL.solveGaussDet(M);
+        count *= SPL.makeUrutMatriksDet(M);
+        //SPL.makeUrutDet(M, count);
+        //SPL.makeUrutMatriksDet(M.getMatrix(), M.getColumn(), count);
+        for (int i = 0; i < M.getColumn(); i++) {
+            res *= M.getMatrix()[i][i];
+        }
+        res *= count;
+        return res;
+    }
+
     public static Matrix hitungKofaktor(Matrix M){
     /* Matrix M terdefinisi dan harus nxn */
     /* mengembalikan matriks kofaktor dari M */
