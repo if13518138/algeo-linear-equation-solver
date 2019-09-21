@@ -9,7 +9,7 @@ public static void makeUrutMatriks(double[][] M_in, int n_brs, int n_kol){
 
     /*Algoritma */
     int t = 0; // buat ngebikin counter baris
-    for(j = 0 ; j < n_brs ; j++){ //counter kolom
+    for(j = 0 ; j < n_kol-1 ; j++){ //counter kolom
         for (int p = t ; p < n_brs ; p++){
             for(int counter = p+1 ; counter < n_brs ; counter++){
                  //counter dari p+1 sampai mam_brs, kalau salah M(p,j) == nol dan M(counter, j) nggak nol, maka dituker 
@@ -32,7 +32,7 @@ public static void makeUrutMatriks(double[][] M_in, int n_brs, int n_kol){
 public static int getIdxFirstNonZero(Matrix M, int i){
     //Prekondisi matriks ukuran n*(n+1)
     //mengembalikan index bukan nol pertama dalam matrix pada baris i
-    for (int j = 0 ; j < M.getRow() ; j++){ //cek ke baris tersebut dari kolom 1 sampe maksimal kolom -1
+    for (int j = 0 ; j < M.getColumn()-1 ; j++){ //cek ke baris tersebut dari kolom 1 sampe maksimal kolom -1
         if (M.getMatrix()[i][j] != 0){
             return j;
         }
@@ -274,11 +274,11 @@ public static void showResultGaussJordan(Matrix M){
     solveGauss(M);
     solveGaussJordan(M);
     boolean found = true;
-    for (int i = 0 ; i < M.getRow() ; i++){
+    for (int i = 0 ; i < M.getColumn()-1 ; i++){
         if (M.getMatrix()[i][i] == 0) found = false;
     }
     if (found){
-        for (int i = 0 ; i<M.getRow() ; i++){
+        for (int i = 0 ; i<M.getColumn()-1 ; i++){
             System.out.println("X" + (i+1) + " = " + M.getMatrix()[i][M.getColumn()-1]);
         }
     } else if (cekNoSolution(M)){
