@@ -59,7 +59,9 @@ public class BacaFile {
 	/*Dilakukan  sesuai opsi*/
 	public Matrix inputMatrix() {
 		int[] jumlahData = BacaFile.jumlahData(filename);
-
+		System.out.println(jumlahData[0]);
+		System.out.println(jumlahData[1]);
+		
 		double[][] arr = new double[jumlahData[0]][jumlahData[1]];
 
 		try {
@@ -164,7 +166,7 @@ public class BacaFile {
 	// driver
 	public static void main(String[] args) {
 
-		BacaFile file1 = new BacaFile("test5",1);
+		BacaFile file1 = new BacaFile("test3",1);
 		//BacaFile file2 = new BacaFile("test2",2);
 
 
@@ -184,6 +186,7 @@ public class BacaFile {
 		SPLGaussJordan.showResultGaussJordan(matrix);
 
 		matrix.show();
+		System.out.println(SPLGaussJordan.countBarisKosong(matrix));
 
 	}
 }
