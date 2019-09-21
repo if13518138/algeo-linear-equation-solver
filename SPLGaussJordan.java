@@ -277,13 +277,13 @@ public static void showResultGaussJordan(Matrix M){
     }
 
     if (cekNoSolution(M)){
-        System.out.println("Tidak ada solusii");
+        System.out.println("Tidak ada solusi");
     } else if (found){
         for (int i = 0 ; i<M.getColumn()-1 ; i++){
             System.out.println("X" + (i+1) + " = " + M.getMatrix()[i][M.getColumn()-1]);
         }
     } else {
-        System.out.println("solusi banyak lurr");
+        System.out.println("solusi banyak");
         generateMultiSolutionGaussJordan(M);
     }
 

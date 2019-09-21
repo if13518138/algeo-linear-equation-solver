@@ -58,12 +58,14 @@ public class Interpolasi {
 			arrX[i] = x;
 			arrY[i] = y;
 
+			i++;
 
 
+		}
 			// kembalikan nilai kedalam properti dari Interpolasi
 			this.arr_X = arrX;
 			this.arr_Y = arrY;
-		}
+		
 	}
 
 	/*Fungsi mengambil inputan melalui file*/
@@ -104,24 +106,20 @@ public class Interpolasi {
 
 
 	private static double [] getResultGaussian(Matrix matrix) {
-		double[][] arrX = new double[matrix.getRow()][matrix.getColumn() - 1];
-		double[] arrY = new double[matrix.getRow()];
+		SPLGaussJordan.solveGauss(matrix);
+		SPLGaussJordan.solveGaussJordan(matrix);
+		matrix.show();
 
-		// pengkopian array
-		for (int i = 0; i < arrX.length; i++) {
-			for (int j = 0; j < arrX[0].length; j++) {
-				arrX[i][j] = matrix.getMatrix()[i][j];
-			}
-			arrY[i] = matrix.getMatrix()[i][matrix.getMatrix()[0].length - 1];
-		}
+		double arr[] = new double[matrix.getRow()];
 
 		// create Gaussian solver
 		/*Catatan, nanti ganti dengan solver punya kita sendiri*/
-		GaussianElimination solver = new GaussianElimination();
+		for (int i = 0; i < matrix.getRow(); i++){
+			arr[i] = matrix.getMatrix()[i][matrix.getColumn() - 1];
+		}
 
 		// hitung hasil
-		double[] x = solver.lsolve(arrX, arrY);
-		return x;
+		return arr;
 	}
 
 	/*Method untuk membalikkan isi array*/
@@ -189,6 +187,12 @@ public class Interpolasi {
 
 		// agar scanner tidak bocor, ditutup
 		scanner.close();
+	}
+
+	public static void main(String[] args) {
+		Interpolasi interpolasi = new Interpolasi();
+
+		interpolasi.prosedurInterpolasi();
 	}
 }
 

@@ -180,7 +180,8 @@ class SPLGauss {
 		double[] arrSolution = new double[4];
 
 		double arr[][] = {{0,1,0,0,1,0,2},{0,0,0,1,1,0,-1},{0,1,0,0,0,1,1}};
-		Matrix matrix = new Matrix(arr);
+		double arrs[][] = {{1,-1,0,0,1,3},{1,1,0,-3,0,6},{2,-1,0,1,-1,5},{-1,2,0,-2,-1,-1},{0,0,0,0,0,0}};
+		Matrix matrix = new Matrix(arrs);
 		matrix.show();
 		System.out.println("\n===========================================");
 		arrSolution = solveGaussUnique(matrix);
