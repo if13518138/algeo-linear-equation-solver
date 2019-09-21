@@ -139,23 +139,24 @@ public class BacaFile {
 	// driver
 	public static void main(String[] args) {
 		BacaFile file1 = new BacaFile("test1",1);
-		BacaFile file2 = new BacaFile("test2",2);
+		//BacaFile file2 = new BacaFile("test2",2);
 
 		Matrix matrix = file1.inputMatrix();
 		matrix.show();
 
 		System.out.println("============================================================================");
 
-		double arr[][] = file2.inputTitik();
-		double[] arrX = arr[0];
-		double[] arrY = arr[1];
+		//double arr[][] = file2.inputTitik();
+		//double[] arrX = arr[0];
+		//double[] arrY = arr[1];
 
-		for (int i = 0; i < arrX.length; i++){
-			System.out.printf("%.2f %.2f\n",arrX[i],arrY[i]);
-		}
+		//for (int i = 0; i < arrX.length; i++){
+		//	System.out.printf("%.2f %.2f\n",arrX[i],arrY[i]);
+		//}
 		
+		SPLGaussJordan.showResultGaussJordan(matrix);
 
-
+		matrix.show();
 
 	}
 }
