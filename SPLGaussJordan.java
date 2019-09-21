@@ -95,17 +95,14 @@ public static void solveGaussJordan(Matrix M){
             }
         }
     }
+    makeUrutMatriks(M.getMatrix(), M.getRow(), M.getColumn());
 }
 
 public static int countBarisKosong(Matrix M){
     /*Menghitung baris yang kosong pada suatu matriks eselon  */
     int count = 0;
     for (int i = 0 ; i < M.getRow() ; i++){
-        int count_b = 0;
-        for (int j = 0 ; j < M.getRow() ; j++){
-            if (M.getMatrix()[i][j] == 0) count_b++;
-        }
-        if (count_b == M.getRow()){
+        if (getIdxFirstNonZero(M, i) == -999){
             count ++;
         }
     }
@@ -178,7 +175,7 @@ public static void generateMultiSolutionGaussJordan(Matrix M){
     for (int i = 0 ; i < M.getRow() ; i++){
         if (koef[i] == 0){
             System.out.print("X" + (i+1) + " = ");
-            for (int j = i ; j < M.getRow() ; j++){
+            for (int j = i ; j < M.getColumn()-1 ; j++){
                 if (M.getMatrix()[k][j] != 0 && koef[j] != 0){
                     System.out.print("(" + (-1)*M.getMatrix()[k][j] + ")A" + koef[j] +"+");
                 }
@@ -188,6 +185,7 @@ public static void generateMultiSolutionGaussJordan(Matrix M){
         }
     }
 }
+
 public static void generateMultiSolutionGauss(Matrix M){
     //untuk menampilkan multi solution dengan metode gauss
     int[] koef = new int[M.getRow()]; //untuk menympan koefisien bebas
@@ -277,12 +275,13 @@ public static void showResultGaussJordan(Matrix M){
     for (int i = 0 ; i < M.getColumn()-1 ; i++){
         if (M.getMatrix()[i][i] == 0) found = false;
     }
-    if (found){
+
+    if (cekNoSolution(M)){
+        System.out.println("Tidak ada solusii");
+    } else if (found){
         for (int i = 0 ; i<M.getColumn()-1 ; i++){
             System.out.println("X" + (i+1) + " = " + M.getMatrix()[i][M.getColumn()-1]);
         }
-    } else if (cekNoSolution(M)){
-        System.out.println("Tidak ada solusii");
     } else {
         System.out.println("solusi banyak lurr");
         generateMultiSolutionGaussJordan(M);
