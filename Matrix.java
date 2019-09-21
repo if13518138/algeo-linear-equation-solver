@@ -49,14 +49,6 @@ public class Matrix {
 		return this.N;
 	}
 
-	public double[] getRowElmt(int i){
-		double[] arr = new double[matrix.getColumn()];
-		for (int j = 0; j < matrix.getRow(); i++){
-			arr[j] = matrix.getMatrix()[i][j];
-		}
-
-		return arr;
-	}
 
 	public double[][] getMatrix(){
 		return this.matrix;
