@@ -132,6 +132,25 @@ public class Matrix {
 		M.setColumn(col);
 	}
 
+	public static void inputNxN(Matrix M) {
+		/* I.S. Matrix M sembarang */
+		/* F.S. terbentuk matriks M terdefinisi */
+			int row, col;
+			Scanner scan = new Scanner(System.in);
+			System.out.println("Masukkan jumlah baris dan kolom:");
+			row = scan.nextInt();
+			col = row;
+			double[][] matriks = new double[row][col];
+			System.out.println("Masukkan elemen matriks:");
+			for (int i = 0; i < row; i++) {
+				for (int j = 0; j < col; j++) 
+					matriks[i][j] = scan.nextDouble();
+			}
+			M.setMatrix(matriks);
+			M.setRow(row);
+			M.setColumn(col);
+		}
+
 	public static Matrix delBrsMatrix (Matrix M, int idx_brs) {
 	/* Matrix M terdefinisi, idx_brs <= baris M*/
 	/* untuk membuat matriks yang menghilangkan baris ke idx_brs */

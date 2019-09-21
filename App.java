@@ -72,6 +72,7 @@ public class App {
         int mn, sub;
         boolean keluar = false;
         Scanner scan = new Scanner(System.in);
+        String end;
         while (!keluar) {
             menu();
             mn = scan.nextInt();
@@ -87,15 +88,22 @@ public class App {
                 det = getDet(M, sub);
                 System.out.println("Determinannya adalah :" + det);
             } else if (mn == 3) { // invers
+                // hanya ada jika determinannya tidak = 0
                 subInv();
                 sub = scan.nextInt();
                 clrScr();
                 System.out.println("Masukkan matriks nxn:");
                 Matrix.input(M);
-                inv = getInvers(M, sub);
-                System.out.println("Matriks balikannya adalah:");
-                inv.show();
+                if (Dependencies.kofaktorDet(M) == 0) {
+                    System.out.println("Tidak ada invers");
+                } else {
+                    inv = getInvers(M, sub);
+                    System.out.println("Matriks balikannya adalah:");
+                    inv.show();
+                }
+                
             } else if (mn == 4) { // kofaktor
+                // hanya ada jika determinannya tidak = 0
                 System.out.println("Masukkan matriks nxn:");
                 Matrix.input(M);
                 kof = Dependencies.hitungKofaktor(M);
