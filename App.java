@@ -73,12 +73,13 @@ public class App {
         boolean keluar = false;
         Scanner scan = new Scanner(System.in);
         String end;
+        Interpolasi interpolasi = new Interpolasi(); // instance buat interpolasi
         while (!keluar) {
             menu();
             mn = scan.nextInt();
             clrScr();
             if (mn == 1) { // SPL
-
+                
             } else if (mn == 2) { // determinan
                 subDet();
                 sub = scan.nextInt();
@@ -115,7 +116,7 @@ public class App {
                 System.out.println("Matriks adjoinnya adalah:");
                 adj.show();
             } else if (mn == 6) {
-                
+                interpolasi.prosedurInterpolasi();
             } else if (mn == 7) {
                 keluar = true;
             }

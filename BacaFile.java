@@ -183,10 +183,10 @@ public class BacaFile {
 		//	System.out.printf("%.2f %.2f\n",arrX[i],arrY[i]);
 		//}
 		
-		SPLGaussJordan.showResultGaussJordan(matrix);
+		SPL.showResultGaussJordan(matrix);
 
 		matrix.show();
-		System.out.println(SPLGaussJordan.countBarisKosong(matrix));
+		System.out.println(SPL.countBarisKosong(matrix));
 
 	}
 }

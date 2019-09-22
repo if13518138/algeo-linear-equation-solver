@@ -72,15 +72,31 @@ public class Interpolasi {
 
 	/*Fungsi untuk mengambil nilai polinom*/
 	public String getOutputPolinom (){
-		String stringPolinom = "";
-		for(int i = polinom.length - 1; i > 1; i++){
-			stringPolinom += String.format(".2f ",polinom[i]);
-			stringPolinom += "x^"+i;
+		// untuk ngeprint polinom
+		double pol[] = reverse(polinom, polinom.length);
+		String stringPolinom = "y = ";
+		int i = pol.length - 1;
+		int j;
+		while (i > 0 && pol[i] == 0) { //cari koef pertama yang tidak nol
+			i--;
 		}
-		stringPolinom += String.format(".2f ",polinom[1]) + "x";
-		stringPolinom += String.format(".2f",polinom[0]);
-		stringPolinom += " = 0";
-
+		stringPolinom += String.format("%.2f", pol[i]);
+		stringPolinom += "x";
+		if (i != 1) {
+			stringPolinom += "^" + i;
+		}
+		for(j = i - 1; j >= 0; j--){
+			if (pol[j] != 0) {
+				stringPolinom += " + ";
+				stringPolinom += String.format("%.2f", pol[j]);
+				if (j != 0) {
+					stringPolinom += "x";
+					if (j != 1) {
+						stringPolinom += "^" + j;
+					}
+				}
+			}
+		}
 		return stringPolinom;
 	}
 
@@ -106,8 +122,8 @@ public class Interpolasi {
 
 
 	private static double [] getResultGaussian(Matrix matrix) {
-		SPLGaussJordan.solveGauss(matrix);
-		SPLGaussJordan.solveGaussJordan(matrix);
+		SPL.solveGauss(matrix);
+		SPL.solveGaussJordan(matrix);
 		matrix.show();
 
 		double arr[] = new double[matrix.getRow()];
@@ -176,7 +192,7 @@ public class Interpolasi {
 		ubahPersLinear();
 		polinomInterpolasi();
 		this.allDefined = true;
-
+		System.out.println(getOutputPolinom()); 
 		// define scanner
 		// baca input
 		double x = bacaTitikBaru();
@@ -189,11 +205,11 @@ public class Interpolasi {
 		scanner.close();
 	}
 
-	public static void main(String[] args) {
-		Interpolasi interpolasi = new Interpolasi();
+	// public static void main(String[] args) {
+	// 	Interpolasi interpolasi = new Interpolasi();
 
-		interpolasi.prosedurInterpolasi();
-	}
+	// 	interpolasi.prosedurInterpolasi();
+	// }
 }
 
 
