@@ -132,6 +132,42 @@ public class Matrix {
 		M.setColumn(col);
 	}
 
+	public static void inputSPL(Matrix M) {
+	/* I.S. Matrix M sembarang */
+	/* F.S. terbentuk matriks M terdefinisi */
+		int row, col;
+		double[][] matriks;
+		Scanner scan = new Scanner(System.in);
+		System.out.println("Masukkan jumlah baris:");
+		row = scan.nextInt();
+		System.out.println("Masukkan jumlah variable:");
+		col = scan.nextInt();
+		col += 1;
+		if (row < col-1){
+			matriks = new double[col-1][col];
+		} else {
+			matriks = new double[row][col];
+		}
+		System.out.println("Masukkan elemen matriks:");
+		for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                matriks[i][j] = scan.nextDouble();
+			}
+		}
+		if (row < (col-1)){
+			for (int i = row ; i < (col-1) ; i++) {
+				for (int j = 0 ; j < col ; j++){
+					matriks[i][j] = 0;
+				}
+			}
+			M.setRow(col-1);
+		} else {
+			M.setRow(row);
+		}
+		M.setMatrix(matriks);
+		M.setColumn(col);
+	}
+
 	public static void inputNxN(Matrix M) {
 		/* I.S. Matrix M sembarang */
 		/* F.S. terbentuk matriks M terdefinisi */

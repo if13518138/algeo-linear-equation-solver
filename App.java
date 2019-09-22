@@ -39,6 +39,27 @@ public class App {
         System.out.println("2. Metode adjoin");
     }
 
+    public static void showSPL(Matrix M, int x) {
+    /* Matrix M terdefinisi */
+    /* untuk menghitung SPL sesuai menu yang dipilih */
+    /* x = 1, 2, 3, 4 */
+        if (x == 1){
+            //eliminasi gauss
+            SPL.showResultGauss(M);
+        } else if (x == 2) {
+            //eliminasi gauss jordan
+            SPL.showResultGaussJordan(M);
+        } else if (x == 3) {
+            //metode matriks balikan
+
+        } else if (x == 4) {
+            //metode creammer
+
+        }
+
+
+    }
+
     public static double getDet (Matrix M, int x) {
     /* Matrix M terdefinisi */
     /* untuk menghitung determinan sesuai menu yang dipilih */
@@ -68,6 +89,7 @@ public class App {
         Matrix kof = new Matrix();
         Matrix inv = new Matrix();
         Matrix adj = new Matrix();
+        Matrix spl = new Matrix();
         double det;
         int mn, sub;
         boolean keluar = false;
@@ -79,7 +101,11 @@ public class App {
             mn = scan.nextInt();
             clrScr();
             if (mn == 1) { // SPL
-                
+                subSPL();
+                sub = scan.nextInt();
+                clrScr();
+                Matrix.inputSPL(spl);
+                showSPL(spl, sub);
             } else if (mn == 2) { // determinan
                 subDet();
                 sub = scan.nextInt();

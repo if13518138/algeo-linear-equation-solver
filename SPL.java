@@ -348,25 +348,26 @@ public class SPL {
             if (M.getMatrix()[i][i] == 0) found = false;
         }
 
+        System.out.println("Solusi Sistem persamaan linear :");
         if (cekNoSolution(M)) {
             System.out.println("Tidak ada solusi");
         } else if (found) {
             arr = M.getMatrix();
-            double[] solution = new double[M.getRow()];
+            double[] solution = new double[M.getColumn()-1];
             double sum;
-            for (int c = M.getRow() - 1; c >= 0; c--) {
+            for (int c = M.getColumn()-1 - 1; c >= 0; c--) {
                 sum = 0.0;
-                for(int d = c+1; d < M.getRow(); d++){
+                for(int d = c+1; d < M.getColumn()-1; d++){
                     sum+=arr[c][d] * solution[d];
                 }
                 solution[c] = (arr[c][arr[0].length - 1] - sum);
 
             } 
-            for (int e = 0; e < M.getRow(); e++){
+            for (int e = 0; e < M.getColumn()-1; e++){
                 System.out.println("X" + (e + 1) + " = " + M.getMatrix()[e][M.getColumn() - 1]);
             }
         } else {
-            System.out.println("solusi banyak");
+            System.out.println("SPL tersebut memiliki banyak solusi.");
             solveGaussJordan(M);
             generateMultiSolutionGaussJordan(M);
         }
@@ -380,7 +381,7 @@ public class SPL {
         for (int i = 0 ; i < M.getColumn() - 1 ; i++) {
             if (M.getMatrix()[i][i] == 0) found = false;
         }
-
+        System.out.println("Solusi Sistem persamaan linear :");
         if (cekNoSolution(M)) {
             System.out.println("Tidak ada solusi");
         } else if (found) {
@@ -388,7 +389,7 @@ public class SPL {
                 System.out.println("X" + (i + 1) + " = " + M.getMatrix()[i][M.getColumn() - 1]);
             }
         } else {
-            System.out.println("solusi banyak");
+            System.out.println("SPL tersebut memiliki banyak solusi.");
             generateMultiSolutionGaussJordan(M);
         }
 
