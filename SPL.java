@@ -364,7 +364,7 @@ public class SPL {
 
             } 
             for (int e = 0; e < M.getColumn()-1; e++){
-                System.out.println("X" + (e + 1) + " = " + M.getMatrix()[e][M.getColumn() - 1]);
+                System.out.println("X" + (e + 1) + " = " + solution[e]);
             }
         } else {
             System.out.println("SPL tersebut memiliki banyak solusi.");
