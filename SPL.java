@@ -1,9 +1,35 @@
 
 public class SPL {
+    public static double[] solveSPLInvers(Matrix M) {
+        /* Mengeluarkan array solusi SPL dari Matriks augmented M berukuran nxn+1 */
+        /* Matrix koefisien M (tanpa kolom terakhir) harus memiliki invers */
+        /* KAMUS LOKAL */
+        double[] arrRes = new double[M.getColumn()];
+        Matrix inv = new Matrix(M.getRow(), M.getColumn());
+        Matrix konstanta = new Matrix(M.getRow(), 1);
+        double[][] arrKons = new double[M.getRow()][1];
+        int i;
+        /* ALGORITMA */
+        // pindahin konstanta ke matrix baru
+        for (i = 0; i < M.getRow(); i++) {
+            arrKons[i][0] = M.getMatrix()[i][M.getColumn()-1];
+        }
+        konstanta.setMatrix(arrKons);
+        // hapus kolom terakhir matrix M
+        Matrix.delKolMatrix(M, M.getColumn()-1);
+        // cari invers M
+        inv = Dependencies.inversAdj(M);
+        konstanta = Matrix.multiplication(inv, konstanta);
+        // pengisian dimulai dari 1 sesuai index x;
+        for (i = 1; i <= M.getRow(); i++) {
+            arrRes[i] = konstanta.getMatrix()[i-1][0];
+        }
+        return arrRes;
+    }
 
     public static double[] solveSPLCrammer(Matrix M) {
-        /* Mengeluarkan array solusi SPL dari Matriks M berukuran nxn+1 */
-        /* determinan M tidak boleh 0 */
+        /* Mengeluarkan array solusi SPL dari Matriks augmented M berukuran nxn+1 */
+        /* determinan koefisien M (tanpa kolom terakhir) tidak boleh 0 */
         /* KAMUS LOKAL */
         double[] arrRes = new double[M.getColumn()];
         // pengisian array dimulai dari index 1 sesuai index x
