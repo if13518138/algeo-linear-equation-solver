@@ -2,7 +2,7 @@
 public class SPL {
     public static double[] solveSPLInvers(Matrix M) {
         /* Mengeluarkan array solusi SPL dari Matriks augmented M berukuran nxn+1 */
-        /* Matrix koefisien M (tanpa kolom terakhir) harus memiliki invers */
+        /* Matrix koefisien M (tanpa kolom terakhir) harus memiliki determinan != 0 */
         /* KAMUS LOKAL */
         double[] arrRes = new double[M.getColumn()];
         Matrix inv = new Matrix(M.getRow(), M.getColumn());
@@ -21,10 +21,28 @@ public class SPL {
         inv = Dependencies.inversAdj(M);
         konstanta = Matrix.multiplication(inv, konstanta);
         // pengisian dimulai dari 1 sesuai index x;
-        for (i = 1; i <= M.getRow(); i++) {
+        for (i = 1; i < M.getColumn(); i++) {
             arrRes[i] = konstanta.getMatrix()[i-1][0];
         }
         return arrRes;
+    }
+
+    public static void showResultInv(Matrix M) {
+        /* I. S. Matrix M adalah Matrix spl augmented */
+        int i, j;
+        Matrix koef = new Matrix(M.getRow(), M.getColumn());
+        koef = M;
+        double[] res = new double[M.getColumn()];
+        Matrix.delKolMatrix(koef, koef.getColumn()-1);
+        if (Dependencies.kofaktorDet(koef) == 0) {
+            System.out.println("Tidak dapat diselesaikan dengan metode Invers!");
+        } else {
+            res = solveSPLInvers(M);
+            System.out.println("Solusi SPL tersebut adalah:");
+            for (i = 1; i < M.getColumn(); i++) {
+                System.out.println("X" + i + " = " + res[i]);
+            }
+        }
     }
 
     public static double[] solveSPLCrammer(Matrix M) {
@@ -47,6 +65,24 @@ public class SPL {
             arrRes[i] = Dependencies.kofaktorDet(min) / det;
         }
         return arrRes;
+    }
+
+    public static void showResultCrammer(Matrix M) {
+        /* I. S. Matrix M adalah Matrix spl augmented */
+        int i, j;
+        Matrix koef = new Matrix(M.getRow(), M.getColumn());
+        koef = M;
+        double[] res = new double[M.getColumn()];
+        Matrix.delKolMatrix(koef, koef.getColumn()-1);
+        if (Dependencies.kofaktorDet(koef) == 0) {
+            System.out.println("Tidak dapat diselesaikan dengan metode Crammer!");
+        } else {
+            res = solveSPLCrammer(M);
+            System.out.println("Solusi SPL tersebut adalah:");
+            for (i = 1; i < M.getColumn(); i++) {
+                System.out.println("X" + i + " = " + res[i]);
+            }
+        }
     }
 
     public static void makeUrutMatriks(double[][] M_in, int n_brs, int n_kol) {
