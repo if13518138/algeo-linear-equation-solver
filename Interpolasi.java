@@ -221,7 +221,6 @@ public class Interpolasi {
 		scanner.close();
 		return x;
 	}
-
 	/*Gabungan semua fungsi menjadi 1 prosedur*/
 	public void prosedurInterpolasi() {
 		inputTitik();
