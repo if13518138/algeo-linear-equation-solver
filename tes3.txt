@@ -1,0 +1,4 @@
+Solusi Sistem persamaan linear :
+X1 = -31.333333333333336
+X2 = -14.333333333333332
+X3 = 22.0

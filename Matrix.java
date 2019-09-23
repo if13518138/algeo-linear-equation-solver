@@ -202,7 +202,7 @@ public class Matrix {
 		new_b = 0;
 		for (i=0 ; i < M.getRow() ; i++){
 			if (i != idx_brs){
-				for (j = 0 ; j <= M.getColumn() ; j++){
+				for (j = 0 ; j < M.getColumn() ; j++){
 					matriks[new_b][j] = M.getMatrix()[i][j];
 				}
 				new_b++;
@@ -223,7 +223,7 @@ public class Matrix {
 		double[][] matriks = new double[M.getRow()][M.getColumn()-1];
 		Matrix result = new Matrix(matriks);
 		/* ALGORITMA */
-		for (i=0 ; i <= M.getRow() ; i++){
+		for (i=0 ; i < M.getRow() ; i++){
 			new_k = 0;
 			for (j = 0 ; j < M.getColumn() ; j++){
 				if (j != idx_kol){
