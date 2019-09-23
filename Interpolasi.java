@@ -2,6 +2,7 @@
 import java.util.Scanner;
 import java.lang.Math;
 import java.util.*;
+import java.io.*;
 // import java.io.FileReader;
 
 public class Interpolasi {
@@ -62,16 +63,51 @@ public class Interpolasi {
 
 
 		}
-			// kembalikan nilai kedalam properti dari Interpolasi
-			this.arr_X = arrX;
-			this.arr_Y = arrY;
-		
+		// kembalikan nilai kedalam properti dari Interpolasi
+		this.arr_X = arrX;
+		this.arr_Y = arrY;
+
 	}
 
 	/*Fungsi mengambil inputan melalui file*/
+	public void inputTitikFile(String filename) {
+		int jumlahData = BacaFile.jumlahData(filename)[0];
+
+		this.N = jumlahData - 1;
+
+		double[][] arr = new double[2][jumlahData];
+
+		try {
+			File file = new File(filename + ".txt");
+			Scanner scanner = new Scanner(file);
+
+			String s;
+			String[] sSplit;
+			double[] arrX = new double[jumlahData];
+			double[] arrY = new double[jumlahData];
+
+			int i = 0;
+
+			while (scanner.hasNextLine()) {
+				s = scanner.nextLine();
+				sSplit = s.split(" ");
+				arrX[i] = Double.parseDouble(sSplit[0]);
+				arrY[i] = Double.parseDouble(sSplit[1]);
+
+				i++;
+			}
+
+			this.arr_X = arrX;
+			this.arr_Y = arrY;
+
+		} catch (FileNotFoundException e) {
+			System.out.println("File tidak ditemukan");
+		}
+
+	}
 
 	/*Fungsi untuk mengambil nilai polinom*/
-	public String getOutputPolinom (){
+	public String getOutputPolinom () {
 		// untuk ngeprint polinom
 		double pol[] = reverse(polinom, polinom.length);
 		String stringPolinom = "y = ";
@@ -85,7 +121,7 @@ public class Interpolasi {
 		if (i != 1) {
 			stringPolinom += "^" + i;
 		}
-		for(j = i - 1; j >= 0; j--){
+		for (j = i - 1; j >= 0; j--) {
 			if (pol[j] != 0) {
 				stringPolinom += " + ";
 				stringPolinom += String.format("%.2f", pol[j]);
@@ -130,7 +166,7 @@ public class Interpolasi {
 
 		// create Gaussian solver
 		/*Catatan, nanti ganti dengan solver punya kita sendiri*/
-		for (int i = 0; i < matrix.getRow(); i++){
+		for (int i = 0; i < matrix.getRow(); i++) {
 			arr[i] = matrix.getMatrix()[i][matrix.getColumn() - 1];
 		}
 
@@ -192,7 +228,7 @@ public class Interpolasi {
 		ubahPersLinear();
 		polinomInterpolasi();
 		this.allDefined = true;
-		System.out.println(getOutputPolinom()); 
+		System.out.println(getOutputPolinom());
 		// define scanner
 		// baca input
 		double x = bacaTitikBaru();
