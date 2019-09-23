@@ -1,5 +1,7 @@
 import java.util.Scanner;
 
+//import jdk.javadoc.internal.doclets.toolkit.util.DocFinder.Output;
+
 // import java.util.Scanner;
 // import java.io.FileReader;
 // import java.util.*;
@@ -187,6 +189,7 @@ public class Matrix {
 			M.setColumn(col);
 		}
 
+	// Operasi Matrix
 	public static Matrix delBrsMatrix (Matrix M, int idx_brs) {
 	/* Matrix M terdefinisi, idx_brs <= baris M*/
 	/* untuk membuat matriks yang menghilangkan baris ke idx_brs */
@@ -233,6 +236,26 @@ public class Matrix {
 		result.setMatrix(matriks);
 		result.setRow(M.getRow());
 		return result;
+	}
+
+	public static Matrix multiplication (Matrix M, Matrix N) {
+	/* Matrix M dan N terdefinisi dan jumlah kolom M = jumlah baris N */
+	/* mengembalikan matriks hasil perkalian MxN */
+		// KAMUS
+		Matrix res = new Matrix(M.getRow(), N.getColumn());
+		double[][] matriks = new double[M.getRow()][N.getColumn()];
+		int i, j, k;
+		// ALGORITMA
+		for (i = 0; i < M.getRow(); i++) {
+			for (j = 0; j < N.getColumn(); j++) {
+				matriks[i][j] = 0;
+				for (k = 0; k < M.getColumn(); k++) {
+					matriks[i][j] += M.getMatrix()[i][k] * N.getMatrix()[k][j];
+				}
+			}
+		}
+		res.setMatrix(matriks);
+		return res;
 	}
 
 	public static Matrix minor (Matrix M, int idx_brs, int idx_kol) {
@@ -283,5 +306,4 @@ public class Matrix {
 		return matrix;
 	}
 
-	// tambahin baca matriks
 }
