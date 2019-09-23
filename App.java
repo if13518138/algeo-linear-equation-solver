@@ -52,10 +52,10 @@ public class App {
             SPL.showResultGaussJordan(M);
         } else if (x == 3) {
             //metode matriks balikan
-
+            SPL.showResultInv(M);
         } else if (x == 4) {
             //metode creammer
-
+            SPL.showResultCrammer(M);
         }
 
 
