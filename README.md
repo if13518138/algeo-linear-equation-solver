@@ -11,10 +11,10 @@ buat tugas algeo
 
 # How to compile package
 ## ubuntu
-- buka src, terus pake command ini
+- buka algeo/src, terus pake command ini
 ```bash
       javac -d .. @sources.txt
 ```
 - ntar bakal ada folder bin yg di dir yg sama kyk src
-- terus compile app java pake command biasa
+- terus compile app java pake command biasa di folder algeo
 - kyknya gitu doang heheh
