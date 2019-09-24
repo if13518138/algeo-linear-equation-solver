@@ -78,8 +78,6 @@ public class Matrix {
 	public Boolean isSquare() {
 		return (this.M == this.N);
 	}
-
-
 	/*Fungsi swapping pada matrix*/
 	public void swap_row (int i, int j){
 		/*
