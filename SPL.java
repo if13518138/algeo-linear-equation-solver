@@ -1,3 +1,4 @@
+import java.io.*;
 
 public class SPL {
     public static double[] solveSPLInvers(Matrix M) {
@@ -159,7 +160,7 @@ public class SPL {
         }
         return -999;
     }
-    public static void solveGaussDet(Matrix M){
+    public static void solveGaussDet(Matrix M) {
         //prosedur untuk membuat matrix M menjadi bentuk eselon
         makeUrutMatriks(M.getMatrix(), M.getRow(), M.getColumn());
         for (int i = 0 ; i < M.getRow() ; i++ ) { //untuk pengulangan ke bawah
@@ -287,21 +288,6 @@ public class SPL {
                 count_koef++;
             }
         }
-        /*
-        System.out.println("[[[[debug]]]]");
-        for (int i = 0; i <M.getRow() ; i++){
-            System.out.print(idxNonZero[i]);
-            System.out.print("   ");
-        }
-        System.out.println();
-
-        System.out.println("[[[[debug]]]]");
-        for (int i = 0; i <M.getRow() ; i++){
-            System.out.print(koef[i]);
-            System.out.print("   ");
-        }
-        System.out.println();
-        */
 
         System.out.println("Misalkan : ");
         for (int i = 0 ; i < M.getRow() ; i++) {
@@ -322,6 +308,76 @@ public class SPL {
                 System.out.print("(" + M.getMatrix()[k][M.getColumn() - 1] + ")\n");
                 k++;
             }
+        }
+    }
+
+    public static void generateMultiSolutionGaussJordanFile (Matrix M, String filename) {
+        //membentuk array koefisien untuk menampung variable bebas
+        //inisiasi 0 semua elemen array
+
+        try {
+            int[] koef = new int[M.getRow()];
+            int[] idxNonZero = new int[M.getRow()]; //untuk menyimpan idx non nol pertama
+            for (int i = 0 ; i < M.getRow() ; i++) {
+                koef[i] = 0;
+                idxNonZero[i] = -999;
+            }
+
+            //masih salah validasinya
+            for (int i = 0 ; i < M.getRow() ; i++) {
+                idxNonZero[i] = getIdxFirstNonZero(M, i);
+            }
+
+            int count_koef = 1;
+            for (int i = 0 ; i < M.getRow() ; i++) {
+                boolean found = false;
+                for (int j = 0 ; j < M.getRow() ; j++) {
+                    if (i == idxNonZero[j]) {
+                        found = true;
+                    }
+                }
+                if (!found) {
+                    koef[i] = count_koef;
+                    count_koef++;
+                }
+            }
+            FileWriter fileWriter = new FileWriter(filename + ".txt");
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+
+            bufferedWriter.write("Misalkan :");
+            bufferedWriter.newLine();
+            for (int i = 0 ; i < M.getRow() ; i++) {
+                if (koef[i] != 0) {
+                    bufferedWriter.write("X ");
+                    bufferedWriter.write(String.format("%d", (i + 1)));
+                    bufferedWriter.write(" = A");
+                    bufferedWriter.write(String.format("%d", koef[i]));
+                    bufferedWriter.newLine();
+                }
+            }
+
+            bufferedWriter.write("Maka didapatkan : ");
+            bufferedWriter.newLine();
+
+            int k = 0;
+            for (int i = 0 ; i < M.getRow() ; i++) {
+                if (koef[i] == 0) {
+                    bufferedWriter.write("X" + (i + 1) + " = ");
+                    for (int j = i ; j < M.getColumn() - 1 ; j++) {
+                        if (M.getMatrix()[k][j] != 0 && koef[j] != 0) {
+                            bufferedWriter.write("(" + (-1) * M.getMatrix()[k][j] + ")A" + koef[j] + "+");
+                        }
+                    }
+                    bufferedWriter.write("(" + M.getMatrix()[k][M.getColumn() - 1] + ")");
+                    bufferedWriter.newLine();
+                    k++;
+                }
+            }
+
+            bufferedWriter.close();
+        } catch (IOException e) {
+            System.out.println("Terjadi error dalam penulisan file");
         }
     }
 
@@ -353,27 +409,6 @@ public class SPL {
                 count_koef++;
             }
         }
-
-        System.out.println("[[[[debug idx non zero]]]]");
-        for (int i = 0; i < M.getRow() ; i++) {
-            System.out.print(idxNonZero[i]);
-            System.out.print("   ");
-        }
-        System.out.println();
-
-        System.out.println("[[[[debug koef]]]]");
-        for (int i = 0; i < M.getRow() ; i++) {
-            System.out.print(koef[i]);
-            System.out.print("   ");
-        }
-        System.out.println();
-
-        System.out.println("[[[[debug konstanta]]]]");
-        for (int i = 0; i < M.getRow() ; i++) {
-            System.out.print(konstanta[i]);
-            System.out.print("   ");
-        }
-        System.out.println();
 
         System.out.println("Misalkan : ");
         for (int i = 0 ; i < M.getRow() ; i++) {
@@ -419,17 +454,17 @@ public class SPL {
             System.out.println("Tidak ada solusi");
         } else if (found) {
             arr = M.getMatrix();
-            double[] solution = new double[M.getColumn()-1];
+            double[] solution = new double[M.getColumn() - 1];
             double sum;
-            for (int c = M.getColumn()-1 - 1; c >= 0; c--) {
+            for (int c = M.getColumn() - 1 - 1; c >= 0; c--) {
                 sum = 0.0;
-                for(int d = c+1; d < M.getColumn()-1; d++){
-                    sum+=arr[c][d] * solution[d];
+                for (int d = c + 1; d < M.getColumn() - 1; d++) {
+                    sum += arr[c][d] * solution[d];
                 }
                 solution[c] = (arr[c][arr[0].length - 1] - sum);
 
-            } 
-            for (int e = 0; e < M.getColumn()-1; e++){
+            }
+            for (int e = 0; e < M.getColumn() - 1; e++) {
                 System.out.println("X" + (e + 1) + " = " + solution[e]);
             }
         } else {
@@ -438,6 +473,53 @@ public class SPL {
             generateMultiSolutionGaussJordan(M);
         }
     }
+
+    public static void showResultGaussFile(Matrix M, String filename) {
+        // buat nampilin dalam file
+        try {
+            solveGauss(M);
+            boolean found = true;
+            double arr[][];
+            for (int i = 0 ; i < M.getColumn() - 1 ; i++) {
+                if (M.getMatrix()[i][i] == 0) found = false;
+            }
+            FileWriter fileWriter = new FileWriter(filename + ".txt");
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write("Solusi Sistem persamaan linear :");
+            bufferedWriter.newLine();
+            if (cekNoSolution(M)) {
+                bufferedWriter.write("Tidak ada solusi");
+                bufferedWriter.close();
+            } else if (found) {
+                arr = M.getMatrix();
+                double[] solution = new double[M.getColumn() - 1];
+                double sum;
+                for (int c = M.getColumn() - 1 - 1; c >= 0; c--) {
+                    sum = 0.0;
+                    for (int d = c + 1; d < M.getColumn() - 1; d++) {
+                        sum += arr[c][d] * solution[d];
+                    }
+                    solution[c] = (arr[c][arr[0].length - 1] - sum);
+
+                }
+                for (int e = 0; e < M.getColumn() - 1; e++) {
+                    bufferedWriter.write("X" + (e + 1) + " = " + solution[e]);
+                    bufferedWriter.newLine();
+                }
+                bufferedWriter.close();
+            } else {
+                bufferedWriter.write("SPL tersebut memiliki banyak solusi.");
+                bufferedWriter.close();
+                solveGaussJordan(M);
+                generateMultiSolutionGaussJordanFile(M, filename);
+            }
+
+        } catch (IOException er) {
+            System.out.println("Terjadi error dalam penulisan file");
+        }
+
+    }
+
 
     public static void showResultGaussJordan(Matrix M) {
         //untuk nampilin hasil spl sesuai kondisi
@@ -461,17 +543,51 @@ public class SPL {
 
     }
 
+    public static void showResultGaussJordanFile(Matrix M, String filename) {
+        //untuk nampilin hasil spl sesuai kondisi
+        try {
+            FileWriter fileWriter = new FileWriter(filename + ".txt");
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            
+            solveGauss(M);
+            solveGaussJordan(M);
+            boolean found = true;
+            for (int i = 0 ; i < M.getColumn() - 1 ; i++) {
+                if (M.getMatrix()[i][i] == 0) found = false;
+            }
+            bufferedWriter.write("Solusi Sistem persamaan linear :\n");
+            if (cekNoSolution(M)) {
+                bufferedWriter.write("Tidak ada solusi\n");
+                bufferedWriter.close();
+            } else if (found) {
+                for (int i = 0 ; i < M.getColumn() - 1 ; i++) {
+                    bufferedWriter.write("X" + (i + 1) + " = " + M.getMatrix()[i][M.getColumn() - 1] + "\n");
+                }
+                bufferedWriter.close();
+            } else {
+                bufferedWriter.write("SPL tersebut memiliki banyak solusi.\n");
+                bufferedWriter.close();
+                generateMultiSolutionGaussJordanFile(M,filename);
+            }
+        } catch (IOException e) {
+            System.out.println("Terjadi error selama penulisan file");
+        }
+
+    }
+
 //buat test
     public static void main(String[] args) {
-        double arr [][] = {{1,2,3},{0,0,1},{0,1,7}};
-        //double arr [][] = {{1,2,3,6},{4,5,9,1},{0,9,6,3}};
-        //double arr [][] = {{0, 0, 0, 0, 0, 0, 0},{0, 1, 0, 0, 0, 1, 1}, {0, 0, 0, 1, 1, 0, -1},{0, 0, 0, 0, 1, -1, 1},{0, 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
+        // double arr [][] = {{1, 2, 3}, {0, 0, 1}, {0, 1, 7}};
+        //double arr [][] = {{1, 2, 3, 6}, {4, 5, 9, 1}, {0, 9, 6, 3}};
+        //double arr [][] = {{0, 0, 0, 0, 0, 0, 0}, {0, 1, 0, 0, 0, 1, 1}, {0, 0, 0, 1, 1, 0, -1}, {0, 0, 0, 0, 1, -1, 1}, {0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0}};
         //double arr [][] = {{0,0,0,1},{1, 0, 0, 0},{0,1,2,0}}; //solve //tidak ada solusi
         //double arr [][] = {{1,0,3,-1},{0,1,-4,2},{0,0,0,0}}; //belomsolve
         //double arr [][] = {{1,-5,1,4},{0,0,0,0},{0,0,0,0}}; //belom solve
         //double arr [][] = {{1, -1, 0, 0, 1, 3}, {1, 1, 0, -3, 0, 6}, {2, -1, 0, 1, -1, 5}, { -1, 2, 0, -2, -1, -1}, {0, 0, 0, 0, 0, 0}};
-        //double arr [][] = {{0,0,1,3,1},{0,0,0,1,0},{1,0,1,2,3},{2,0,2,4,6}};
+        double arr [][] = {{0,0,1,3,1},{0,0,0,1,0},{1,0,1,2,3},{2,0,2,4,6}};
+        double arr1 [][] = {{0,0,1,3,1},{0,0,0,1,0},{1,0,1,2,3},{2,0,2,4,6}};
         Matrix matrix = new Matrix (arr);
+        Matrix matrix1 = new Matrix (arr1);
         /*matrix.show();
         System.out.print("==========================\n");
         makeUrutMatriks(matrix.getMatrix(), matrix.getRow(), matrix.getColumn());
@@ -489,11 +605,10 @@ public class SPL {
         System.out.print("==========================\n");  */
         matrix.show();
         System.out.print("==========================\n");
-        System.out.println(makeUrutMatriksDet(matrix));
-        matrix.show();
-        
-
-
+        // System.out.println(makeUrutMatriksDet(matrix));
+        // matrix.show();
+        showResultGaussJordanFile(matrix, "tesgaussjord");
+        showResultGaussFile(matrix1, "tesgauss");
     }
 
 }

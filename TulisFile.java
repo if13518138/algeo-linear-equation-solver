@@ -13,12 +13,6 @@ public class TulisFile {
 	3. baca interpolasi (kumpulan titik" x y) ( keluaran : polinom dan titik)
 	*/
 
-	/*Konstruktor*/
-	public TulisFile (String filename, int opsiTulis) {
-		this.filename = filename;
-		this.opsiTulis = opsiTulis;
-	}
-
 	/*Fungsi - fungsi*/
 
 	/*Catetan:*/
@@ -31,7 +25,7 @@ public class TulisFile {
 		/*Tanya Zunan keluarannya gimana*/
 	}
 	
-	public void tulisHasilMatriks(Matrix matrix) {
+	public static void tulisHasilMatriks(String filename, Matrix matrix) {
 		try {
 			FileWriter fileWriter = new FileWriter(filename+ ".txt");
 			BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
@@ -58,7 +52,7 @@ public class TulisFile {
 	}
 
 		/*Dilakukan  sesuai opsi*/
-	public void tulisHasilInterpolasi(String polinom,double X,double Y){
+	public static void tulisHasilInterpolasi(String filename,String polinom,double X,double Y){
 		try {
 			FileWriter fileWriter = new FileWriter(filename + ".txt");
 			BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
@@ -87,18 +81,17 @@ public class TulisFile {
 	}
 
 	public static void main(String[] args) {
-		TulisFile file1 = new TulisFile("testtulis1",1);
-		TulisFile file2 = new TulisFile("testtulis2",2);
+		
 
 		String polinom = "5 x^4 + 4 x^3 + 10 x^2 + 5 x + 9 = 0";
 		double X = 5.0;
 		double Y = 10.0;
-		file1.tulisHasilInterpolasi(polinom,X,Y);
+		tulisHasilInterpolasi("testx",polinom,X,Y);
 
 
-		double[][] arr = {{1,1,1,1,1,1,1,1},{3,4,7,8,3,4,7,5},{1,5,7,5,3,6,8,9},{1,9,8,7,6,5,4,3},{4,2,5,7,4,1,3,5},{6,9,8,3,5,7,5,3},{1,5,7,8,5,3,3,6}};
-		Matrix matrix = new Matrix(arr);
-		file2.tulisHasilMatriks(matrix); 
+		// double[][] arr = {{1,1,1,1,1,1,1,1},{3,4,7,8,3,4,7,5},{1,5,7,5,3,6,8,9},{1,9,8,7,6,5,4,3},{4,2,5,7,4,1,3,5},{6,9,8,3,5,7,5,3},{1,5,7,8,5,3,3,6}};
+		// Matrix matrix = new Matrix(arr);
+		// file2.tulisHasilMatriks(matrix); 
 	}
 	
 }

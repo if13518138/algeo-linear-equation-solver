@@ -1,0 +1,8 @@
+Misalkan :
+X 1 = A1
+X 3 = A2
+X 6 = A3
+Maka didapatkan : 
+X2 = (-1.0)A3+(1.0)
+X4 = (-1.0)A3+(-2.0)
+X5 = (1.0)A3+(1.0)
