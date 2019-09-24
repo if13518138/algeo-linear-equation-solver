@@ -1,17 +1,14 @@
-interface MatrixInterface {
+package bin;
 
-    /*** Properti ***/
-    private double matrix[][]; // matrix container with M-N size
-	private int M; // row size
-	private int N; // columns size
+public interface MatrixInterface {
 
-    /*** Konstruktor ***/
-    public Matrix ();
-    /* Untuk membentuk Matrix kosong dengan jumlah baris dan kolom 1 */
-    public Matrix (int m, int n);
-    /* Untuk membentuk Matrix kosong dengan jumlah baris m dan jumlah kolom n */
-    public Matrix (double[][] data);
-    /* Untuk membentuk Matrix yang komponen matrixnya adalah data */
+    // /*** Konstruktor ***/
+    // public Matrix ();
+    // /* Untuk membentuk Matrix kosong dengan jumlah baris dan kolom 1 */
+    // public Matrix (int m, int n);
+    // /* Untuk membentuk Matrix kosong dengan jumlah baris m dan jumlah kolom n */
+    // public Matrix (double[][] data);
+    // /* Untuk membentuk Matrix yang komponen matrixnya adalah data */
 
     /*** Getter ***/
     public int getRow();
@@ -41,13 +38,13 @@ interface MatrixInterface {
     public static Matrix delKolMatrix (Matrix M, int idx_kol);
     /* Matrix M terdefinisi, idx_kol <= kolom M*/
     /* Mengembalikan Matrix yang menghilangkan kolom ke idx_kol */
-    public static Matrix multiplication (Matrix M, Matrix N) {
+    public static Matrix multiplication (Matrix M, Matrix N);
     /* Matrix M dan N terdefinisi dan jumlah kolom M = jumlah baris N */
     /* Mengembalikan matriks hasil perkalian MxN */
-    public static Matrix minor (Matrix M, int idx_brs, int idx_kol) {
+    public static Matrix minor (Matrix M, int idx_brs, int idx_kol);
     /* Matrix M terdefinisi dan harus nxn, idx_brs <= baris M, idx_kol <= kolom M */
     /* Mengembalikan sub matriks/minor Matrix yang menghilangkan baris ke idx_brs dan kolom ke idx_kol */
-    public static Matrix transpose (Matrix M) {
+    public static Matrix transpose (Matrix M);
     /* Matrix M terdefinisi, tidak harus nxn */
     /* Mengembalikan Matrix transpose baris dan kolomnya */
     /* Apabila M adalah matrix 2x3, maka keluarannya adalah matrix 3x2 */

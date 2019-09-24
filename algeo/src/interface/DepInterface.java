@@ -1,4 +1,6 @@
-interface DepInterface {
+package bin;
+
+public interface DepInterface {
 
     /*** Fungsi untuk menghitung determinan ***/
 	public static double kofaktorDet (Matrix M);
@@ -23,7 +25,7 @@ interface DepInterface {
     public static Matrix inversAdj (Matrix M);
     /* Matrix M terdefinisi dan merupakan matrix nxn */
     /* Mengembalikan matriks balikan dari matrix M dengan metode adjoin */
-    private static Matrix createInversMatrix (Matrix M);
+    public static Matrix createInversMatrix (Matrix M);
     /* Fungsi untuk membentuk augmented matrix yang digunakan dalam proses invers Matriks*/
     /* Membentuk matriks dengan ukuran dari nxn menjadi nx2n*/
     /* Matriks yang baru dibentuk berupa matriks ones*/

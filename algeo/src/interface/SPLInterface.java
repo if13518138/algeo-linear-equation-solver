@@ -1,4 +1,6 @@
-interface SPLInterface {
+package bin;
+
+public interface SPLInterface {
     
     /*** Metode Invers ***/
     public static double[] solveSPLInvers(Matrix M);
