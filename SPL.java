@@ -288,21 +288,6 @@ public class SPL {
                 count_koef++;
             }
         }
-        /*
-        System.out.println("[[[[debug]]]]");
-        for (int i = 0; i <M.getRow() ; i++){
-            System.out.print(idxNonZero[i]);
-            System.out.print("   ");
-        }
-        System.out.println();
-
-        System.out.println("[[[[debug]]]]");
-        for (int i = 0; i <M.getRow() ; i++){
-            System.out.print(koef[i]);
-            System.out.print("   ");
-        }
-        System.out.println();
-        */
 
         System.out.println("Misalkan : ");
         for (int i = 0 ; i < M.getRow() ; i++) {
@@ -424,27 +409,6 @@ public class SPL {
                 count_koef++;
             }
         }
-
-        System.out.println("[[[[debug idx non zero]]]]");
-        for (int i = 0; i < M.getRow() ; i++) {
-            System.out.print(idxNonZero[i]);
-            System.out.print("   ");
-        }
-        System.out.println();
-
-        System.out.println("[[[[debug koef]]]]");
-        for (int i = 0; i < M.getRow() ; i++) {
-            System.out.print(koef[i]);
-            System.out.print("   ");
-        }
-        System.out.println();
-
-        System.out.println("[[[[debug konstanta]]]]");
-        for (int i = 0; i < M.getRow() ; i++) {
-            System.out.print(konstanta[i]);
-            System.out.print("   ");
-        }
-        System.out.println();
 
         System.out.println("Misalkan : ");
         for (int i = 0 ; i < M.getRow() ; i++) {
@@ -614,14 +578,16 @@ public class SPL {
 //buat test
     public static void main(String[] args) {
         // double arr [][] = {{1, 2, 3}, {0, 0, 1}, {0, 1, 7}};
-        double arr [][] = {{1, 2, 3, 6}, {4, 5, 9, 1}, {0, 9, 6, 3}};
+        //double arr [][] = {{1, 2, 3, 6}, {4, 5, 9, 1}, {0, 9, 6, 3}};
         //double arr [][] = {{0, 0, 0, 0, 0, 0, 0}, {0, 1, 0, 0, 0, 1, 1}, {0, 0, 0, 1, 1, 0, -1}, {0, 0, 0, 0, 1, -1, 1}, {0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0}};
         //double arr [][] = {{0,0,0,1},{1, 0, 0, 0},{0,1,2,0}}; //solve //tidak ada solusi
         //double arr [][] = {{1,0,3,-1},{0,1,-4,2},{0,0,0,0}}; //belomsolve
         //double arr [][] = {{1,-5,1,4},{0,0,0,0},{0,0,0,0}}; //belom solve
         //double arr [][] = {{1, -1, 0, 0, 1, 3}, {1, 1, 0, -3, 0, 6}, {2, -1, 0, 1, -1, 5}, { -1, 2, 0, -2, -1, -1}, {0, 0, 0, 0, 0, 0}};
-        //double arr [][] = {{0,0,1,3,1},{0,0,0,1,0},{1,0,1,2,3},{2,0,2,4,6}};
+        double arr [][] = {{0,0,1,3,1},{0,0,0,1,0},{1,0,1,2,3},{2,0,2,4,6}};
+        double arr1 [][] = {{0,0,1,3,1},{0,0,0,1,0},{1,0,1,2,3},{2,0,2,4,6}};
         Matrix matrix = new Matrix (arr);
+        Matrix matrix1 = new Matrix (arr1);
         /*matrix.show();
         System.out.print("==========================\n");
         makeUrutMatriks(matrix.getMatrix(), matrix.getRow(), matrix.getColumn());
@@ -641,12 +607,8 @@ public class SPL {
         System.out.print("==========================\n");
         // System.out.println(makeUrutMatriksDet(matrix));
         // matrix.show();
-        showResultGaussJordanFile(matrix, "tes3");
-
-
-
-
-
+        showResultGaussJordanFile(matrix, "tesgaussjord");
+        showResultGaussFile(matrix1, "tesgauss");
     }
 
 }
