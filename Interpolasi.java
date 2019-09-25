@@ -42,10 +42,12 @@ public class Interpolasi {
 
 		int i = 0;
 		while (i < n) {
+			/*Buat validasi titik dengan pake java Array contains of*/
+			do {
 			System.out.printf("Titik ke-%d :", i + 1);
 			x = scanner.nextDouble();
 			y = scanner.nextDouble();
-
+			} while ();
 			// dilakukan validasi terhadap nilai x dan y (apakah sudah pernah ada atau belum titiknya)
 			if (Arrays.asList(arrX).contains(x) && Arrays.asList(arrY).contains(y)) {
 				System.out.println("Titik telah dimasukkan sebelumnya");

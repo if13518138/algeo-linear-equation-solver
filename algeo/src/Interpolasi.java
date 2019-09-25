@@ -6,7 +6,7 @@ import java.util.*;
 import java.io.*;
 
 public class Interpolasi {
-
+	/*** Properti ***/
 	Matrix matrix;		// augmented matrix dari titik"
 	int N; 				// jumlah derajat polinom
 	double[] polinom;	// polinomial hasil interpolasi
@@ -19,8 +19,12 @@ public class Interpolasi {
 
 	Scanner scanner = new Scanner(System.in);
 
-
+	/*** Fungsi Input Titik ***/
+	/** Fungsi mengambil inputan dari user secara langsung **/
 	public void inputTitik() {
+	/* I.S. : Titik belum dimasukkan */
+	/* F.S. : Titik telah terdefinisi */
+	/* Kondisi Valid : Jumlah titik yang dimasukkan minimal 2, agar tidak menimbulkan keambiguan */
 		/* KAMUS LOKAL */
 		int n;
 
@@ -66,7 +70,12 @@ public class Interpolasi {
 
 	}
 
+	/** Fungsi mengambil inputan melalui file **/
 	public void inputTitikFile(String filename) {
+	/* I.S. : Titik belum dimasukkan, file terdefinisi */
+	/* F.S. : Titik telah terdefinisi */
+	/* Kondisi Valid : Jumlah titik yang dimasukkan minimal 2, agar tidak menimbulkan keambiguan */
+
 		/* KAMUS LOKAL */
 		int jumlahData = BacaFile.jumlahData(filename)[0];
 		this.N = jumlahData - 1;
@@ -101,7 +110,9 @@ public class Interpolasi {
 
 	}
 
+	/*** Fungsi Lain ***/
 	public String getOutputPolinom () {
+	/* Mengembalikan string polinom hasil interpolasi */
 		/* KAMUS LOKAL */
 		double pol[] = reverse(polinom, polinom.length);
 		String stringPolinom = "y = ";
@@ -131,22 +142,8 @@ public class Interpolasi {
 		return stringPolinom;
 	}
 
-	public void ubahPersLinear () {
-		/* KAMUS LOKAL */
-		double arrTitik[][] = new double[N][N + 1];
-		/* ALGORITMA */
-		// inisialisasi ke dalam array
-		for (int i = 0; i < N; i++) {
-			for (int j = 0; j < N; j++) {
-				arrTitik[i][j] = Math.pow(arr_X[i], j);
-			}
-			arrTitik[i][(N + 1) - 1] = arr_Y[i];
-		}
-		Matrix augmentedMatrix = new Matrix(arrTitik);
-		this.matrix = augmentedMatrix;
-	}
-
 	public static double [] getResultGaussian(Matrix matrix) {
+	/* Mengembalikan array hasil dari perhitungan Gauss-Jordan */
 		/* ALGORITMA */
 		SPL.solveGauss(matrix);
 		SPL.solveGaussJordan(matrix);
@@ -164,8 +161,8 @@ public class Interpolasi {
 		return arr;
 	}
 
-	/*Method untuk membalikkan isi array*/
 	public static double[] reverse(double a[], int n) {
+	/* Mengembalikan array yang elemennya sama dengan a tetapi dibalik urutannya */
 		double[] b = new double[n];
 		int j = n;
 		for (int i = 0; i < n; i++) {
@@ -175,14 +172,9 @@ public class Interpolasi {
 		return b;
 	}
 
-	public void polinomInterpolasi() {
-		/* ALGORITMA */
-		double result[] = getResultGaussian(matrix);
-		double result_reversed[] = reverse(result, result.length);
-		this.polinom = result_reversed;
-	}
-
 	public static double getInterpolasi (boolean allDefined, double x, int N, double[] polinom) {
+	/* Mengembalikan nilai y hasil polinom */
+	/* apabila ada parameter yang tidak terpenuhi mengembalikan -999 */
 		/* ALGORITMA */
 		// Public agar dapat diakses di tempat lain
 		if (allDefined) {
@@ -197,6 +189,7 @@ public class Interpolasi {
 	}
 
 	public static double bacaTitikBaru() {
+	/* Mengembalikan nilai titik yang dibaca lewat scanner */
 		/* KAMUS LOKAL */
 		double x;
 		Scanner scanner = new Scanner(System.in);
@@ -207,7 +200,36 @@ public class Interpolasi {
 		return x;
 	}
 
+	/*** Prosedur Lain ***/
+	public void ubahPersLinear () {
+	/* I. S. : Titik telah diinput kedalam objek*/
+	/* F. S. : Terdapat augmented matrix dari persamaan garis nilai titik yang telah diinput */
+	/* Fungsi mengubah titik" menjadi sistem persamaan linear (dalam bentuk augmented matrix) */
+		/* KAMUS LOKAL */
+		double arrTitik[][] = new double[N][N + 1];
+		/* ALGORITMA */
+		// inisialisasi ke dalam array
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < N; j++) {
+				arrTitik[i][j] = Math.pow(arr_X[i], j);
+			}
+			arrTitik[i][(N + 1) - 1] = arr_Y[i];
+		}
+		Matrix augmentedMatrix = new Matrix(arrTitik);
+		this.matrix = augmentedMatrix;
+	}
+
+	public void polinomInterpolasi() {
+	/*I. S. Fungsi Polinom hasil interpolasi belum terdefinisi */
+	/*F. S. Fungsi Polinom hasil interpolasi telah terdefinisi*/
+		/* ALGORITMA */
+		double result[] = getResultGaussian(matrix);
+		double result_reversed[] = reverse(result, result.length);
+		this.polinom = result_reversed;
+	}
+
 	public void prosedurInterpolasi() {
+	/* Prosedur untuk menjalankan semua fungsi interpolasi */
 		/* ALGORTIMA */
 		inputTitik();
 		ubahPersLinear();

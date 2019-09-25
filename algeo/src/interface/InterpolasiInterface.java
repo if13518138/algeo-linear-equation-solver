@@ -28,7 +28,7 @@ public interface InterpolasiInterface {
 	public static double bacaTitikBaru();
 	/* Mengembalikan nilai titik yang dibaca lewat scanner */
 
-	/*** Prosedur Lain */
+	/*** Prosedur Lain ***/
 	public void ubahPersLinear ();
 	/* I. S. : Titik telah diinput kedalam objek*/
 	/* F. S. : Terdapat augmented matrix dari persamaan garis nilai titik yang telah diinput */

@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.io.*;
+// import bin.*;
 
 public class App {
     public static void clrScr() {
@@ -40,6 +41,35 @@ public class App {
         System.out.println("2. Metode adjoin");
     }
 
+    public static boolean isSalinFile(){
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.printf("Salin ke file? (y/n)");
+
+        String s;
+        do{
+            s = scanner.nextLine();
+            if (!(s.equals("Y") || s.equals("y") || s.equals("N") || s.equals("n"))) {
+                System.out.println("Masukkan tidak valid. Coba lagi!");
+            }
+        } while(!(s.equals("Y") || s.equals("y") || s.equals("N") || s.equals("n")));
+
+        scanner.close();
+        return (s.equals("Y") || s.equals("y"));
+    }
+
+    public static String namaFile(){
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.printf("Masukkan nama file: ");
+        String s;
+        s = scanner.nextLine();
+
+        return s;
+    }
+
+
+
     public static void showSPL(Matrix M, int x) {
         /* Matrix M terdefinisi */
         /* untuk menghitung SPL sesuai menu yang dipilih */
@@ -59,6 +89,21 @@ public class App {
         }
 
 
+    }
+
+    public static void writeSPL(Matrix M, int x,String filename){
+        /* Matrix M terdefinisi */
+        /* untuk menghitung SPL sesuai menu yang dipilih */
+        /* x = 1, 2, 3, 4 */   
+        if (x==1){
+            SPL.showResultGaussFile(M,filename);
+        } else if (x == 2) {
+            SPL.showResultGaussJordanFile(M, filename);
+        } else if (x == 3) {
+            SPL.writeResultInv(M,filename);
+        } else if (x == 4) {
+            SPL.writeResultCrammer(M,filename);
+        }
     }
 
     public static double getDet (Matrix M, int x) {
@@ -84,6 +129,13 @@ public class App {
             return Dependencies.inversAdj(M);
         } else return M;
     }
+
+    // public static Matrix writeInvers (Matrix M, int x) {
+    //     /* Matrix M terdefinisi */
+    //     /* mengembalikan matriks invers sesuai menu yang dipilih */
+    //     /* x = 1, 2 */
+
+    // }
 
     public static Matrix inputMatrix(String filename){
         int[] bentukMatriks = BacaFile.jumlahData(filename);
@@ -146,6 +198,8 @@ public class App {
 
 
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
         Matrix M = new Matrix();
         Matrix kof = new Matrix();
         Matrix inv = new Matrix();
@@ -167,6 +221,10 @@ public class App {
                 clrScr();
                 Matrix.inputSPL(spl);
                 showSPL(spl, sub);
+                if (isSalinFile()){
+                    String nama = namaFile();
+                    writeSPL(spl,sub,nama);
+                }
             } else if (mn == 2) { // determinan
                 subDet();
                 sub = scan.nextInt();
@@ -188,6 +246,7 @@ public class App {
                     inv = getInvers(M, sub);
                     System.out.println("Matriks balikannya adalah:");
                     inv.show();
+
                 }
 
             } else if (mn == 4) { // kofaktor
