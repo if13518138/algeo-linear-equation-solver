@@ -2,14 +2,6 @@ package bin;
 
 public interface MatrixInterface {
 
-    // /*** Konstruktor ***/
-    // public Matrix ();
-    // /* Untuk membentuk Matrix kosong dengan jumlah baris dan kolom 1 */
-    // public Matrix (int m, int n);
-    // /* Untuk membentuk Matrix kosong dengan jumlah baris m dan jumlah kolom n */
-    // public Matrix (double[][] data);
-    // /* Untuk membentuk Matrix yang komponen matrixnya adalah data */
-
     /*** Getter ***/
     public int getRow();
     /* Mengembalikan jumlah baris Matrix */
@@ -49,7 +41,7 @@ public interface MatrixInterface {
     /* Mengembalikan Matrix transpose baris dan kolomnya */
     /* Apabila M adalah matrix 2x3, maka keluarannya adalah matrix 3x2 */
 
-    /*** Fungsi Lain ***/
+    /*** Fungsi dan Prosedur Lain ***/
     public Boolean isSquare();
     /* Mengembalikan true apabila ukuran Matrix nxn */
     public void show();

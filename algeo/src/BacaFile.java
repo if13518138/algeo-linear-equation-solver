@@ -5,6 +5,12 @@ import java.util.*;
 
 public class BacaFile {
 
+	/* Opsi Baca */
+	/*
+	1. baca SPL (Matriks nxn+1)
+	2. baca determinan (matriks nxn) (sama juga buat matriks balikan dan kofaktor, adjoin juga)
+	3. baca interpolasi (kumpulan titik" x y)
+	*/
 	/*** Instance variable ***/
 	private String filename;
 	private int opsiBaca;
@@ -16,7 +22,11 @@ public class BacaFile {
 		this.filename = filename;
 	}
 
+    /*** Fungsi Lain ***/
 	public static int[] jumlahData(String filename) {
+	/* Mengembalikan panjang data dengan dimensi(bentuk data) */
+	/* Nilai pertama mengembalikan nilai panjang file */
+	/* Nilai kedua mengembalikan nilai lebar file */
 		try {
 			File file = new File (filename + ".txt");
 
@@ -44,8 +54,9 @@ public class BacaFile {
 			return val;
 		}
 	}
-
+	/*** Fungsi Input ***/
 	public Matrix inputMatrix() {
+	/* Dilakukan  sesuai opsi */
 		int[] jumlahData = BacaFile.jumlahData(filename);
 		System.out.println(jumlahData[0]);
 		System.out.println(jumlahData[1]);
@@ -87,6 +98,7 @@ public class BacaFile {
 	}
 
 	public Matrix inputPersamaanMatrix() {
+	/* Dilakukan pembacaan terhadap sistem persamaan linear */
 		Matrix matrix = inputMatrix();
 
 		/*Dilakukan penambahan apabila bentuk tidak */
@@ -111,6 +123,7 @@ public class BacaFile {
 	}
 
 	public double[][] inputTitik() {
+	/* Dilakukan pembacaan titik disimpan dalam matriks / array multidimensional */
 		int[] jumlahData = BacaFile.jumlahData(filename);
 		int banyakTitik = jumlahData[0];
 

@@ -2,7 +2,10 @@ package bin;
 
 public class Dependencies {
 
+    /*** Fungsi untuk menghitung determinan ***/
 	public static double kofaktorDet (Matrix M) {
+    /* Matrix M terdefinisi berukuran nxn */
+    /* Mengembalikan determinan matriks menggunakan metode kofaktor */
 		/* KAMUS LOKAL */
         int i;
         double result;
@@ -26,6 +29,8 @@ public class Dependencies {
     }
 
     public static double sarrusDet (Matrix M){
+    /* M harus berukuran 3x3 */
+    /* Mengembalikan determinan matriks M menggunakan metode sarrus */
         /* KAMUS LOKAL*/
         double[][] m = M.getMatrix();
         double res,a1, a2, a3, a4, a5, a6; 
@@ -42,6 +47,8 @@ public class Dependencies {
     }
 
     public static double detOBE(Matrix M) {
+    /* Matrix M terdefinisi berukuran nxn */
+    /* Mengembalikan determinan matriks M menggunakan metode operasi baris elementer */
         /* KAMUS LOKAL */
         double[][] m = M.getMatrix();
         double res = 1;
@@ -62,6 +69,8 @@ public class Dependencies {
     }
 
     public static Matrix hitungKofaktor(Matrix M){
+    /* Matrix M terdefinisi dan harus nxn */
+    /* Mengembalikan matriks kofaktor dari M */
         /* KAMUS LOKAL */
         int i, j;
         int panjang = M.getRow();
@@ -81,6 +90,8 @@ public class Dependencies {
     }
 
     public static Matrix hitungAdjoin (Matrix M){
+    /* Matriks M terdefinisi dan harus nxn */
+    /* Mengembalikan adjoin dari matriks M */
         /* KAMUS LOKAL */
         Matrix kof, adj = new Matrix(M.getRow(), M.getColumn());
         /* ALGORITMA */
@@ -88,8 +99,11 @@ public class Dependencies {
         adj = Matrix.transpose(kof);
         return adj;
     }
-    
+
+    /*** Fungsi untuk menghitung dan menampilkan invers ***/
     public static Matrix inversAdj (Matrix M){
+    /* Matrix M terdefinisi dan merupakan matrix nxn */
+    /* Mengembalikan matriks balikan dari matrix M dengan metode adjoin */
         /* KAMUS LOKAL */
         Matrix result = new Matrix(M.getRow(), M.getColumn());
         double[][] m = M.getMatrix();
@@ -108,6 +122,9 @@ public class Dependencies {
     }
 
     public static Matrix createInversMatrix (Matrix M) {
+    /* Fungsi untuk membentuk augmented matrix yang digunakan dalam proses invers Matriks*/
+    /* Membentuk matriks dengan ukuran dari nxn menjadi nx2n*/
+    /* Matriks yang baru dibentuk berupa matriks ones*/
         /* KAMUS LOKAL */
         Matrix newM = new Matrix(M.getRow(), M.getColumn() * 2);
         double [][] arr = new double[M.getRow()][M.getColumn()*2];
@@ -136,7 +153,8 @@ public class Dependencies {
     }
 
     public static Matrix inversGauss (Matrix M) {
-        /* KAMUS LOKAL */
+    /* Matrix M terdefinisi dan merupakan matrix nxn */
+    /* Mengembalikan matriks balikan dari matrix M dengan metode gauss - jordan */        /* KAMUS LOKAL */
         Matrix newAugmented = createInversMatrix(M);
         // lakukan interchange sampai menjadi 1 semua
         // interchange dilakukan dari belakang
