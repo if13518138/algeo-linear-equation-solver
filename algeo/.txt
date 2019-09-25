@@ -1,0 +1,2 @@
+Solusi Sistem persamaan linear :
+X1 = 1.0

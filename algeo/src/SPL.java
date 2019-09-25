@@ -13,17 +13,17 @@ public class SPL {
         /* ALGORITMA */
         // pindahin konstanta ke matrix baru
         for (i = 0; i < M.getRow(); i++) {
-            arrKons[i][0] = M.getMatrix()[i][M.getColumn()-1];
+            arrKons[i][0] = M.getMatrix()[i][M.getColumn() - 1];
         }
         konstanta.setMatrix(arrKons);
         // hapus kolom terakhir matrix M
-        M = Matrix.delKolMatrix(M, M.getColumn()-1);
+        M = Matrix.delKolMatrix(M, M.getColumn() - 1);
         // cari invers M
         inv = Dependencies.inversAdj(M);
         konstanta = Matrix.multiplication(inv, konstanta);
         // pengisian dimulai dari 1 sesuai index x;
         for (i = 1; i <= M.getColumn(); i++) {
-            arrRes[i] = konstanta.getMatrix()[i-1][0];
+            arrRes[i] = konstanta.getMatrix()[i - 1][0];
         }
         return arrRes;
     };
@@ -34,7 +34,7 @@ public class SPL {
         Matrix koef = new Matrix(M.getRow(), M.getColumn());
         koef = M;
         double[] res = new double[M.getColumn()];
-        koef = Matrix.delKolMatrix(koef, koef.getColumn()-1);
+        koef = Matrix.delKolMatrix(koef, koef.getColumn() - 1);
         /* ALGORITMA */
         if (Dependencies.detOBE(koef) == 0) {
             System.out.println("Tidak dapat diselesaikan dengan metode Invers!");
@@ -47,10 +47,40 @@ public class SPL {
         }
     }
 
+    public static void writeResultInv(Matrix M, String filename) {
+
+        try {
+            FileWriter fileWriter = new FileWriter(filename + ".txt");
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            int i, j;
+            Matrix koef = new Matrix(M.getRow(), M.getColumn());
+            koef = M;
+            double[] res = new double[M.getColumn()];
+            koef = Matrix.delKolMatrix(koef, koef.getColumn() - 1);
+            /* ALGORITMA */
+            if (Dependencies.detOBE(koef) == 0) {
+                bufferedWriter.write("Tidak dapat diselesaikan dengan metode Invers!");
+                bufferedWriter.close();
+            } else {
+                res = solveSPLInvers(M);
+                bufferedWriter.write("Solusi SPL tersebut adalah:");
+                bufferedWriter.newLine();
+                for (i = 1; i < M.getColumn(); i++) {
+                    bufferedWriter.write("X" + i + " = " + res[i]);
+                    bufferedWriter.newLine();
+                }
+                bufferedWriter.close();
+            }
+        } catch (IOException e) {
+            System.out.println("Error dalam menulis file");
+        }
+
+    }
+
     public static double[] solveSPLCrammer(Matrix M) {
         /* KAMUS LOKAL */
         double[] arrRes = new double[M.getRow()];
-        Matrix D = Matrix.delKolMatrix(M, M.getColumn()-1);
+        Matrix D = Matrix.delKolMatrix(M, M.getColumn() - 1);
         double det = Dependencies.kofaktorDet(D);
         Matrix min = new Matrix(M.getRow(), M.getRow());
         int i, j, p, q;
@@ -63,7 +93,7 @@ public class SPL {
                 }
             }
             for (j = 0; j < M.getRow(); j++) { //baris
-                min.getMatrix()[j][i] = M.getMatrix()[j][M.getColumn()-1];
+                min.getMatrix()[j][i] = M.getMatrix()[j][M.getColumn() - 1];
             }
             // pengisian solusi yaitu dengan membagi det(min)/det(D)
             arrRes[i] = Dependencies.kofaktorDet(min) / det;
@@ -77,7 +107,7 @@ public class SPL {
         Matrix koef = new Matrix(M.getRow(), M.getColumn());
         koef = M;
         double[] res = new double[M.getRow()];
-        koef = Matrix.delKolMatrix(koef, koef.getColumn()-1);
+        koef = Matrix.delKolMatrix(koef, koef.getColumn() - 1);
         /* ALGORITMA */
         if (Dependencies.kofaktorDet(koef) == 0) {
             System.out.println("Tidak dapat diselesaikan dengan metode Crammer!");
@@ -85,8 +115,40 @@ public class SPL {
             res = solveSPLCrammer(M);
             System.out.println("Solusi SPL tersebut adalah:");
             for (i = 0; i < M.getRow(); i++) {
-                System.out.println("X" + (i+1) + " = " + res[i]);
+                System.out.println("X" + (i + 1) + " = " + res[i]);
             }
+        }
+    }
+
+    public static void writeResultCrammer(Matrix M, String filename) {
+
+        try {
+            FileWriter fileWriter = new FileWriter(filename + ".txt");
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+            /* KAMUS LOKAL */
+            int i, j;
+            Matrix koef = new Matrix(M.getRow(), M.getColumn());
+            koef = M;
+            double[] res = new double[M.getRow()];
+            koef = Matrix.delKolMatrix(koef, koef.getColumn() - 1);
+            /* ALGORITMA */
+            if (Dependencies.kofaktorDet(koef) == 0) {
+                bufferedWriter.write("Tidak dapat diselesaikan dengan metode Crammer!");
+                bufferedWriter.newLine();
+                bufferedWriter.close();
+            } else {
+                res = solveSPLCrammer(M);
+                bufferedWriter.write("Solusi SPL tersebut adalah:");
+                bufferedWriter.newLine();
+                for (i = 0; i < M.getRow(); i++) {
+                    bufferedWriter.write("X" + (i + 1) + " = " + res[i]);
+                    bufferedWriter.newLine();
+                }
+                bufferedWriter.close();
+            }
+        } catch (IOException e) {
+            System.out.println("Error dalam menulis file");
         }
     }
 
@@ -537,7 +599,7 @@ public class SPL {
         try {
             FileWriter fileWriter = new FileWriter(filename + ".txt");
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            
+
             solveGauss(M);
             solveGaussJordan(M);
             boolean found = true;
@@ -556,7 +618,7 @@ public class SPL {
             } else {
                 bufferedWriter.write("SPL tersebut memiliki banyak solusi.\n");
                 bufferedWriter.close();
-                generateMultiSolutionGaussJordanFile(M,filename);
+                generateMultiSolutionGaussJordanFile(M, filename);
             }
         } catch (IOException e) {
             System.out.println("Terjadi error selama penulisan file");
