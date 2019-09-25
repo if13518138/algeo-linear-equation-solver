@@ -15,6 +15,9 @@ public class Interpolasi {
 	double[] arr_Y;		// array untuk menyimpan nilai titik Y
 	boolean allDefined = false;
 
+	double x;
+	double y;
+
 	/*Konstruktor scanner utama*/
 
 	Scanner scanner = new Scanner(System.in);
@@ -44,26 +47,19 @@ public class Interpolasi {
 		while (i < n) {
 			/*Buat validasi titik dengan pake java Array contains of*/
 			do {
-			System.out.printf("Titik ke-%d :", i + 1);
-			x = scanner.nextDouble();
-			y = scanner.nextDouble();
-			} while ();
+				System.out.printf("Titik ke-%d :", i + 1);
+				x = scanner.nextDouble();
+				y = scanner.nextDouble();
+				if (Arrays.asList(arrX).contains(x) && Arrays.asList(arrY).contains(y)) {
+					System.out.println("Titik telah dimasukkan sebelumnya");
+				}
+			} while ((Arrays.asList(arrX).contains(x) && Arrays.asList(arrY).contains(y)));
 			// dilakukan validasi terhadap nilai x dan y (apakah sudah pernah ada atau belum titiknya)
-			if (Arrays.asList(arrX).contains(x) && Arrays.asList(arrY).contains(y)) {
-				System.out.println("Titik telah dimasukkan sebelumnya");
-			} else {
-				// masukkan nilai ke dalam array
-				arrX[i] = x;
-				arrY[i] = y;
-			}
-
 			// masukkan nilai ke dalam array
 			arrX[i] = x;
 			arrY[i] = y;
-
+			// masukkan nilai ke dalam array
 			i++;
-
-
 		}
 		// kembalikan nilai kedalam properti dari Interpolasi
 		this.arr_X = arrX;
@@ -220,33 +216,60 @@ public class Interpolasi {
 		System.out.printf("%s: ", "Masukkan suatu titik");
 		x = scanner.nextDouble();
 
-		scanner.close();
 		return x;
 	}
+
+	public void writeInterpolasi(String filename) {
+		try {
+			FileWriter fileWriter = new FileWriter(filename + ".txt");
+			BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+			// ambil polinom dari fungsi getOutputPolinom dari class Interpolasi
+			bufferedWriter.write("Polinom: ");
+			bufferedWriter.write(getOutputPolinom());
+			bufferedWriter.newLine();
+
+			bufferedWriter.write("Nilai keluaran untuk X = ");
+			String xs = String.format("%.3f", x);
+			String ys = String.format("%.3f", y);
+			bufferedWriter.write(xs);
+			bufferedWriter.write(" adalah ");
+			bufferedWriter.write(ys);
+			System.out.println("Success ..");
+			bufferedWriter.close();
+
+
+		} catch (FileNotFoundException e) {
+			System.out.println("File tidak ditemukan");
+		} catch (IOException er) {
+			System.out.println("Terjadi error dalam penulisan file");
+		}
+	}
+
+
+
 	/*Gabungan semua fungsi menjadi 1 prosedur*/
 	public void prosedurInterpolasi() {
 		inputTitik();
 		ubahPersLinear();
 		polinomInterpolasi();
 		this.allDefined = true;
-		System.out.println(getOutputPolinom());
-		// define scanner
 		// baca input
 		double x = bacaTitikBaru();
 		double y = getInterpolasi(allDefined, x, N, polinom);
 
+		this.x = x;
+		this.y = y;
+
 		// output keluaran
-		System.out.println("Hasil keluaran interpolasi: " + String.format("%.2f", y));
+		System.out.print("Polinom yang diperoleh:");
+		getOutputPolinom();
+		System.out.println("Hasil keluaran interpolasi: " + String.format("%.3f", y));
 
 		// agar scanner tidak bocor, ditutup
-		scanner.close();
+
 	}
 
-	// public static void main(String[] args) {
-	// 	Interpolasi interpolasi = new Interpolasi();
-
-	// 	interpolasi.prosedurInterpolasi();
-	// }
 }
 
 

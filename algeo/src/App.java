@@ -128,6 +128,8 @@ public class App {
         } else return 0;
     }
 
+
+
     public static Matrix getInvers (Matrix M, int x) {
         /* Matrix M terdefinisi */
         /* mengembalikan matriks invers sesConvolutional Neural Network (CNN) adalah salah satu jenis neural network yang biasa digunakan pada data image. CNN bisa digunakan untuk mendeteksi dan mengenali object pada sebuah image.uai menu yang dipilih */
@@ -232,8 +234,7 @@ public class App {
                 Matrix.inputSPL(spl);
                 showSPL(spl, sub);
                 if (isSalinFile() == 1) {
-                    System.out.printf("Masukkan nama file: ");
-                    nama = scan.nextLine();
+                    nama = namaFile();
                     writeSPL(spl, sub, nama);
                 }
             } else if (mn == 2) { // determinan

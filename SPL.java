@@ -1,6 +1,8 @@
 import java.io.*;
 
 public class SPL {
+
+    /*** Metode Invers ***/
     public static double[] solveSPLInvers(Matrix M) {
         /* Mengeluarkan array solusi SPL dari Matriks augmented M berukuran nxn+1 */
         /* Matrix koefisien M (tanpa kolom terakhir) harus memiliki determinan != 0 */
@@ -13,28 +15,32 @@ public class SPL {
         /* ALGORITMA */
         // pindahin konstanta ke matrix baru
         for (i = 0; i < M.getRow(); i++) {
-            arrKons[i][0] = M.getMatrix()[i][M.getColumn()-1];
+            arrKons[i][0] = M.getMatrix()[i][M.getColumn() - 1];
         }
         konstanta.setMatrix(arrKons);
         // hapus kolom terakhir matrix M
-        M = Matrix.delKolMatrix(M, M.getColumn()-1);
+        M = Matrix.delKolMatrix(M, M.getColumn() - 1);
         // cari invers M
         inv = Dependencies.inversAdj(M);
         konstanta = Matrix.multiplication(inv, konstanta);
         // pengisian dimulai dari 1 sesuai index x;
         for (i = 1; i <= M.getColumn(); i++) {
-            arrRes[i] = konstanta.getMatrix()[i-1][0];
+            arrRes[i] = konstanta.getMatrix()[i - 1][0];
         }
         return arrRes;
-    }
+    };
 
     public static void showResultInv(Matrix M) {
-        /* I. S. Matrix M adalah Matrix spl augmented */
+        /* I. S. Matrix M adalah Matrix SPL augmented */
+        /* Menampilkan solusi SPL ke layar */
+        /* Mengeluarkan pesan error apabila SPL tidak dapat diselesaikan dengan metode invers */
+        /* KAMUS LOKAL */
         int i, j;
         Matrix koef = new Matrix(M.getRow(), M.getColumn());
         koef = M;
         double[] res = new double[M.getColumn()];
-        koef = Matrix.delKolMatrix(koef, koef.getColumn()-1);
+        koef = Matrix.delKolMatrix(koef, koef.getColumn() - 1);
+        /* ALGORITMA */
         if (Dependencies.detOBE(koef) == 0) {
             System.out.println("Tidak dapat diselesaikan dengan metode Invers!");
         } else {
@@ -46,12 +52,48 @@ public class SPL {
         }
     }
 
+
+    // nulis file buat result spl inverses
+    public static void writeResultInv(Matrix M, String filename) {
+        try {
+            FileWriter fileWriter = new FileWriter(filename + ".txt");
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            int i, j;
+            Matrix koef = new Matrix(M.getRow(), M.getColumn());
+            koef = M;
+            double[] res = new double[M.getColumn()];
+            koef = Matrix.delKolMatrix(koef, koef.getColumn() - 1);
+            /* ALGORITMA */
+            if (Dependencies.detOBE(koef) == 0) {
+                bufferedWriter.write("Tidak dapat diselesaikan dengan metode Invers!");
+                bufferedWriter.close();
+                System.out.println("Success ..");
+            } else {
+                res = solveSPLInvers(M);
+                bufferedWriter.write("Solusi SPL tersebut adalah:");
+                bufferedWriter.newLine();
+                for (i = 1; i < M.getColumn(); i++) {
+                    bufferedWriter.write("X" + i + " = " + res[i]);
+                    bufferedWriter.newLine();
+                }
+                System.out.println("Success ..");
+                bufferedWriter.close();
+            }
+        } catch (IOException e) {
+            System.out.println("Error dalam menulis file");
+        }
+
+    }
+
+
+    /*** Metode Crammer ***/
+
     public static double[] solveSPLCrammer(Matrix M) {
         /* Mengeluarkan array solusi SPL dari Matriks augmented M berukuran nxn+1 */
-        /* determinan koefisien M (tanpa kolom terakhir) tidak boleh 0 */
+        /* Determinan koefisien M (tanpa kolom terakhir) tidak boleh 0 */
         /* KAMUS LOKAL */
         double[] arrRes = new double[M.getRow()];
-        Matrix D = Matrix.delKolMatrix(M, M.getColumn()-1);
+        Matrix D = Matrix.delKolMatrix(M, M.getColumn() - 1);
         double det = Dependencies.kofaktorDet(D);
         Matrix min = new Matrix(M.getRow(), M.getRow());
         int i, j, p, q;
@@ -64,7 +106,7 @@ public class SPL {
                 }
             }
             for (j = 0; j < M.getRow(); j++) { //baris
-                min.getMatrix()[j][i] = M.getMatrix()[j][M.getColumn()-1];
+                min.getMatrix()[j][i] = M.getMatrix()[j][M.getColumn() - 1];
             }
             // pengisian solusi yaitu dengan membagi det(min)/det(D)
             arrRes[i] = Dependencies.kofaktorDet(min) / det;
@@ -74,29 +116,67 @@ public class SPL {
 
     public static void showResultCrammer(Matrix M) {
         /* I. S. Matrix M adalah Matrix spl augmented */
+        /* Mengeluarkan pesan error apabila SPL tidak dapat diselesaikan dengan metode crammer */
+        /* KAMUS LOKAL */
         int i, j;
         Matrix koef = new Matrix(M.getRow(), M.getColumn());
         koef = M;
         double[] res = new double[M.getRow()];
-        koef = Matrix.delKolMatrix(koef, koef.getColumn()-1);
+        koef = Matrix.delKolMatrix(koef, koef.getColumn() - 1);
+        /* ALGORITMA */
         if (Dependencies.kofaktorDet(koef) == 0) {
             System.out.println("Tidak dapat diselesaikan dengan metode Crammer!");
         } else {
             res = solveSPLCrammer(M);
             System.out.println("Solusi SPL tersebut adalah:");
             for (i = 0; i < M.getRow(); i++) {
-                System.out.println("X" + (i+1) + " = " + res[i]);
+                System.out.println("X" + (i + 1) + " = " + res[i]);
             }
         }
     }
 
+    public static void writeResultCrammer(Matrix M, String filename) {
+
+        try {
+            FileWriter fileWriter = new FileWriter(filename + ".txt");
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+            /* KAMUS LOKAL */
+            int i, j;
+            Matrix koef = new Matrix(M.getRow(), M.getColumn());
+            koef = M;
+            double[] res = new double[M.getRow()];
+            koef = Matrix.delKolMatrix(koef, koef.getColumn() - 1);
+            /* ALGORITMA */
+            if (Dependencies.kofaktorDet(koef) == 0) {
+                bufferedWriter.write("Tidak dapat diselesaikan dengan metode Crammer!");
+                bufferedWriter.newLine();
+                bufferedWriter.close();
+                System.out.println("Success ..");
+            } else {
+                res = solveSPLCrammer(M);
+                bufferedWriter.write("Solusi SPL tersebut adalah:");
+                bufferedWriter.newLine();
+                for (i = 0; i < M.getRow(); i++) {
+                    bufferedWriter.write("X" + (i + 1) + " = " + res[i]);
+                    bufferedWriter.newLine();
+                }
+                bufferedWriter.close();
+                System.out.println("Success ..");
+            }
+        } catch (IOException e) {
+            System.out.println("Error dalam menulis file");
+        }
+    }
+
+    /*** Metode Gauss dan Gauss-Jordan ***/
     public static void makeUrutMatriks(double[][] M_in, int n_brs, int n_kol) {
-        /*Membuat matriks menjadi matriks segitiga bawah (kumpulan 0 di kiri bawah) */
-        /*KAMUS */
+        /* I. S. M terdefinisi */
+        /* F. S. Membuat M menjadi matriks segitiga bawah (kumpulan 0 di kiri bawah) */
+        /*KAMUS LOKAL */
         int i, j, k;
         double x;
-
-        /*Algoritma */
+        /* ALGORITMA */
         int t = 0; // buat ngebikin counter baris
         for (j = 0 ; j < n_kol - 1 ; j++) { //counter kolom
             for (int p = t ; p < n_brs ; p++) {
@@ -119,14 +199,12 @@ public class SPL {
     }
 
     public static double makeUrutMatriksDet(Matrix M) {
-        /*I.S. M terdefinisi, n adalah baris dan kolom M, count = 1;
-        /*Membuat matriks menjadi matriks segitiga bawah (kumpulan 0 di kiri bawah) */
-        /*Count untuk menyimpan perkalian -1 tiap di swap */
-        /*KAMUS */
+        /* M terdefinisi, n adalah baris dan kolom M, count = 1 */
+        /* Mengembalikan hasil perkalian -1 tiap di swap */
+        /* KAMUS LOKAL*/
         int i, j, k;
         double count = 1;
-
-        /*Algoritma */
+        /* ALGORITMA */
         int t = 0; // buat ngebikin counter baris
         for (j = 0 ; j < M.getRow() - 1 ; j++) { //counter kolom
             for (int p = t ; p < M.getRow() ; p++) {
@@ -151,8 +229,9 @@ public class SPL {
     }
 
     public static int getIdxFirstNonZero(Matrix M, int i) {
-        //Prekondisi matriks ukuran n*(n+1)
-        //mengembalikan index bukan nol pertama dalam matrix pada baris i
+        /* Prekondisi matriks ukuran n*(n+1) */
+        /* Mengembalikan index bukan nol pertama dalam matrix pada baris i */
+        /* ALGORITMA */
         for (int j = 0 ; j < M.getColumn() - 1 ; j++) { //cek ke baris tersebut dari kolom 1 sampe maksimal kolom -1
             if (M.getMatrix()[i][j] != 0) {
                 return j;
@@ -160,8 +239,11 @@ public class SPL {
         }
         return -999;
     }
+
     public static void solveGaussDet(Matrix M) {
-        //prosedur untuk membuat matrix M menjadi bentuk eselon
+        /* I. S. Matrix M terdefinisi */
+        /* F. S. Matrix M menjadi bentuk eselon */
+        /* ALGORITMA */
         makeUrutMatriks(M.getMatrix(), M.getRow(), M.getColumn());
         for (int i = 0 ; i < M.getRow() ; i++ ) { //untuk pengulangan ke bawah
             int idxNonZero = getIdxFirstNonZero(M, i); //index non zero
@@ -181,7 +263,9 @@ public class SPL {
     }
 
     public static void solveGauss(Matrix M) {
-        //prosedur untuk membuat matrix M menjadi bentuk eselon
+        /* I. S. Matrix M terdefinisi */
+        /* F. S. Matrix M menjadi bentuk eselon, diagonalnya semua 1 */
+        /* ALGORITMA */
         makeUrutMatriks(M.getMatrix(), M.getRow(), M.getColumn());
         for (int i = 0 ; i < M.getRow() ; i++ ) { //untuk pengulangan ke bawah
             int idxNonZero = getIdxFirstNonZero(M, i); //index non zero
@@ -217,9 +301,9 @@ public class SPL {
     }
 
     public static void solveGaussJordan(Matrix M) {
-        //Prosedur untuk membentuk dari matrix eselon ke matrix eselon tereduksi
-        //Prekondisi Matrix M harus bentuk eselon
-
+        /* I. S. Matrix M terdefinisi dan adalah matriks eselon */
+        /* F. S. Matrix M menjadi bentuk eselon tereduksi */
+        /* ALGORITMA */
         for (int i = M.getRow() - 1 ; i >= 0 ; i-- ) { //untuk pengulangan ke bawah
             int idxNonZero = getIdxFirstNonZero(M, i); //index non zero
             if (idxNonZero != -999) { // validasi index non zero
@@ -239,8 +323,10 @@ public class SPL {
     }
 
     public static int countBarisKosong(Matrix M) {
-        /*Menghitung baris yang kosong pada suatu matriks eselon  */
+        /* Mengembalikan jumlah baris yang kosong pada suatu matriks eselon */
+        /* KAMUS LOKAL */
         int count = 0;
+        /* ALGORITMA */
         for (int i = 0 ; i < M.getRow() ; i++) {
             if (getIdxFirstNonZero(M, i) == -999) {
                 count ++;
@@ -250,7 +336,8 @@ public class SPL {
     }
 
     public static boolean cekNoSolution (Matrix M) {
-        /*Mengembalikan true jika M tidak mempunyai solusi */
+        /* Mengembalikan true jika M tidak mempunyai solusi */
+        /* ALGORITMA */
         boolean found = false;
         for (int i = M.getRow() - 1 ; i >= M.getRow() - countBarisKosong(M) ; i-- ) {
             if (M.getMatrix()[i][M.getColumn() - 1] != 0) {
@@ -261,10 +348,13 @@ public class SPL {
     }
 
     public static void generateMultiSolutionGaussJordan(Matrix M) {
-        //membentuk array koefisien untuk menampung variable bebas
-        //inisiasi 0 semua elemen array
+        /* I. S. Matrix M terdefinisi */
+        /* Membentuk array koefisien untuk menampung variable bebas */
+        /* Menampilkan solusi bebas ke layar dengan metode gauss-jordan*/
+        /* KAMUS LOKAL */
         int[] koef = new int[M.getRow()];
         int[] idxNonZero = new int[M.getRow()]; //untuk menyimpan idx non nol pertama
+        /* ALGORITMA */
         for (int i = 0 ; i < M.getRow() ; i++) {
             koef[i] = 0;
             idxNonZero[i] = -999;
@@ -312,9 +402,10 @@ public class SPL {
     }
 
     public static void generateMultiSolutionGaussJordanFile (Matrix M, String filename) {
-        //membentuk array koefisien untuk menampung variable bebas
-        //inisiasi 0 semua elemen array
-
+        /* I. S. Matrix M terdefinisi, dibaca dari filename */
+        /* Membentuk array koefisien untuk menampung variable bebas */
+        /* Menampilkan solusi bebas ke layar dengan metode gauss-jordan */
+        /* ALGORITMA */
         try {
             int[] koef = new int[M.getRow()];
             int[] idxNonZero = new int[M.getRow()]; //untuk menyimpan idx non nol pertama
@@ -349,7 +440,7 @@ public class SPL {
             bufferedWriter.newLine();
             for (int i = 0 ; i < M.getRow() ; i++) {
                 if (koef[i] != 0) {
-                    bufferedWriter.write("X ");
+                    bufferedWriter.write("X");
                     bufferedWriter.write(String.format("%d", (i + 1)));
                     bufferedWriter.write(" = A");
                     bufferedWriter.write(String.format("%d", koef[i]));
@@ -382,20 +473,22 @@ public class SPL {
     }
 
     public static void generateMultiSolutionGauss(Matrix M) {
-        //untuk menampilkan multi solution dengan metode gauss
+        /* I. S. Matrix M terdefinisi */
+        /* Membentuk array koefisien untuk menampung variable bebas */
+        /* Menampilkan solusi bebas ke layar dengan metode gauss */
+        /* KAMUS LOKAL */
         int[] koef = new int[M.getRow()]; //untuk menympan koefisien bebas
         int[] idxNonZero = new int[M.getRow()]; //untuk menyimpan idx non nol pertama
         double[] konstanta = new double[M.getRow()];//untuk menimpan nilai konstanta
+        /* ALGORITMA */
         for (int i = 0 ; i < M.getRow() ; i++) {
             koef[i] = 0;
             idxNonZero[i] = -999;
             konstanta[i] = 0;
         }
-
         for (int i = 0 ; i < M.getRow() ; i++) {
             idxNonZero[i] = getIdxFirstNonZero(M, i);
         }
-
         int count_koef = 1;
         for (int i = 0 ; i < M.getRow() ; i++) {
             boolean found = false;
@@ -409,14 +502,12 @@ public class SPL {
                 count_koef++;
             }
         }
-
         System.out.println("Misalkan : ");
         for (int i = 0 ; i < M.getRow() ; i++) {
             if (koef[i] != 0) {
                 System.out.println("X" + (i + 1) + " = A" + koef[i]);
             }
         }
-
         System.out.println("Maka didapatkan : ");
         int k = M.getRow() - countBarisKosong(M) - 1;
         for (int i = M.getRow() - 1 ; i >= 0 ; i--) {
@@ -442,6 +533,10 @@ public class SPL {
     }
 
     public static void showResultGauss(Matrix M) {
+        /* I. S. Matrix M terdefinisi */
+        /* Menampilkan solusi tergantung kasus (solusi unik, tidak ada solusi, solusi banyak) ke layar */
+        /* Menggunakan metode gauss */
+        /* ALGORITMA */
         solveGauss(M);
         boolean found = true;
         double arr[][];
@@ -475,7 +570,10 @@ public class SPL {
     }
 
     public static void showResultGaussFile(Matrix M, String filename) {
-        // buat nampilin dalam file
+        /* I. S. Matrix M terdefinisi dibaca dari filename */
+        /* Menampilkan solusi tergantung kasus (solusi unik, tidak ada solusi, solusi banyak) ke layar */
+        /* Menggunakan metode gauss */
+        /* ALGORITMA */
         try {
             solveGauss(M);
             boolean found = true;
@@ -522,7 +620,10 @@ public class SPL {
 
 
     public static void showResultGaussJordan(Matrix M) {
-        //untuk nampilin hasil spl sesuai kondisi
+        /* I. S. Matrix M terdefinisi */
+        /* Menampilkan solusi tergantung kasus (solusi unik, tidak ada solusi, solusi banyak) ke layar */
+        /* Menggunakan metode gauss-jordan */
+        /* ALGORITMA */
         solveGauss(M);
         solveGaussJordan(M);
         boolean found = true;
@@ -544,11 +645,14 @@ public class SPL {
     }
 
     public static void showResultGaussJordanFile(Matrix M, String filename) {
-        //untuk nampilin hasil spl sesuai kondisi
+        /* I. S. Matrix M terdefinisi dibaca dari filename */
+        /* Menampilkan solusi sesuai kondsi (solusi unik, tidak ada solusi, solusi banyak) ke layar */
+        /* Menggunakan metode gauss-jordan */
+        /* ALGORITMA */
         try {
             FileWriter fileWriter = new FileWriter(filename + ".txt");
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            
+
             solveGauss(M);
             solveGaussJordan(M);
             boolean found = true;
@@ -567,48 +671,10 @@ public class SPL {
             } else {
                 bufferedWriter.write("SPL tersebut memiliki banyak solusi.\n");
                 bufferedWriter.close();
-                generateMultiSolutionGaussJordanFile(M,filename);
+                generateMultiSolutionGaussJordanFile(M, filename);
             }
         } catch (IOException e) {
             System.out.println("Terjadi error selama penulisan file");
         }
-
     }
-
-//buat test
-    public static void main(String[] args) {
-        // double arr [][] = {{1, 2, 3}, {0, 0, 1}, {0, 1, 7}};
-        //double arr [][] = {{1, 2, 3, 6}, {4, 5, 9, 1}, {0, 9, 6, 3}};
-        //double arr [][] = {{0, 0, 0, 0, 0, 0, 0}, {0, 1, 0, 0, 0, 1, 1}, {0, 0, 0, 1, 1, 0, -1}, {0, 0, 0, 0, 1, -1, 1}, {0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0}};
-        //double arr [][] = {{0,0,0,1},{1, 0, 0, 0},{0,1,2,0}}; //solve //tidak ada solusi
-        //double arr [][] = {{1,0,3,-1},{0,1,-4,2},{0,0,0,0}}; //belomsolve
-        //double arr [][] = {{1,-5,1,4},{0,0,0,0},{0,0,0,0}}; //belom solve
-        //double arr [][] = {{1, -1, 0, 0, 1, 3}, {1, 1, 0, -3, 0, 6}, {2, -1, 0, 1, -1, 5}, { -1, 2, 0, -2, -1, -1}, {0, 0, 0, 0, 0, 0}};
-        double arr [][] = {{0,0,1,3,1},{0,0,0,1,0},{1,0,1,2,3},{2,0,2,4,6}};
-        double arr1 [][] = {{0,0,1,3,1},{0,0,0,1,0},{1,0,1,2,3},{2,0,2,4,6}};
-        Matrix matrix = new Matrix (arr);
-        Matrix matrix1 = new Matrix (arr1);
-        /*matrix.show();
-        System.out.print("==========================\n");
-        makeUrutMatriks(matrix.getMatrix(), matrix.getRow(), matrix.getColumn());
-        matrix.show();
-        System.out.print("==========================\n");
-        solveGauss(matrix);
-        matrix.show();
-        System.out.print("==========================\n");
-        makeUrutMatriks(matrix.getMatrix(), matrix.getRow(), matrix.getColumn());
-        matrix.show();
-        System.out.print("==========================\n");
-        solveGaussJordan(matrix);
-        matrix.show();
-        //System.out.println("ini banyaknya row kosong " + countBarisKosong(matrix));
-        System.out.print("==========================\n");  */
-        matrix.show();
-        System.out.print("==========================\n");
-        // System.out.println(makeUrutMatriksDet(matrix));
-        // matrix.show();
-        showResultGaussJordanFile(matrix, "tesgaussjord");
-        showResultGaussFile(matrix1, "tesgauss");
-    }
-
 }
