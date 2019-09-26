@@ -271,16 +271,15 @@ public class Interpolasi {
 	}
 	public void showResultFileInterpolasi(String filename){
 		inputTitikFile(filename);
-		//inputTitik();
 		ubahPersLinear();
 		polinomInterpolasi();
 		this.allDefined = true;
 		// baca input
-		//double x = bacaTitikBaru();
-		//double y = getInterpolasi(allDefined, x, N, polinom);
+		double x = bacaTitikBaru();
+		double y = getInterpolasi(allDefined, x, N, polinom);
 
-		//this.x = x;
-		//this.y = y;
+		this.x = x;
+		this.y = y;
 
 		// output keluaran
 		System.out.print("Polinom yang diperoleh:");

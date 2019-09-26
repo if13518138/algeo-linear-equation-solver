@@ -355,8 +355,8 @@ public class App {
             } else if (mn == 6) {
                 if (isInputFile()){
                     nama = inputNamaFIle();
-                    interpolasi.inputTitikFile(nama);
-                    kasih fungsi buat solvee wkwk
+                    interpolasi.showResultFileInterpolasi(nama);
+                    //kasih fungsi buat solvee wkwk
                 } else {
                     interpolasi.prosedurInterpolasi();
                 }
