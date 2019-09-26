@@ -1,4 +1,4 @@
-# algeoSantuy
+# TubesSantuy
 Tugas Besar 1 Mata Kuliah IF2123 AljabarLinear dan Geometri
 Semester Tahun 2019/2020
 
