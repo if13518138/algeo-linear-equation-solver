@@ -147,7 +147,6 @@ public class Interpolasi {
 
 		/* Kamus Lokal */
 		double arrTitik[][] = new double[N][N + 1];
-
 		// inisialisasi ke dalam array
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < N; j++) {
@@ -168,7 +167,11 @@ public class Interpolasi {
 		 */
 		SPL.solveGauss(matrix);
 		SPL.solveGaussJordan(matrix);
+		SPL.solveGauss(matrix);
+		SPL.solveGaussJordan(matrix);
+		SPL.solveGauss(matrix);
 
+		matrix.show();
 		double arr[] = new double[matrix.getRow()];
 
 		// create Gaussian solver
