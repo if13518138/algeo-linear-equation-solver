@@ -559,12 +559,13 @@ public class SPL {
         /* Menggunakan metode gauss */
         /* ALGORITMA */
         solveGauss(M);
+        solveGauss(M);
         boolean found = true;
         double arr[][];
         for (int i = 0 ; i < M.getColumn() - 1 ; i++) {
             if (M.getMatrix()[i][i] == 0) found = false;
         }
-
+        M.show();
         System.out.println("Solusi Sistem persamaan linear :");
         if (cekNoSolution(M)) {
             System.out.println("Tidak ada solusi");
