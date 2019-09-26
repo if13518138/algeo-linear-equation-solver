@@ -63,7 +63,7 @@ Terdapat 2 file dalam folder doc:
 
 # How to compile package
 ## ubuntu
-- buka algeo/src, terus pake command ini
+- buka algeo/src, lalu ketikkan command ini di command prompt / terminal
 ```bash
       javac -d .. @sources.txt
 ```
