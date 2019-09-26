@@ -1,12 +1,11 @@
+package bin;
 import java.util.Scanner;
 import java.io.*;
-
+import bin.*;
 
 public class App {
-
-
     public static void clrScr() {
-        //System.out.print("\033[H\033[2J");
+        System.out.print("\033[H\033[2J");
         System.out.flush();
     }
 
@@ -43,7 +42,7 @@ public class App {
         System.out.println("2. Metode adjoin");
     }
 
-    public static boolean isSalinFile() {
+    public static int isSalinFile() {
         Scanner scanner = new Scanner(System.in);
 
         System.out.printf("Salin ke file? (y/n): ");
@@ -57,7 +56,13 @@ public class App {
             }
         } while (!(s.equals("Y") || s.equals("y") || s.equals("N") || s.equals("n")));
 
-        return (s.equals("Y") || s.equals("y"));
+        scanner.close();
+
+        if (s.equals("Y") || s.equals("y")){
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
     public static String namaFile() {
@@ -66,7 +71,8 @@ public class App {
         System.out.printf("Masukkan nama file: ");
 
         String s;
-        s = scanner.next();
+        s = scanner.nextLine();
+        scanner.close();
 
         return s;
     }
@@ -107,11 +113,6 @@ public class App {
         } else if (x == 4) {
             SPL.writeResultCrammer(M, filename);
         }
-    }
-
-    public static void writeDet(double det, String filename){
-        Dependencies.writeDet(det,filename);
-        System.out.println("Success..");
     }
 
     public static double getDet (Matrix M, int x) {
@@ -181,10 +182,6 @@ public class App {
         }
     }
 
-    public static void writeMatrix(Matrix M, String filename){
-        Dependencies.writeMatrix(M,filename);
-    }
-
     /*Dilakukan pembacaan terhadap sistem persamaan linear*/
     public static Matrix inputPersamaanMatrix(String filename) {
         Matrix matrix = inputMatrix(filename);
@@ -212,6 +209,7 @@ public class App {
 
 
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
         String nama;
 
         Matrix M = new Matrix();
@@ -235,7 +233,7 @@ public class App {
                 clrScr();
                 Matrix.inputSPL(spl);
                 showSPL(spl, sub);
-                if (isSalinFile()) {
+                if (isSalinFile() == 1) {
                     nama = namaFile();
                     writeSPL(spl, sub, nama);
                 }
@@ -247,10 +245,6 @@ public class App {
                 Matrix.inputNxN(M);
                 det = getDet(M, sub);
                 System.out.println("Determinannya adalah :" + det);
-                if (isSalinFile()){
-                    nama = namaFile();
-                    writeDet(det, nama);
-                }
             } else if (mn == 3) { // invers
                 // hanya ada jika determinannya tidak = 0
                 subInv();
@@ -260,27 +254,11 @@ public class App {
                 Matrix.inputNxN(M);
                 if (Dependencies.kofaktorDet(M) == 0) {
                     System.out.println("Tidak ada invers");
-                    if(isSalinFile()){
-                        nama = namaFile();
-                        try{
-                            FileWriter fileWriter = new FileWriter(nama + ".txt");
-                            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-
-                            bufferedWriter.write("Tidak ada invers");
-                            bufferedWriter.close();
-                            System.out.println("Succes..");
-                        } catch (IOException e){
-                            System.out.println("Error dalam menulis file");
-                        }
-                    }
                 } else {
                     inv = getInvers(M, sub);
                     System.out.println("Matriks balikannya adalah:");
                     inv.show();
-                    if (isSalinFile()){
-                        nama = namaFile();
-                        writeMatrix(inv,nama);
-                    }
+
                 }
 
             } else if (mn == 4) { // kofaktor
@@ -289,30 +267,18 @@ public class App {
                 kof = Dependencies.hitungKofaktor(M);
                 System.out.println("Matriks kofaktornya adalah:");
                 kof.show();
-                if (isSalinFile()){
-                    nama = namaFile();
-                    writeMatrix(kof, nama);
-                }
             } else if (mn == 5) { // adjoin
                 System.out.println("Masukkan matriks nxn:");
                 Matrix.inputNxN(M);
                 adj = Dependencies.hitungAdjoin(M);
                 System.out.println("Matriks adjoinnya adalah:");
                 adj.show();
-                if (isSalinFile()){
-                    nama = namaFile();
-                    writeMatrix(adj,nama);
-                }
             } else if (mn == 6) {
                 interpolasi.prosedurInterpolasi();
-                if (isSalinFile()){
-                    nama = namaFile();
-                    interpolasi.writeInterpolasi(nama);
-                }
             } else if (mn == 7) {
                 keluar = true;
             }
         }
-        scan.close();
+
     }
 }

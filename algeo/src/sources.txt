@@ -1,0 +1,7 @@
+./Dependencies.java
+./Matrix.java
+./Interpolasi.java
+./TulisFile.java
+./SPL.java
+./BacaFile.java
+./App.java

@@ -1,0 +1,6 @@
+./BacaFileInterface.java
+./DepInterface.java
+./TulisFileInterface.java
+./SPLInterface.java
+./MatrixInterface.java
+./InterpolasiInterface.java
