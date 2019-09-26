@@ -220,17 +220,19 @@ public class Dependencies {
                     for ( int k = 0; k < 2 * M.getRow(); k++) {
                         newAugmented.getMatrix()[j][k] -= newAugmented.getMatrix()[i][k] * temp;
                     }
-                }
+                
             }
         }
+    }
 
         // kalikan setiap row dengan integer bukan 0.
         // kemudian kalikan setiap row elementnya dengan diagonal elemen itu sendir
         for (int i = 0; i < M.getRow(); i++) {
             double temp = newAugmented.getMatrix()[i][i];
             for (int j = 0; j < 2 * M.getRow(); j++) {
-                newAugmented.getMatrix()[i][j] = newAugmented.getMatrix()[i][j] / temp;
-            }
+                if (temp != 0){
+                    newAugmented.getMatrix()[i][j] = newAugmented.getMatrix()[i][j] / temp;
+            }}
         }
 
         Matrix newM = new Matrix(M.getRow(), M.getColumn());

@@ -3,30 +3,32 @@ import java.util.Scanner;
 import java.lang.Math;
 import java.util.*;
 import java.io.*;
-// import java.io.FileReader;
 
 public class Interpolasi {
 
-	Matrix matrix;		// augmented matrix dari titik"
-	int N; 				// jumlah derajat polinom
-	double[] polinom;	// polinomial hasil interpolasi
+	Matrix matrix; 							// augmented matrix dari titik"
+	int N; 									// jumlah derajat polinom
+	double[] polinom; 						// polinomial hasil interpolasi
 	// Cat : tingkat derajat polinom sesuai dengan n
-	double[] arr_X;		// array untuk menyimpan nilai titik X
-	double[] arr_Y;		// array untuk menyimpan nilai titik Y
+	double[] arr_X; 						// array untuk menyimpan nilai titik X
+	double[] arr_Y; 						// array untuk menyimpan nilai titik Y
 	boolean allDefined = false;
 
 	double x;
 	double y;
 
-	/*Konstruktor scanner utama*/
+	/* Konstruktor scanner utama */
 
 	Scanner scanner = new Scanner(System.in);
 
-	/*Fungsi mengambil inputan dari user secara langsung*/
+	/* Fungsi mengambil inputan dari user secara langsung */
 	private void inputTitik() {
-		/*I.S. : Titik belum dimasukkan */
-		/*F.S. : Titik telah terdefinisi */
-		/*Kondisi Valid : Jumlah titik yang dimasukkan minimal 2, agar tidak menimbulkan keambiguan*/
+		/* I.S. : Titik belum dimasukkan */
+		/* F.S. : Titik telah terdefinisi */
+		/*
+		 * Kondisi Valid : Jumlah titik yang dimasukkan minimal 2, agar tidak
+		 * menimbulkan keambiguan
+		 */
 		int n;
 		// lakukan validasi terhadap jumlah titik
 		do {
@@ -37,7 +39,7 @@ public class Interpolasi {
 		// Inisialisasi nilai derajat polinom objek interpolarisasi
 		this.N = n;
 
-		double x, y;	// placeholder untuk nilai x dan y yang baru
+		double x, y; // placeholder untuk nilai x dan y yang baru
 		double[] arrX = new double[n];
 		double[] arrY = new double[n];
 
@@ -45,33 +47,31 @@ public class Interpolasi {
 
 		int i = 0;
 		while (i < n) {
-			/*Buat validasi titik dengan pake java Array contains of*/
-			do {
-				System.out.printf("Titik ke-%d :", i + 1);
-				x = scanner.nextDouble();
-				y = scanner.nextDouble();
-				if (Arrays.asList(arrX).contains(x) && Arrays.asList(arrY).contains(y)) {
-					System.out.println("Titik telah dimasukkan sebelumnya");
-				}
-			} while ((Arrays.asList(arrX).contains(x) && Arrays.asList(arrY).contains(y)));
-			// dilakukan validasi terhadap nilai x dan y (apakah sudah pernah ada atau belum titiknya)
+			/* Buat validasi titik dengan pake java Array contains of */
+			System.out.printf("Titik ke-%d :", i + 1);
+			x = scanner.nextDouble();
+			y = scanner.nextDouble();
+
+			// dilakukan validasi terhadap nilai x dan y (apakah sudah pernah ada atau belum
+			// titiknya)
 			// masukkan nilai ke dalam array
 			arrX[i] = x;
 			arrY[i] = y;
 			// masukkan nilai ke dalam array
 			i++;
+
+			// kembalikan nilai kedalam properti dari Interpolasi
+			this.arr_X = arrX;
+			this.arr_Y = arrY;
 		}
-		// kembalikan nilai kedalam properti dari Interpolasi
-		this.arr_X = arrX;
-		this.arr_Y = arrY;
 
 	}
 
-	/*Fungsi mengambil inputan melalui file*/
+	/* Fungsi mengambil inputan melalui file */
 	public void inputTitikFile(String filename) {
 		int jumlahData = BacaFile.jumlahData(filename)[0];
 
-		this.N = jumlahData - 1;
+		this.N = jumlahData;
 
 		double[][] arr = new double[2][jumlahData];
 
@@ -104,17 +104,17 @@ public class Interpolasi {
 
 	}
 
-	/*Fungsi untuk mengambil nilai polinom*/
-	public String getOutputPolinom () {
+	/* Fungsi untuk mengambil nilai polinom */
+	public String getOutputPolinom() {
 		// untuk ngeprint polinom
 		double pol[] = reverse(polinom, polinom.length);
 		String stringPolinom = "y = ";
 		int i = pol.length - 1;
 		int j;
-		while (i > 0 && pol[i] == 0) { //cari koef pertama yang tidak nol
+		while (i > 0 && pol[i] == 0) { // cari koef pertama yang tidak nol
 			i--;
 		}
-		stringPolinom += String.format("%.2f", pol[i]);
+		stringPolinom += String.format("%.3f", pol[i]);
 		stringPolinom += "x";
 		if (i != 1) {
 			stringPolinom += "^" + i;
@@ -134,12 +134,18 @@ public class Interpolasi {
 		return stringPolinom;
 	}
 
-	/*Fungsi mengubah titik" menjadi sistem persamaan linear(dalam bentuk augmented matrix)*/
-	private void ubahPersLinear () {
-		/*I.S. : Titik telah diinput kedalam objek*/
-		/*F.S. : Terdapat augmented matrix dari persamaan garis nilai titik yang telah diinput */
+	/*
+	 * Fungsi mengubah titik" menjadi sistem persamaan linear(dalam bentuk augmented
+	 * matrix)
+	 */
+	private void ubahPersLinear() {
+		/* I.S. : Titik telah diinput kedalam objek */
+		/*
+		 * F.S. : Terdapat augmented matrix dari persamaan garis nilai titik yang telah
+		 * diinput
+		 */
 
-		/*Kamus Lokal*/
+		/* Kamus Lokal */
 		double arrTitik[][] = new double[N][N + 1];
 
 		// inisialisasi ke dalam array
@@ -154,8 +160,7 @@ public class Interpolasi {
 		this.matrix = augmentedMatrix;
 	}
 
-
-	private static double [] getResultGaussian(Matrix matrix) {
+	private static double[] getResultGaussian(Matrix matrix) {
 		SPL.solveGauss(matrix);
 		SPL.solveGaussJordan(matrix);
 		matrix.show();
@@ -163,7 +168,7 @@ public class Interpolasi {
 		double arr[] = new double[matrix.getRow()];
 
 		// create Gaussian solver
-		/*Catatan, nanti ganti dengan solver punya kita sendiri*/
+		/* Catatan, nanti ganti dengan solver punya kita sendiri */
 		for (int i = 0; i < matrix.getRow(); i++) {
 			arr[i] = matrix.getMatrix()[i][matrix.getColumn() - 1];
 		}
@@ -172,7 +177,7 @@ public class Interpolasi {
 		return arr;
 	}
 
-	/*Method untuk membalikkan isi array*/
+	/* Method untuk membalikkan isi array */
 	public static double[] reverse(double a[], int n) {
 		double[] b = new double[n];
 		int j = n;
@@ -183,18 +188,18 @@ public class Interpolasi {
 		return b;
 	}
 
-	/*Output result dalam bentuk string*/
+	/* Output result dalam bentuk string */
 	private void polinomInterpolasi() {
-		/*I.S. : Fungsi Polinom hasil interpolasi belum terdefinisi */
-		/*F.S  : Fungsi Polinom hasil interpolasi telah terdefinisi*/
+		/* I.S. : Fungsi Polinom hasil interpolasi belum terdefinisi */
+		/* F.S : Fungsi Polinom hasil interpolasi telah terdefinisi */
 		double result[] = getResultGaussian(matrix);
 		double result_reversed[] = reverse(result, result.length);
 		this.polinom = result_reversed;
 	}
 
-	/*Fungsi Interpolasi */
-	/*I.S. : Semua properti telah diisi */
-	public static double getInterpolasi (boolean allDefined, double x, int N, double[] polinom) {
+	/* Fungsi Interpolasi */
+	/* I.S. : Semua properti telah diisi */
+	public static double getInterpolasi(boolean allDefined, double x, int N, double[] polinom) {
 		// Public agar dapat diakses di tempat lain
 		if (allDefined) {
 			double result = polinom[polinom.length - 1];
@@ -208,7 +213,7 @@ public class Interpolasi {
 
 	}
 
-	/*Fungsi baca titik */
+	/* Fungsi baca titik */
 	public static double bacaTitikBaru() {
 		double x;
 		Scanner scanner = new Scanner(System.in);
@@ -238,7 +243,6 @@ public class Interpolasi {
 			System.out.println("Success ..");
 			bufferedWriter.close();
 
-
 		} catch (FileNotFoundException e) {
 			System.out.println("File tidak ditemukan");
 		} catch (IOException er) {
@@ -246,9 +250,7 @@ public class Interpolasi {
 		}
 	}
 
-
-
-	/*Gabungan semua fungsi menjadi 1 prosedur*/
+	/* Gabungan semua fungsi menjadi 1 prosedur */
 	public void prosedurInterpolasi() {
 		inputTitik();
 		ubahPersLinear();
@@ -263,13 +265,14 @@ public class Interpolasi {
 
 		// output keluaran
 		System.out.print("Polinom yang diperoleh:");
-		getOutputPolinom();
+		System.out.println(getOutputPolinom());
 		System.out.println("Hasil keluaran interpolasi: " + String.format("%.3f", y));
 
 		// agar scanner tidak bocor, ditutup
 
 	}
-	public void showResultFileInterpolasi(String filename){
+
+	public void showResultFileInterpolasi(String filename) {
 		inputTitikFile(filename);
 		ubahPersLinear();
 		polinomInterpolasi();
@@ -283,10 +286,8 @@ public class Interpolasi {
 
 		// output keluaran
 		System.out.print("Polinom yang diperoleh:");
-		getOutputPolinom();
+		System.out.println(getOutputPolinom());
 		System.out.println("Hasil keluaran interpolasi: " + String.format("%.3f", y));
 	}
 
 }
-
-
