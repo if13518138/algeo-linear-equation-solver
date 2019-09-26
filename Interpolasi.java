@@ -269,6 +269,24 @@ public class Interpolasi {
 		// agar scanner tidak bocor, ditutup
 
 	}
+	public void showResultFileInterpolasi(String filename){
+		inputTitikFile(filename);
+		//inputTitik();
+		ubahPersLinear();
+		polinomInterpolasi();
+		this.allDefined = true;
+		// baca input
+		//double x = bacaTitikBaru();
+		//double y = getInterpolasi(allDefined, x, N, polinom);
+
+		//this.x = x;
+		//this.y = y;
+
+		// output keluaran
+		System.out.print("Polinom yang diperoleh:");
+		getOutputPolinom();
+		System.out.println("Hasil keluaran interpolasi: " + String.format("%.3f", y));
+	}
 
 }
 
