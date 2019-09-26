@@ -47,7 +47,7 @@ public class SPL {
             res = solveSPLInvers(M);
             System.out.println("Solusi SPL tersebut adalah:");
             for (i = 1; i < M.getColumn(); i++) {
-                System.out.println("X" + i + " = " + res[i]);
+                System.out.println("X" + i + " = " + String.format("%.3f", res[i]));
             }
         }
     }
@@ -130,7 +130,7 @@ public class SPL {
             res = solveSPLCrammer(M);
             System.out.println("Solusi SPL tersebut adalah:");
             for (i = 0; i < M.getRow(); i++) {
-                System.out.println("X" + (i + 1) + " = " + res[i]);
+                System.out.println("X" + (i + 1) + " = " + String.format("%.3f", res[i]));
             }
         }
     }
@@ -382,7 +382,7 @@ public class SPL {
         System.out.println("Misalkan : ");
         for (int i = 0 ; i < M.getRow() ; i++) {
             if (koef[i] != 0) {
-                System.out.println("X" + (i + 1) + " = A" + koef[i]);
+                System.out.println("X" + (i + 1) + " = A" + String.format("%d", koef[i]));
             }
         }
         System.out.println("Maka didapatkan : ");
@@ -392,10 +392,10 @@ public class SPL {
                 System.out.print("X" + (i + 1) + " = ");
                 for (int j = i ; j < M.getColumn() - 1 ; j++) {
                     if (M.getMatrix()[k][j] != 0 && koef[j] != 0) {
-                        System.out.print("(" + (-1) * M.getMatrix()[k][j] + ")A" + koef[j] + "+");
+                        System.out.print("(" + String.format("%.3f",(-1) * M.getMatrix()[k][j]) + ")A" + String.format("%d", koef[j]) + "+");
                     }
                 }
-                System.out.print("(" + M.getMatrix()[k][M.getColumn() - 1] + ")\n");
+                System.out.print("(" + String.format("%.3f", M.getMatrix()[k][M.getColumn() - 1]) + ")\n");
                 k++;
             }
         }
@@ -505,7 +505,7 @@ public class SPL {
         System.out.println("Misalkan : ");
         for (int i = 0 ; i < M.getRow() ; i++) {
             if (koef[i] != 0) {
-                System.out.println("X" + (i + 1) + " = A" + koef[i]);
+                System.out.println("X" + (i + 1) + " = A" + String.format("%d", koef[i]));
             }
         }
         System.out.println("Maka didapatkan : ");
@@ -515,14 +515,14 @@ public class SPL {
                 System.out.print("X" + (i + 1) + " = ");
                 for (int j = i ; j < M.getRow() ; j++) {
                     if (M.getMatrix()[k][j] != 0 && koef[j] != 0) {
-                        System.out.print("(" + (-1) * M.getMatrix()[k][j] + ")A" + koef[j] + "+");
+                        System.out.print("(" + String.format("%.3f",(-1) * M.getMatrix()[k][j]) + ")A" + String.format("%d", koef[i]) + "+");
                     }
                 }
                 double kons = M.getMatrix()[k][M.getColumn() - 1]; //variable untuk menyimpan jumlah konstanta
                 for (int p = 0 ; p < M.getRow() ; p++) {
                     kons -= konstanta[p] * M.getMatrix()[k][p];
                 }
-                System.out.print("(" + kons + ")\n");
+                System.out.print("(" + String.format("%d", kons) + ")\n");
                 konstanta[i] = kons;
                 //System.out.println(kons);
                 k--;
@@ -538,6 +538,7 @@ public class SPL {
         /* Menggunakan metode gauss */
         /* ALGORITMA */
         solveGauss(M);
+        M.show();
         boolean found = true;
         double arr[][];
         for (int i = 0 ; i < M.getColumn() - 1 ; i++) {
@@ -560,7 +561,7 @@ public class SPL {
 
             }
             for (int e = 0; e < M.getColumn() - 1; e++) {
-                System.out.println("X" + (e + 1) + " = " + solution[e]);
+                System.out.println("X" + (e + 1) + " = " + String.format("%.3f", solution[e]));
             }
         } else {
             System.out.println("SPL tersebut memiliki banyak solusi.");
@@ -635,7 +636,7 @@ public class SPL {
             System.out.println("Tidak ada solusi");
         } else if (found) {
             for (int i = 0 ; i < M.getColumn() - 1 ; i++) {
-                System.out.println("X" + (i + 1) + " = " + M.getMatrix()[i][M.getColumn() - 1]);
+                System.out.println("X" + (i + 1) + " = " + String.format("%.3f", M.getMatrix()[i][M.getColumn() - 1]));
             }
         } else {
             System.out.println("SPL tersebut memiliki banyak solusi.");
