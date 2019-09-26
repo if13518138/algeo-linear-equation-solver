@@ -1,3 +1,4 @@
+package tubessantuy;
 import java.util.Scanner;
 
 //import jdk.javadoc.internal.doclets.toolkit.util.DocFinder.Output;

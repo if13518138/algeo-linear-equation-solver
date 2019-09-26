@@ -1,4 +1,4 @@
-
+package tubessantuy;
 import java.util.Scanner;
 import java.lang.Math;
 import java.util.*;
@@ -170,7 +170,9 @@ public class Interpolasi {
 		SPL.solveGauss(matrix);
 		SPL.solveGaussJordan(matrix);
 		SPL.solveGauss(matrix);
-		
+
+		matrix.show();
+
 		double arr[] = new double[matrix.getRow()];
 
 		// create Gaussian solver
