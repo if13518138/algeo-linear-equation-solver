@@ -1,0 +1,2 @@
+Polinom: y = 1.00x + 1.00
+Nilai keluaran untuk X = 3.000 adalah 4.000

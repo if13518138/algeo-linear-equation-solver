@@ -122,7 +122,7 @@ public class Interpolasi {
 		for (j = i - 1; j >= 0; j--) {
 			if (pol[j] != 0) {
 				stringPolinom += " + ";
-				stringPolinom += String.format("%.2f", pol[j]);
+				stringPolinom += String.format("%.3f", pol[j]);
 				if (j != 0) {
 					stringPolinom += "x";
 					if (j != 1) {

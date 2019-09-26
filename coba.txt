@@ -1,0 +1,6 @@
+Misalkan :
+X 3 = A1
+Maka didapatkan : 
+X1 = (-1.0)
+X2 = (-2.0)
+X4 = (-1.0)
