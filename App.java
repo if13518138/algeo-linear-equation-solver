@@ -42,6 +42,28 @@ public class App {
         System.out.println("1. Metode Gauss-Jordan");
         System.out.println("2. Metode adjoin");
     }
+    public static boolean isInputFile() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.printf("Apakah input dari file ? (y/n)");
+        String s;
+        do {
+            s = scanner.next();
+            if (!(s.equals("Y") || s.equals("y") || s.equals("N") || s.equals("n"))) {
+                System.out.println("Masukkan tidak valid. Coba lagi!");
+                System.out.printf("Apakah input dari file ? (y/n): ");
+            }
+        } while (!(s.equals("Y") || s.equals("y") || s.equals("N") || s.equals("n")));
+        return (s.equals("Y") || s.equals("y"));
+    }
+
+    public static String inputNamaFIle() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.printf("Masukkan nama file : ");
+        String s;
+        s = scanner.next();
+        return s;
+    }
 
     public static boolean isSalinFile() {
         Scanner scanner = new Scanner(System.in);
@@ -214,6 +236,7 @@ public class App {
     public static void main(String[] args) {
         String nama;
 
+
         Matrix M = new Matrix();
         Matrix kof = new Matrix();
         Matrix inv = new Matrix();
@@ -233,7 +256,12 @@ public class App {
                 subSPL();
                 sub = scan.nextInt();
                 clrScr();
-                Matrix.inputSPL(spl);
+                if (isInputFile()){
+                    nama = inputNamaFIle();
+                    spl = inputPersamaanMatrix(nama);
+                } else {
+                    Matrix.inputSPL(spl);
+                }
                 showSPL(spl, sub);
                 if (isSalinFile()) {
                     nama = namaFile();
@@ -243,8 +271,13 @@ public class App {
                 subDet();
                 sub = scan.nextInt();
                 clrScr();
-                System.out.println("Masukkan matrix nxn:");
-                Matrix.inputNxN(M);
+                if (isInputFile()){
+                    nama = inputNamaFIle();
+                    M = inputPersamaanMatrix(nama);
+                }else {
+                    System.out.println("Masukkan matrix nxn:");
+                    Matrix.inputNxN(M);
+                }
                 det = getDet(M, sub);
                 System.out.println("Determinannya adalah :" + det);
                 if (isSalinFile()){
@@ -256,8 +289,13 @@ public class App {
                 subInv();
                 sub = scan.nextInt();
                 clrScr();
-                System.out.println("Masukkan matriks nxn:");
-                Matrix.inputNxN(M);
+                if (isInputFile()){
+                    nama = inputNamaFIle();
+                    M = inputPersamaanMatrix(nama);
+                } else {
+                    System.out.println("Masukkan matriks nxn:");
+                    Matrix.inputNxN(M);
+                }
                 if (Dependencies.kofaktorDet(M) == 0) {
                     System.out.println("Tidak ada invers");
                     if(isSalinFile()){
@@ -284,8 +322,14 @@ public class App {
                 }
 
             } else if (mn == 4) { // kofaktor
-                System.out.println("Masukkan matriks nxn:");
-                Matrix.inputNxN(M);
+                if (isInputFile()){
+                    nama = inputNamaFIle();
+                    M = inputPersamaanMatrix(nama);
+                } else {
+                    System.out.println("Masukkan matriks nxn:");
+                    Matrix.inputNxN(M);
+                }
+
                 kof = Dependencies.hitungKofaktor(M);
                 System.out.println("Matriks kofaktornya adalah:");
                 kof.show();
@@ -294,8 +338,13 @@ public class App {
                     writeMatrix(kof, nama);
                 }
             } else if (mn == 5) { // adjoin
-                System.out.println("Masukkan matriks nxn:");
-                Matrix.inputNxN(M);
+                if (isInputFile()){
+                    nama = inputNamaFIle();
+                    M = inputPersamaanMatrix(nama);
+                } else {
+                    System.out.println("Masukkan matriks nxn:");
+                    Matrix.inputNxN(M);
+                }
                 adj = Dependencies.hitungAdjoin(M);
                 System.out.println("Matriks adjoinnya adalah:");
                 adj.show();
@@ -304,7 +353,14 @@ public class App {
                     writeMatrix(adj,nama);
                 }
             } else if (mn == 6) {
-                interpolasi.prosedurInterpolasi();
+                if (isInputFile()){
+                    nama = inputNamaFIle();
+                    interpolasi.showResultFileInterpolasi(nama);
+                    //kasih fungsi buat solvee wkwk
+                } else {
+                    interpolasi.prosedurInterpolasi();
+                }
+                
                 if (isSalinFile()){
                     nama = namaFile();
                     interpolasi.writeInterpolasi(nama);
