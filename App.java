@@ -3,15 +3,21 @@ import java.io.*;
 
 
 public class App {
-
-
     public static void clrScr() {
-        //System.out.print("\033[H\033[2J");
         System.out.flush();
     }
 
     public static void menu() {
-        System.out.println("MENU");
+        System.out.println("=====================");
+        System.out.println("||     Welcome     ||");
+        System.out.println("||       To        ||");
+        System.out.println("||   AlgeoSantuy   ||");
+        System.out.println("=====================");
+        System.out.println();
+        System.out.println("       ++++++");
+        System.out.println("       +MENU+");
+        System.out.println("       ++++++");
+        System.out.println();
         System.out.println("1. Sistem Persamaan Linier");
         System.out.println("2. Determinan");
         System.out.println("3. Matriks balikan");
@@ -19,39 +25,57 @@ public class App {
         System.out.println("5. Adjoin");
         System.out.println("6. Interpolasi Polinom");
         System.out.println("7. Keluar");
-        System.out.println("Pilih menu: ");
+        System.out.println();
+        System.out.print("> Pilih menu: ");
     }
 
     public static void subSPL() {
-        System.out.println("Pilih metode");
+        System.out.println();
+        System.out.println();
+        System.out.println("       ==============");
+        System.out.println("       Pilihan Metode");
+        System.out.println("       ==============");
         System.out.println("1. Metode eliminasi Gauss");
         System.out.println("2. Metode eliminasi Gauss-Jordan");
         System.out.println("3. Metode matriks balikan");
         System.out.println("4. Kaidah Crammer");
+        System.out.print("> Pilihan metode : ");
     }
 
     public static void subDet() {
-        System.out.println("Pilih Metode");
+        System.out.println();
+        System.out.println();
+        System.out.println("       ==============");
+        System.out.println("       Pilihan Metode");
+        System.out.println("       ==============");
         System.out.println("1. Metode kofaktor");
         System.out.println("2. Metode sarrus (hanya bisa untuk matriks 3x3)");
         System.out.println("3. Metode operasi baris elementer");
+        System.out.print("> Pilihan metode : ");
+
     }
 
     public static void subInv() {
-        System.out.println("Pilih Metode");
+        System.out.println();
+        System.out.println();
+        System.out.println("       ==============");
+        System.out.println("       Pilihan Metode");
+        System.out.println("       ==============");
         System.out.println("1. Metode Gauss-Jordan");
         System.out.println("2. Metode adjoin");
+        System.out.print("> Pilihan metode : ");
+
     }
     public static boolean isInputFile() {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.printf("Apakah input dari file ? (y/n)");
+        System.out.printf("> Apakah input dari file ? (y/n)");
         String s;
         do {
             s = scanner.next();
             if (!(s.equals("Y") || s.equals("y") || s.equals("N") || s.equals("n"))) {
                 System.out.println("Masukkan tidak valid. Coba lagi!");
-                System.out.printf("Apakah input dari file ? (y/n): ");
+                System.out.print("> Apakah input dari file ?(y/n): ");
             }
         } while (!(s.equals("Y") || s.equals("y") || s.equals("N") || s.equals("n")));
         return (s.equals("Y") || s.equals("y"));
@@ -59,7 +83,7 @@ public class App {
 
     public static String inputNamaFIle() {
         Scanner scanner = new Scanner(System.in);
-        System.out.printf("Masukkan nama file : ");
+        System.out.printf("> Masukkan nama file : ");
         String s;
         s = scanner.next();
         return s;
@@ -68,14 +92,14 @@ public class App {
     public static boolean isSalinFile() {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.printf("Salin ke file? (y/n): ");
+        System.out.printf("> Salin ke file? (y/n): ");
 
         String s;
         do {
             s = scanner.next();
             if (!(s.equals("Y") || s.equals("y") || s.equals("N") || s.equals("n"))) {
                 System.out.println("Masukkan tidak valid. Coba lagi!");
-                System.out.printf("Salin ke file? (y/n): ");
+                System.out.print("> Salin ke file? (y/n): ");
             }
         } while (!(s.equals("Y") || s.equals("y") || s.equals("N") || s.equals("n")));
 
@@ -85,7 +109,7 @@ public class App {
     public static String namaFile() {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.printf("Masukkan nama file: ");
+        System.out.print("> Masukkan nama file: ");
 
         String s;
         s = scanner.next();
@@ -275,7 +299,7 @@ public class App {
                     nama = inputNamaFIle();
                     M = inputPersamaanMatrix(nama);
                 }else {
-                    System.out.println("Masukkan matrix nxn:");
+                    System.out.print("Masukkan matrix nxn:");
                     Matrix.inputNxN(M);
                 }
                 det = getDet(M, sub);
@@ -294,7 +318,7 @@ public class App {
                     nama = inputNamaFIle();
                     M = inputPersamaanMatrix(nama);
                 } else {
-                    System.out.println("Masukkan matriks nxn:");
+                    System.out.print("Masukkan matriks nxn:");
                     Matrix.inputNxN(M);
                 }
                 if (Dependencies.kofaktorDet(M) == 0) {
@@ -327,7 +351,7 @@ public class App {
                     nama = inputNamaFIle();
                     M = inputPersamaanMatrix(nama);
                 } else {
-                    System.out.println("Masukkan matriks nxn:");
+                    System.out.print("Masukkan matriks nxn:");
                     Matrix.inputNxN(M);
                 }
 
@@ -343,7 +367,7 @@ public class App {
                     nama = inputNamaFIle();
                     M = inputPersamaanMatrix(nama);
                 } else {
-                    System.out.println("Masukkan matriks nxn:");
+                    System.out.print("Masukkan matriks nxn:");
                     Matrix.inputNxN(M);
                 }
                 adj = Dependencies.hitungAdjoin(M);
@@ -357,7 +381,7 @@ public class App {
                 if (isInputFile()){
                     nama = inputNamaFIle();
                     interpolasi.showResultFileInterpolasi(nama);
-                    //kasih fungsi buat solvee wkwk
+                    
                 } else {
                     interpolasi.prosedurInterpolasi();
                 }

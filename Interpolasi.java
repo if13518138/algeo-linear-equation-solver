@@ -6,12 +6,12 @@ import java.io.*;
 
 public class Interpolasi {
 
-	Matrix matrix; 							// augmented matrix dari titik"
-	int N; 									// jumlah derajat polinom
-	double[] polinom; 						// polinomial hasil interpolasi
+	Matrix matrix; // augmented matrix dari titik"
+	int N; // jumlah derajat polinom
+	double[] polinom; // polinomial hasil interpolasi
 	// Cat : tingkat derajat polinom sesuai dengan n
-	double[] arr_X; 						// array untuk menyimpan nilai titik X
-	double[] arr_Y; 						// array untuk menyimpan nilai titik Y
+	double[] arr_X; // array untuk menyimpan nilai titik X
+	double[] arr_Y; // array untuk menyimpan nilai titik Y
 	boolean allDefined = false;
 
 	double x;
@@ -26,11 +26,10 @@ public class Interpolasi {
 		/* I.S. : Titik belum dimasukkan */
 		/* F.S. : Titik telah terdefinisi */
 		/*
-		 * Kondisi Valid : Jumlah titik yang dimasukkan minimal 2, agar tidak
-		 * menimbulkan keambiguan
+		 * Kondisi Valid : Jumlah titik yang dimasukkan minimal 2, agar dapat terbentuk
+		 * garis yang terhubung melalui 2 titik atau lebih
 		 */
 		int n;
-		// lakukan validasi terhadap jumlah titik
 		do {
 			System.out.printf("Masukkan jumlah titik : ");
 			n = scanner.nextInt();
@@ -52,15 +51,10 @@ public class Interpolasi {
 			x = scanner.nextDouble();
 			y = scanner.nextDouble();
 
-			// dilakukan validasi terhadap nilai x dan y (apakah sudah pernah ada atau belum
-			// titiknya)
-			// masukkan nilai ke dalam array
 			arrX[i] = x;
 			arrY[i] = y;
-			// masukkan nilai ke dalam array
 			i++;
 
-			// kembalikan nilai kedalam properti dari Interpolasi
 			this.arr_X = arrX;
 			this.arr_Y = arrY;
 		}
@@ -69,6 +63,11 @@ public class Interpolasi {
 
 	/* Fungsi mengambil inputan melalui file */
 	public void inputTitikFile(String filename) {
+		/*
+		 * I.S. : Titik untuk interpolasi belum terdefinisi F.S. : Titik untuk
+		 * interpolasi telah terdefinisi dari masukan file Catatan : Prekondisi : titik
+		 * harus berjumlah minimal 2 titik.
+		 */
 		int jumlahData = BacaFile.jumlahData(filename)[0];
 
 		this.N = jumlahData;
@@ -106,7 +105,12 @@ public class Interpolasi {
 
 	/* Fungsi untuk mengambil nilai polinom */
 	public String getOutputPolinom() {
-		// untuk ngeprint polinom
+		/*
+		 * Deskripsi : Fungsi getOutputPolinom menghasilkan suatu String yang
+		 * menggambarkan fungsi dari interpolasi yang dilakukan terhadap sejumlah titik
+		 * yang diberikan. Catatan : Jumlah angka di belakang koma yang ditampilkan
+		 * adalah 3 angka dibelakang koma.
+		 */
 		double pol[] = reverse(polinom, polinom.length);
 		String stringPolinom = "y = ";
 		int i = pol.length - 1;
@@ -114,7 +118,7 @@ public class Interpolasi {
 		while (i > 0 && pol[i] == 0) { // cari koef pertama yang tidak nol
 			i--;
 		}
-		stringPolinom += String.format("%.3f", pol[i]);
+		stringPolinom += String.format("%.10f", pol[i]);
 		stringPolinom += "x";
 		if (i != 1) {
 			stringPolinom += "^" + i;
@@ -122,7 +126,7 @@ public class Interpolasi {
 		for (j = i - 1; j >= 0; j--) {
 			if (pol[j] != 0) {
 				stringPolinom += " + ";
-				stringPolinom += String.format("%.3f", pol[j]);
+				stringPolinom += String.format("%.10f", pol[j]);
 				if (j != 0) {
 					stringPolinom += "x";
 					if (j != 1) {
@@ -134,15 +138,11 @@ public class Interpolasi {
 		return stringPolinom;
 	}
 
-	/*
-	 * Fungsi mengubah titik" menjadi sistem persamaan linear(dalam bentuk augmented
-	 * matrix)
-	 */
 	private void ubahPersLinear() {
-		/* I.S. : Titik telah diinput kedalam objek */
 		/*
-		 * F.S. : Terdapat augmented matrix dari persamaan garis nilai titik yang telah
-		 * diinput
+		 * I.S. : Titik - titik telah terdefinisi / telah dimasukkan 
+		 * F.S. : Terbentuk
+		 * suatu matrix yang berisi SPL yang dibentuk dari nilai titik yang diberikan
 		 */
 
 		/* Kamus Lokal */
@@ -161,9 +161,13 @@ public class Interpolasi {
 	}
 
 	private static double[] getResultGaussian(Matrix matrix) {
+		/*
+		 * Deskripsi : Menghasilkan suatu array double yang berisi koefisien, dimana
+		 * nilai indeks dari array tersebut berkoresponden dengan nilai pangkat x
+		 * koefisien yang ditampung
+		 */
 		SPL.solveGauss(matrix);
 		SPL.solveGaussJordan(matrix);
-		matrix.show();
 
 		double arr[] = new double[matrix.getRow()];
 
@@ -177,8 +181,10 @@ public class Interpolasi {
 		return arr;
 	}
 
-	/* Method untuk membalikkan isi array */
 	public static double[] reverse(double a[], int n) {
+		/*
+		 * Deskripsi : Membalikkan isi array
+		 */
 		double[] b = new double[n];
 		int j = n;
 		for (int i = 0; i < n; i++) {
@@ -198,9 +204,12 @@ public class Interpolasi {
 	}
 
 	/* Fungsi Interpolasi */
-	/* I.S. : Semua properti telah diisi */
+
 	public static double getInterpolasi(boolean allDefined, double x, int N, double[] polinom) {
-		// Public agar dapat diakses di tempat lain
+		/* I.S. : Semua properti telah diisi 
+		 * F.S. : Menghasilkan suatu nilai hasil interpolasi terhadap suatu titik
+		 * melalui nilai titik" yang telah dimasukkan sebelumnya
+		 */
 		if (allDefined) {
 			double result = polinom[polinom.length - 1];
 			for (int i = 1; i < N; i++) {
@@ -215,6 +224,10 @@ public class Interpolasi {
 
 	/* Fungsi baca titik */
 	public static double bacaTitikBaru() {
+		/*
+		 * Deskripsi : Membaca suatu titik X baru untuk diinterpolasi
+		 */
+
 		double x;
 		Scanner scanner = new Scanner(System.in);
 
@@ -225,6 +238,10 @@ public class Interpolasi {
 	}
 
 	public void writeInterpolasi(String filename) {
+		/*
+		 * I.S. : Tahapan interpolasi telah selesai dilakukan F.S. : Hasil interpolasi
+		 * telah tercatat di suatu file yang ditentukan pengguna
+		 */
 		try {
 			FileWriter fileWriter = new FileWriter(filename + ".txt");
 			BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
@@ -252,41 +269,46 @@ public class Interpolasi {
 
 	/* Gabungan semua fungsi menjadi 1 prosedur */
 	public void prosedurInterpolasi() {
+		/*
+		 * I.S. : Titik belum terdefinisi 
+		 * F.S. : Proses interpolasi telah selesai
+		 * dilakukan Deskripsi : Menggabungkan seluruh fungsi interpolasi dengan opsi
+		 * membaca dalam keyboard menjadi 1 prosedur
+		 */
 		inputTitik();
 		ubahPersLinear();
 		polinomInterpolasi();
 		this.allDefined = true;
+		System.out.print("Polinom yang diperoleh: ");
+		System.out.println(getOutputPolinom());
 		// baca input
 		double x = bacaTitikBaru();
 		double y = getInterpolasi(allDefined, x, N, polinom);
-
 		this.x = x;
 		this.y = y;
-
 		// output keluaran
-		System.out.print("Polinom yang diperoleh:");
-		System.out.println(getOutputPolinom());
+		
 		System.out.println("Hasil keluaran interpolasi: " + String.format("%.3f", y));
-
-		// agar scanner tidak bocor, ditutup
 
 	}
 
 	public void showResultFileInterpolasi(String filename) {
+		/*
+		 * I.S. : Titik belum terdefinisi F.S. : Proses interpolasi telah selesai
+		 * dilakukan Deskripsi : Menggabungkan seluruh fungsi interpolasi dengan opsi
+		 * membaca melalui file menjadi 1 prosedur
+		 */
 		inputTitikFile(filename);
 		ubahPersLinear();
 		polinomInterpolasi();
 		this.allDefined = true;
-		// baca input
+		System.out.print("Polinom yang diperoleh: ");
+		System.out.println(getOutputPolinom());
 		double x = bacaTitikBaru();
 		double y = getInterpolasi(allDefined, x, N, polinom);
-
 		this.x = x;
 		this.y = y;
-
-		// output keluaran
-		System.out.print("Polinom yang diperoleh:");
-		System.out.println(getOutputPolinom());
+		
 		System.out.println("Hasil keluaran interpolasi: " + String.format("%.3f", y));
 	}
 

@@ -559,7 +559,6 @@ public class SPL {
         /* Menggunakan metode gauss */
         /* ALGORITMA */
         solveGauss(M);
-        M.show();
         boolean found = true;
         double arr[][];
         for (int i = 0 ; i < M.getColumn() - 1 ; i++) {
