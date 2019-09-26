@@ -284,6 +284,7 @@ public class App {
                     nama = namaFile();
                     writeDet(det, nama);
                 }
+                M.show();
             } else if (mn == 3) { // invers
                 // hanya ada jika determinannya tidak = 0
                 subInv();

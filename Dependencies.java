@@ -60,6 +60,8 @@ public class Dependencies {
         count *= SPL.makeUrutMatriksDet(M);
         SPL.solveGaussDet(M);
         count *= SPL.makeUrutMatriksDet(M);
+        SPL.solveGaussDet(M);
+        count *= SPL.makeUrutMatriksDet(M);
         //SPL.makeUrutDet(M, count);
         //SPL.makeUrutMatriksDet(M.getMatrix(), M.getColumn(), count);
         for (int i = 0; i < M.getColumn(); i++) {
