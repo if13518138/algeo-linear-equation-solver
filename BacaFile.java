@@ -166,7 +166,7 @@ public class BacaFile {
 	// driver
 	public static void main(String[] args) {
 
-		BacaFile file1 = new BacaFile("./test/test9",1);
+		BacaFile file1 = new BacaFile("tes",1);
 		//BacaFile file2 = new BacaFile("test2",2);
 
 
@@ -183,9 +183,11 @@ public class BacaFile {
 		//	System.out.printf("%.2f %.2f\n",arrX[i],arrY[i]);
 		//}
 		
-		SPL.showResultGaussJordan(matrix);
 		matrix.show();
-		System.out.println(SPL.countBarisKosong(matrix));
+		SPL.solveGauss(matrix);
+		System.out.println("============================================================================");
+		matrix.show();
+		//System.out.println(SPL.countBarisKosong(matrix));
 
 	}
 }

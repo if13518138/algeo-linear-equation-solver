@@ -41,7 +41,9 @@ public class SPL {
         double[] res = new double[M.getColumn()];
         koef = Matrix.delKolMatrix(koef, koef.getColumn() - 1);
         /* ALGORITMA */
-        if (Dependencies.detOBE(koef) == 0) {
+        if (M.getRow() > M.getColumn()-1) {
+            System.out.println("Tidak dapat diselesaikan dengan metode Invers!");
+        } else if (Dependencies.detOBE(koef) == 0) {
             System.out.println("Tidak dapat diselesaikan dengan metode Invers!");
         } else {
             res = solveSPLInvers(M);
@@ -124,7 +126,9 @@ public class SPL {
         double[] res = new double[M.getRow()];
         koef = Matrix.delKolMatrix(koef, koef.getColumn() - 1);
         /* ALGORITMA */
-        if (Dependencies.kofaktorDet(koef) == 0) {
+        if (M.getRow() > M.getColumn()-1) {
+            System.out.println("Tidak dapat diselesaikan dengan metode Crammer!");
+        } else if (Dependencies.kofaktorDet(koef) == 0){
             System.out.println("Tidak dapat diselesaikan dengan metode Crammer!");
         } else {
             res = solveSPLCrammer(M);
@@ -168,6 +172,21 @@ public class SPL {
             System.out.println("Error dalam menulis file");
         }
     }
+    /*
+    public static void makeUrutMatriks1(Matrix M){
+        double temp;
+        for (int i = 0 ; i < M.getRow()-1 ; i++){
+            for (int j = i+1 ; j<M.getRow() ; j++ ){
+                if (getIdxFirstNonZero(M, i)>getIdxFirstNonZero(M, j)){
+                    for (int k = 0 ; k<M.getColumn() ; k++){
+                        temp = M.getMatrix()[j][k];
+                        M.getMatrix()[j][k] = M.getMatrix()[i][k];
+                        M.getMatrix()[i][k] = temp;
+                    }
+                }
+            }
+        }
+    }*/
 
     /*** Metode Gauss dan Gauss-Jordan ***/
     public static void makeUrutMatriks(double[][] M_in, int n_brs, int n_kol) {
@@ -237,7 +256,7 @@ public class SPL {
                 return j;
             }
         }
-        return -999;
+        return 9999;
     }
 
     public static void solveGaussDet(Matrix M) {
@@ -247,7 +266,7 @@ public class SPL {
         makeUrutMatriks(M.getMatrix(), M.getRow(), M.getColumn());
         for (int i = 0 ; i < M.getRow() ; i++ ) { //untuk pengulangan ke bawah
             int idxNonZero = getIdxFirstNonZero(M, i); //index non zero
-            if (idxNonZero != -999) { // validasi index non zero
+            if (idxNonZero != 9999) { // validasi index non zero
                 for (int p = i + 1 ; p < M.getRow() ; p++) {
                     //pengulangan untuk index dibawah p, jika tidak sama dengan nol maka indeks yang di bawah i dikurangin
                     //dengan kelipatan nya supaya hasilnya 0
@@ -267,9 +286,10 @@ public class SPL {
         /* F. S. Matrix M menjadi bentuk eselon, diagonalnya semua 1 */
         /* ALGORITMA */
         makeUrutMatriks(M.getMatrix(), M.getRow(), M.getColumn());
+        //makeUrutMatriks1(M);
         for (int i = 0 ; i < M.getRow() ; i++ ) { //untuk pengulangan ke bawah
             int idxNonZero = getIdxFirstNonZero(M, i); //index non zero
-            if (idxNonZero != -999) { // validasi index non zero
+            if (idxNonZero != 9999) { // validasi index non zero
                 for (int p = i + 1 ; p < M.getRow() ; p++) {
                     //pengulangan untuk index dibawah p, jika tidak sama dengan nol maka indeks yang di bawah i dikurangin
                     //dengan kelipatan nya supaya hasilnya 0
@@ -298,6 +318,7 @@ public class SPL {
             }
         }
         makeUrutMatriks(M.getMatrix(), M.getRow(), M.getColumn());
+        //makeUrutMatriks1(M);
     }
 
     public static void solveGaussJordan(Matrix M) {
@@ -306,7 +327,7 @@ public class SPL {
         /* ALGORITMA */
         for (int i = M.getRow() - 1 ; i >= 0 ; i-- ) { //untuk pengulangan ke bawah
             int idxNonZero = getIdxFirstNonZero(M, i); //index non zero
-            if (idxNonZero != -999) { // validasi index non zero
+            if (idxNonZero != 9999) { // validasi index non zero
                 for (int p = i - 1 ; p >= 0 ; p--) {
                     //pengulangan untuk index diatas p, jika tidak sama dengan nol maka indeks yang di bawah i dikurangin
                     //dengan kelipatan nya supaya hasilnya 0
@@ -328,7 +349,7 @@ public class SPL {
         int count = 0;
         /* ALGORITMA */
         for (int i = 0 ; i < M.getRow() ; i++) {
-            if (getIdxFirstNonZero(M, i) == -999) {
+            if (getIdxFirstNonZero(M, i) == 9999) {
                 count ++;
             }
         }
@@ -357,7 +378,7 @@ public class SPL {
         /* ALGORITMA */
         for (int i = 0 ; i < M.getRow() ; i++) {
             koef[i] = 0;
-            idxNonZero[i] = -999;
+            idxNonZero[i] = 9999;
         }
 
         //masih salah validasinya
@@ -411,7 +432,7 @@ public class SPL {
             int[] idxNonZero = new int[M.getRow()]; //untuk menyimpan idx non nol pertama
             for (int i = 0 ; i < M.getRow() ; i++) {
                 koef[i] = 0;
-                idxNonZero[i] = -999;
+                idxNonZero[i] = 9999;
             }
 
             //masih salah validasinya
@@ -483,7 +504,7 @@ public class SPL {
         /* ALGORITMA */
         for (int i = 0 ; i < M.getRow() ; i++) {
             koef[i] = 0;
-            idxNonZero[i] = -999;
+            idxNonZero[i] = 9999;
             konstanta[i] = 0;
         }
         for (int i = 0 ; i < M.getRow() ; i++) {
@@ -678,4 +699,5 @@ public class SPL {
             System.out.println("Terjadi error selama penulisan file");
         }
     }
+    
 }
