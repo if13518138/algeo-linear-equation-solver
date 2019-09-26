@@ -3,7 +3,7 @@ Tugas Besar 1 Mata Kuliah IF2123 AljabarLinear dan Geometri
 Semester Tahun 2019/2020
 
 # Topik
-Sistem Persamaan Linear, Determinan, dan Aplikasinya 
+Sistem Persamaan Lanjar, Determinan, dan Aplikasinya 
 
 # Spesifikasi Tugas
 - Menghitung solusi SPL dengan metode eliminasi metode eliminasi Gauss,
