@@ -74,7 +74,7 @@ how to compile package:
 ```
 javac -d ../bin *.java
 ```
--how to run:
+- how to run:
 ```
 go to bin
 java tubessantuy.App
