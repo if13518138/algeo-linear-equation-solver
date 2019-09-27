@@ -2,6 +2,11 @@
 Tugas Besar 1 Mata Kuliah IF2123 AljabarLinear dan Geometri
 Semester Tahun 2019/2020
 
+# Anggota
+- Muhammad Zunan Alfikri / 13518019
+- Annisa Ayu Pramesti / 13518085
+- William / 13518138
+
 # Topik
 Sistem Persamaan Lanjar, Determinan, dan Aplikasinya 
 
@@ -64,9 +69,15 @@ Terdapat 2 file dalam folder doc:
 # How to compile package
 ## ubuntu
 - buka algeo/src, lalu ketikkan command ini di command prompt / terminal
-```bash
-      javac -d .. @sources.txt
+how to compile package:
+-go to src
 ```
-
+javac -d ../bin *.java
+```
+-how to run:
+```
+go to bin
+java tubessantuy.App
+```
 # Sekian dan Terima Kasih
 # Salam
