@@ -69,7 +69,6 @@ Terdapat 2 file dalam folder doc:
 # How to compile package
 ## ubuntu
 - buka algeo/src, lalu ketikkan command ini di command prompt / terminal
-how to compile package:
 -go to src
 ```
 javac -d ../bin *.java
